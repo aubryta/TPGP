@@ -1,0 +1,13 @@
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe.config
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.pdb
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csprojResolveAssemblyReference.cache
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\MainWindow.baml
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\MainWindow.g.cs
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\App.g.cs
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44_MarkupCompile.cache
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.g.resources
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.Properties.Resources.resources
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csproj.GenerateResource.Cache
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.exe
+i:\documents\visual studio 2012\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.pdb
