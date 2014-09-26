@@ -3,14 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Blindtest" Height="640" Width="840">
 
- 
-    <Grid Name="grid1" Canvas.Left="175" Canvas.Top="141" Margin="0,0,-8,-3">
-        <Label Content="Blindtest Groupe 44" Height="50" VerticalAlignment="Top" Width="176" Canvas.Left="43" Canvas.Top="37" Margin="40,39,624,0"/>
-        <RadioButton Name="facileButton" Content="Facile" Height="25" VerticalAlignment="Top" Width="148" Canvas.Left="486" Canvas.Top="161" Margin="312,139,380,0"/>
-        <RadioButton Name="moyenButton" Content="Moyen" Height="25" VerticalAlignment="Top" Width="148" Canvas.Left="486" Canvas.Top="191" Margin="312,164,380,0"/>
-        <RadioButton Name="difficileButton" Content="Difficile" Height="25" VerticalAlignment="Top" Width="148" Canvas.Left="486" Canvas.Top="221" Margin="312,189,380,0"/>
-        <Label Content="Difficulté :" Height="33" VerticalAlignment="Top" Canvas.Left="471" Canvas.Top="123" Margin="287,101,-287,0"/>
-        <Button Content="Commencer" Canvas.Left="319" Canvas.Top="360" Width="215" Height="49" Click="Button_Click_1"/>
+
+
+    <Grid HorizontalAlignment="Left" Height="608" Margin="0,0,0,0" VerticalAlignment="Top" Width="830">
+
+        <Grid Name="grid1" Canvas.Left="175" Canvas.Top="141" Margin="0,0,-8,-3">
+            <Label Content="Blindtest Groupe 44" Height="50" VerticalAlignment="Top" Width="176" Canvas.Left="43" Canvas.Top="37" Margin="40,39,624,0"/>
+            <RadioButton Name="facileButton" Content="Facile" Height="25" VerticalAlignment="Top" Width="148" Canvas.Left="486" Canvas.Top="161" Margin="312,139,380,0"/>
+            <RadioButton Name="moyenButton" Content="Moyen" Height="25" VerticalAlignment="Top" Width="148" Canvas.Left="486" Canvas.Top="191" Margin="312,164,380,0"/>
+            <RadioButton Name="difficileButton" Content="Difficile" Height="25" VerticalAlignment="Top" Width="148" Canvas.Left="486" Canvas.Top="221" Margin="312,189,380,0"/>
+            <Label Content="Difficulté :" Height="33" VerticalAlignment="Top" Canvas.Left="471" Canvas.Top="123" Margin="287,101,-287,0"/>
+            <Button Name="commencerBoutton" Content="Commencer" Canvas.Left="319" Canvas.Top="360" Width="215" Height="49" Click="Button_Click_1"/>
+        </Grid>
+        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="593" Margin="10,10,0,0" VerticalAlignment="Top" Width="820" Background="White" Visibility="Hidden">
+            <RadioButton x:Name="r1" Content="RadioButton" HorizontalAlignment="Left" Margin="256,156,0,0" VerticalAlignment="Top"/>
+            <RadioButton x:Name="r2" Content="RadioButton" HorizontalAlignment="Left" Margin="256,202,0,0" VerticalAlignment="Top"/>
+            <RadioButton x:Name="r3" Content="RadioButton" HorizontalAlignment="Left" Margin="256,246,0,0" VerticalAlignment="Top"/>
+            <RadioButton x:Name="r4" Content="RadioButton" HorizontalAlignment="Left" Margin="256,295,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="Valider" Content="Valider" HorizontalAlignment="Left" Margin="279,383,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+            <Label x:Name="scoreLabel" Content="Score : 0" HorizontalAlignment="Left" Margin="495,51,0,0" VerticalAlignment="Top"/>
+        </Grid>
+
     </Grid>
 
 </Window>

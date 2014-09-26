@@ -23,7 +23,14 @@ namespace BlindTestGroupe44
         private int nbChoix = 0;
         private int incrPoints = 0;
         private int scorePoints = 0;
-
+        private String nomChanson = "";
+        /*
+         * 
+         * Problemes
+         * Génération de bouton dynamique
+         * Utiliser un panel plutot qu'une grille serait probablement plus adapté
+         * 
+         */ 
         public MainWindow()
         {
             InitializeComponent();
@@ -70,36 +77,40 @@ namespace BlindTestGroupe44
         private void initialiseTest(object sender, RoutedEventArgs e)
         {
 
-            //On nettoie le panel précédent
-            grid1.Children.Clear();
-            
-            //On crée un liste de radio bouttons avec des titres de chanson aléatoire sauf 1
-            // qui comporte la bonne réponse
-            /*RadioButton[] tabChoix = new RadioButton[nbChoix];
-            for (int i = 0; i < nbChoix; i++)
+            grid1.Visibility = Visibility.Hidden;
+            grid2.Visibility = Visibility.Visible;
+            trouveAleatoire();
+           
+
+        }
+
+        private void trouveAleatoire()
+        {
+
+            r1.Content = "aléa";
+            r2.Content = "salut";
+            r3.Content = "aléa";
+            r4.Content = "aléa";
+        }
+
+    
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (r2.IsChecked == true)
             {
-                tabChoix[i] = new RadioButton();
-                tabChoix[i].Content = "salut" + i;
-                tabChoix[i].Margin = new Thickness(50, 60 + (i * 25), 0, 0);
-                tabChoix[i].Name = "tabchoix" + i;
-                grid1.Children.Add(tabChoix[i]);
-            }*/
-            List<RadioButton> listeChoix = new List<RadioButton>();
-            for (int i = 0; i < nbChoix; i++)
-            {
-                listeChoix.Add(new RadioButton());
-                listeChoix[i].Content = "Salut " + i;
-                listeChoix[i].Margin = new Thickness(50, 60 + (i * 25), 0, 0);
-                grid1.Children.Add(listeChoix[i]);
+                scorePoints += incrPoints;
+                scoreLabel.Content = "Score : " + scorePoints;
             }
 
-            // On crée et affiche un label avec  le score
-            Label score = new Label();
-            score.Margin = new Thickness(50, 20, 0, 0);
-            score.Content = "Score : " + scorePoints;
-            grid1.Children.Add(score);
-            InitializeComponent();
+
+            r1.Content = "";
+            r2.Content = "";
+            r3.Content = "";
+            r4.Content = "";
+            nomChanson = "";
+            trouveAleatoire();
+
         }
-        
     }
 }
