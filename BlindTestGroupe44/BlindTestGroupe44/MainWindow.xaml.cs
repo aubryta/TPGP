@@ -86,14 +86,23 @@ namespace BlindTestGroupe44
 
         private void trouveAleatoire()
         {
+            RadioButton ii;
 
-            r1.Content = "aléa";
-            r2.Content = "salut";
-            r3.Content = "aléa";
-            r4.Content = "aléa";
+            for (int i = 0; i < 10; i++)
+            {
+                ii = new RadioButton();
+                ii.Content = i.ToString();
+                ii.Margin = new Thickness(50, 60 + (i * 25), 0, 0);
+                
+                ii. += new System.EventHandler(this.Radio_CheckedChanged);
+                grid1.Children.Add(ii);
+            }
         }
-
-    
+private void Radio_CheckedChanged(object sender, EventArgs e)
+{
+    RadioButton r = (RadioButton)sender;
+    f = (File)r.Tag;
+}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
