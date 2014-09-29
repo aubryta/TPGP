@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace BlindTestGroupe44
 {
     /// <summary>
@@ -20,6 +21,10 @@ namespace BlindTestGroupe44
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MusicPlayer player = new MusicPlayer();
+
+        //private String repertoireMusique = "C:\\Users\\Chantal\\Desktop\\Michael Jackson";
+        private String repertoireMusique = "I:\\Music\\C2C\\2012 - Tetra";
         private int nbChoix = 0;
         private int incrPoints = 0;
         private int scorePoints = 0;
@@ -79,46 +84,43 @@ namespace BlindTestGroupe44
 
             grid1.Visibility = Visibility.Hidden;
             grid2.Visibility = Visibility.Visible;
+
+            player.open(repertoireMusique);
+            player.play();
             trouveAleatoire();
-           
 
         }
 
         private void trouveAleatoire()
         {
-            RadioButton ii;
-
-            for (int i = 0; i < 10; i++)
+            Random rnd = new Random();
+            int place = rnd.Next(0, 4); // la on laissera comme ça quand y'aura une liste
+            place = 1; // en attendant on met le 1; (place 2);
+            r2.Content = player.getChanson() ;
+            try
             {
-                ii = new RadioButton();
-                ii.Content = i.ToString();
-                ii.Margin = new Thickness(50, 60 + (i * 25), 0, 0);
-                
-                ii. += new System.EventHandler(this.Radio_CheckedChanged);
-                grid1.Children.Add(ii);
+                // Tant qu'on a pas une liste on vérifie pas les doublons
+                var songsList = player.listeChanson(repertoireMusique);
+                r1.Content = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
+                r3.Content = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
+                r4.Content = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
+
             }
+            catch { }
         }
-private void Radio_CheckedChanged(object sender, EventArgs e)
-{
-    RadioButton r = (RadioButton)sender;
-    f = (File)r.Tag;
-}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            player.stop();
+            // Tant qu'on a pas de liste on vérifie R2
             if (r2.IsChecked == true)
             {
                 scorePoints += incrPoints;
                 scoreLabel.Content = "Score : " + scorePoints;
             }
 
-
-            r1.Content = "";
-            r2.Content = "";
-            r3.Content = "";
-            r4.Content = "";
-            nomChanson = "";
-            trouveAleatoire();
+            chansonPrecedente.Content = player.getChanson();
+            initialiseTest(sender, e);
 
         }
     }

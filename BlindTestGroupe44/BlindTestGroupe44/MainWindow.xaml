@@ -22,6 +22,7 @@
             <RadioButton x:Name="r4" Content="RadioButton" HorizontalAlignment="Left" Margin="256,295,0,0" VerticalAlignment="Top"/>
             <Button x:Name="Valider" Content="Valider" HorizontalAlignment="Left" Margin="279,383,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
             <Label x:Name="scoreLabel" Content="Score : 0" HorizontalAlignment="Left" Margin="495,51,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="chansonPrecedente" Content="Première chanson" HorizontalAlignment="Left" Margin="117,51,0,0" VerticalAlignment="Top"/>
         </Grid>
 
     </Grid>

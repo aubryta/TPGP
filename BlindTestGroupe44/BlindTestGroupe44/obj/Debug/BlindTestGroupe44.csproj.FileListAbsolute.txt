@@ -24,3 +24,16 @@ I:\Documents\Visual Studio 2013\Projects\BlindTestGroupe44\BlindTestGroupe44\obj
 I:\Documents\Visual Studio 2013\Projects\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csproj.GenerateResource.Cache
 I:\Documents\Visual Studio 2013\Projects\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe
 I:\Documents\Visual Studio 2013\Projects\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.pdb
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe.config
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.exe
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.pdb
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.pdb
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csprojResolveAssemblyReference.cache
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\MainWindow.baml
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\MainWindow.g.cs
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\App.g.cs
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44_MarkupCompile.cache
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.g.resources
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.Properties.Resources.resources
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csproj.GenerateResource.Cache
