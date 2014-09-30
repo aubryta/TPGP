@@ -8,24 +8,30 @@
 
     <Grid HorizontalAlignment="Left" Height="608" Margin="0,0,0,0" VerticalAlignment="Top" Width="830">
 
-        <Grid x:Name="grid1" Canvas.Left="175" Canvas.Top="141" Margin="0,0,-8,-3" d:IsHidden="False">
+        <Grid x:Name="gridDebut" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="840" Background="#FF00A2E8" Margin="0,0,-10,-5">
+            <Button Content="Local" HorizontalAlignment="Left" Margin="323,200,0,0" VerticalAlignment="Top" Width="192" Height="80" Click="cliqueLocal" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
+            <Button Content="En ligne" HorizontalAlignment="Left" Margin="323,375,0,0" VerticalAlignment="Top" Width="192" Height="80" Click="cliqueServeur" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
+            <Label Content="Mathilde Verrier&#xD;&#xA;Thomas Aubry" HorizontalAlignment="Left" Margin="631,495,0,0" VerticalAlignment="Top" Height="84" Width="181" FontFamily="Forte" FontSize="22" Foreground="White"/>
+        </Grid>
+        <Grid x:Name="grid1" Canvas.Left="175" Canvas.Top="141" Margin="0,-3,-8,-5" d:IsHidden="False" Background="#FF00A2E8" Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="303*"/>
                 <ColumnDefinition Width="535*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Blindtest Groupe 44" Height="50" VerticalAlignment="Top" Width="176" Margin="40,39,87.463,0"/>
-            <RadioButton x:Name="facileButton" Content="Facile" Height="25" VerticalAlignment="Top" Width="148" Margin="8.537,139,378,0" Grid.Column="1"/>
-            <RadioButton x:Name="moyenButton" Content="Moyen" Height="25" VerticalAlignment="Top" Width="148" Margin="8.537,164,378,0" Grid.Column="1"/>
-            <RadioButton x:Name="difficileButton" Content="Difficile" Height="25" VerticalAlignment="Top" Width="148" Margin="8.537,189,378,0" Grid.Column="1"/>
-            <Label Content="Difficulté :" Height="33" VerticalAlignment="Top" Margin="287,101,-287,0" Grid.ColumnSpan="2"/>
-            <Button x:Name="commencerBoutton" Content="Commencer" Width="215" Height="49" Click="Button_Click_1" Margin="175.537,281,144,281" Grid.Column="1"/>
-            <Button x:Name="choixBibliBouton" Content="Choix d'une bibliothèque..." HorizontalAlignment="Left" Margin="95,281,0,0" VerticalAlignment="Top" Width="187" Height="49" Click="choisirBibli"/>
+            <RadioButton x:Name="facileButon" Content="Facile" Height="25" VerticalAlignment="Top" Width="148" Margin="25,237,362,0" Grid.Column="1" FontFamily="Arial Rounded MT Bold"/>
+            <RadioButton x:Name="moyenButon" Content="Moyen" Height="25" VerticalAlignment="Top" Width="148" Margin="25,262,362,0" Grid.Column="1" FontFamily="Arial Rounded MT Bold"/>
+            <RadioButton x:Name="difficileButon" Content="Difficile" Height="25" VerticalAlignment="Top" Width="148" Margin="25,287,362,0" Grid.Column="1" FontFamily="Arial Rounded MT Bold"/>
+            <Label Content="Difficulté :" Height="37" VerticalAlignment="Top" Margin="0,195,412,0" Grid.Column="1" FontFamily="Arial Rounded MT Bold" FontSize="22"/>
+            <Button x:Name="commencerBouton" Content="Commencer" Width="215" Height="49" Click="commencerBoutonClick" Margin="192,379,128,183" Grid.Column="1" IsEnabled="False" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
+            <Button x:Name="choixBibliBouton" Content="Choix d'une bibliothèque..." HorizontalAlignment="Left" Margin="111,379,0,0" VerticalAlignment="Top" Width="242" Height="49" Click="choisirBibliClick" FontFamily="Arial Rounded MT Bold" FontSize="16" Grid.ColumnSpan="2"/>
+            <Image HorizontalAlignment="Left" Height="100" Margin="52,40,0,0" VerticalAlignment="Top" Width="250" Source="logo.png"/>
         </Grid>
-        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="593" Margin="10,10,0,0" VerticalAlignment="Top" Width="820" Background="White" Visibility="Hidden">
-            <Label x:Name="scoreLabel" Content="Score : 0" HorizontalAlignment="Left" Margin="495,51,0,0" VerticalAlignment="Top"/>
-            <Label x:Name="chansonPrecedente" Content="Première chanson" HorizontalAlignment="Left" Margin="117,51,0,0" VerticalAlignment="Top"/>
+        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="838" Background="#FF00A2E8" Margin="0,0,-8,-5" Visibility="Hidden">
+            <Label x:Name="scoreLabel" Content="Score : 0" HorizontalAlignment="Left" Margin="91,140,0,0" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
+            <Label x:Name="chansonPrecedente" Content="Première chanson" HorizontalAlignment="Left" Margin="91,169,0,0" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
+            <Image HorizontalAlignment="Left" Height="100" Margin="52,40,0,0" VerticalAlignment="Top" Width="250" Source="logo.png"/>
         </Grid>
-
+        <Image x:Name="imLogo" HorizontalAlignment="Left" Height="100" Margin="52,40,0,0" VerticalAlignment="Top" Width="250" Source="logo.png"/>
     </Grid>
 
 </Window>
