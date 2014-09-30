@@ -17,6 +17,7 @@ namespace BlindTestGroupe44
         private int incrPoints = 0; // incrementation des points en fonction de la difficulté
         private int scorePoints = 0;
         private int choixCorrect; // index de la bonne reponse
+        private IEnumerable<System.Windows.Controls.RadioButton> listeRadioButtons;
 
         private MainWindow wind;
 
@@ -25,15 +26,23 @@ namespace BlindTestGroupe44
         {
             this.wind = mw;
         }
+
         // Initialise la fenetre du jeu, lancement de la musique, affichage des réponses possibles
         public void initialiseTest(object sender, System.Windows.RoutedEventArgs e)
         {
             creationRadioButtons(nbChoix);
+            listeRadioButtons = wind.grid2.Children.OfType<System.Windows.Controls.RadioButton>();
             wind.grid1.Visibility = Visibility.Hidden;
             wind.grid2.Visibility = Visibility.Visible;
+            rungame();
+            
+        }
+
+        public void rungame()
+        {
             player.open(repertoireMusique);
-            player.play();
             trouveAleatoire();
+            player.play();
         }
 
         // Creation des n radiobutton représentant les réponses possible
@@ -68,13 +77,14 @@ namespace BlindTestGroupe44
         {
             player.stop();
             // Tant qu'on a pas de liste on vérifie R2
-            if (getRi(this.choixCorrect).IsChecked == true)
+            if (listeRadioButtons.ElementAt(choixCorrect-1).IsChecked == true)
             {
                 scorePoints += incrPoints;
                 wind.scoreLabel.Content = "Score : " + scorePoints;
             }
             wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();
-            initialiseTest(sender, e);
+           // initialiseTest(sender, e);
+            rungame();
         }
 
         public void creerBoutonRadio(List<string> listeChanson, int numChanson)
@@ -113,27 +123,6 @@ namespace BlindTestGroupe44
                 initialiseTest(sender, e);
             }
         }
-        private System.Windows.Controls.RadioButton getRi(int i)
-        {
-            var radios = wind.grid2.Children.OfType<System.Windows.Controls.RadioButton>();
-            switch (i)
-            {
-                case 1:
-                    return radios.ElementAt(0);
-                case 2:
-                    return radios.ElementAt(1);
-                case 3:
-                    return radios.ElementAt(2);
-                case 4:
-                    return radios.ElementAt(3);
-                case 5:
-                    return radios.ElementAt(4);
-                case 6:
-                    return radios.ElementAt(5);
-                default:
-                    return radios.ElementAt(1);
-            }
-        }
 
         //initialise le contenu des radioButtons avec un nom de chanson (aléatoire) de la bibliothèque choisie
         //1 des radioButtons contiendra la solution a trouver
@@ -146,15 +135,16 @@ namespace BlindTestGroupe44
             {
                 if (i == place)
                 {
-                    getRi(i).Content = player.getChanson();
-                    choixCorrect = i;
+                    listeRadioButtons.ElementAt(i-1).Content = player.getChanson();
+                    this.choixCorrect = i;
                 }
                 else
                 {
-                    getRi(i).Content = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
+                    listeRadioButtons.ElementAt(i - 1).Content = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
                 }
             }
         }
+
         public void choisirBibliClick(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
