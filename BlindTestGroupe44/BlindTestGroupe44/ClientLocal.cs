@@ -34,11 +34,11 @@ namespace BlindTestGroupe44
             listeRadioButtons = wind.grid2.Children.OfType<System.Windows.Controls.RadioButton>();
             wind.grid1.Visibility = Visibility.Hidden;
             wind.grid2.Visibility = Visibility.Visible;
-            rungame();
+            runGame();
             
         }
 
-        public void rungame()
+        public void runGame()
         {
             player.open(repertoireMusique);
             trouveAleatoire();
@@ -82,9 +82,8 @@ namespace BlindTestGroupe44
                 scorePoints += incrPoints;
                 wind.scoreLabel.Content = "Score : " + scorePoints;
             }
-            wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();
-           // initialiseTest(sender, e);
-            rungame();
+            wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();           
+            runGame();
         }
 
         public void creerBoutonRadio(List<string> listeChanson, int numChanson)
