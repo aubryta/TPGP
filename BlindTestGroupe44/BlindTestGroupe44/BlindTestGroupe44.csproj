@@ -62,6 +62,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ClientServ.cs" />
     <Compile Include="ClientLocal.cs" />
     <Compile Include="IClient.cs" />
     <Compile Include="MainWindow.xaml.cs">
