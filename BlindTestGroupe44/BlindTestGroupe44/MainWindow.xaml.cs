@@ -47,6 +47,7 @@ namespace BlindTestGroupe44
             
             gridDebut.Visibility = Visibility.Hidden;
             grid1.Visibility = Visibility.Visible;
+            
         }
 
         private void cliqueServeur(object sender, RoutedEventArgs e)
@@ -58,7 +59,9 @@ namespace BlindTestGroupe44
         }
         public void commencerBoutonClick(object sender, System.Windows.RoutedEventArgs e)
         {
+            volumeSlideBar.Value = 10;
             client.commencerBoutonClick(sender, e) ;
+            
         }
         void validerBoutonClick(object sender, RoutedEventArgs e) 
         {
@@ -68,7 +71,28 @@ namespace BlindTestGroupe44
         {
             client.choisirBibliClick(sender, e);
         }
-        
+
+
+        private void newGameItem(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(System.Windows.Application.ResourceAssembly.Location);
+            System.Windows.Application.Current.Shutdown();
+            
+        }        
+
+        private void volumeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // ... Get Slider reference.
+            var slider = sender as Slider;
+            // ... Get Value.
+            double value = slider.Value;
+            client.changerVolume(value);
+        }
+
+        private void resetScore(object sender, RoutedEventArgs e)
+        {
+            client.resetScore();
+        }
 
     }
 }

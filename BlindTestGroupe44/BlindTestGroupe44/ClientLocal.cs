@@ -39,7 +39,10 @@ namespace BlindTestGroupe44
         }
 
         public void runGame()
-        {
+        {      
+            foreach(System.Windows.Controls.RadioButton rb in listeRadioButtons){
+                rb.IsChecked = false;
+            }
             player.open(repertoireMusique);
             trouveAleatoire();
             player.play();
@@ -82,14 +85,12 @@ namespace BlindTestGroupe44
                 scorePoints += incrPoints;
                 wind.scoreLabel.Content = "Score : " + scorePoints;
             }
-            wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();           
+            wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();      
+            
             runGame();
         }
 
-        public void creerBoutonRadio(List<string> listeChanson, int numChanson)
-        {
 
-        }
 
         /// Facile : 3 choix, score incrémenté de 10 points
         /// Moyen : 4 choix, score incrémenté de 12 points
@@ -150,6 +151,20 @@ namespace BlindTestGroupe44
             fbd.ShowDialog();
             repertoireMusique = fbd.SelectedPath;
             wind.commencerBouton.IsEnabled = true;
+        }
+
+        public void changerVolume(double d)
+        {
+            player.volume(d);
+        }
+
+        // remet le score a 0, ne change pas de bibliotheque et lance une nouvelle série.
+        public void resetScore()
+        {
+            scorePoints = 0;
+            wind.scoreLabel.Content = "Score : " + scorePoints;
+            player.stop();
+            runGame();
         }
     }
 }

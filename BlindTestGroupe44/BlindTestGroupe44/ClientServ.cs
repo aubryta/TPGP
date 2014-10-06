@@ -41,6 +41,7 @@ namespace BlindTestGroupe44
 
         }
 
+
         public void creerBoutonRadio(List<string> listeChanson, int numChanson)
         {
 
@@ -135,6 +136,15 @@ namespace BlindTestGroupe44
             int k = stm.Read(bb, 0, 100);
             for (int j = 0; j < k; j++)
                 Console.Write(Convert.ToChar(bb[j]));
+        }
+        public void changerVolume(double d)
+        {
+
+        }
+
+        public void resetScore()
+        {
+
         }
     }
 }

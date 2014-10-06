@@ -16,6 +16,9 @@ namespace BlindTestGroupe44
         [DllImport("winmm.dll")]
         private static extern long mciSendString(string lpstrCommand, StringBuilder lpstrReturnString, int uReturnLength, int hwndCallback);
         // je ne sais pas a quoi servent les deux derniers arguments
+
+        [DllImport("winmm.dll", EntryPoint = "waveOutSetVolume")]
+        public static extern int WaveOutSetVolume(IntPtr hwo, uint dwVolume);
         
         private String nomChanson = ""; // Nom de la chanson courante
 
@@ -66,6 +69,18 @@ namespace BlindTestGroupe44
             mciSendString(command, null, 0, 0);
         }
 
+        // le paramettre d est une valeur comprise entre 0 et 10 ( ce sont les propriétés d'un slider)
+        // on le multiplie arbitrairement par une valeur pour que le son puisse etre raisonablement fort
+        // on le "converti" en un unsigned integer pour pouvoir faire le changement de volume.
+        public void volume(double d)
+        {
+            d = d * 1000;
+            uint v = ((uint)d) & 0xffff;
+            uint vAll = v | (v << 16);
+            // Set the volume
+            int retVal = WaveOutSetVolume(IntPtr.Zero, vAll);
+
+        }
         // arreter la musique
         public void stop()
         {

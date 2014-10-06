@@ -14,9 +14,8 @@ namespace BlindTestGroupe44
         void validerBoutonClick(object sender, RoutedEventArgs e);
         void commencerBoutonClick(object sender, RoutedEventArgs e);
         void runGame();
-        
-        //Une liste de chanson est retournee, la numéro "numChanson" est la bonne réponse
-        void creerBoutonRadio(List<string> listeChanson, int numChanson);
+        void changerVolume(double d);
+        void resetScore();
 
         // en local : bibli de l'utilisateur
         // serveur : style de musique
