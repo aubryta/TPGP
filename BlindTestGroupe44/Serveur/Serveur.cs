@@ -14,6 +14,10 @@ namespace Serveur
         private TcpListener listen;
         private Thread listenThread;
         private ASCIIEncoding encodeur = new ASCIIEncoding();
+        private NetworkStream clientStream = null;
+        private String chanson = "";
+        private bool jeuFini = false;
+
         public void serverStart()
         {
             this.listen = new TcpListener(IPAddress.Any, 25000);
@@ -44,7 +48,7 @@ namespace Serveur
         private void HandleClientComm(object client)
         {
             TcpClient tcpClient = (TcpClient)client;
-            NetworkStream clientStream = tcpClient.GetStream();
+            clientStream = tcpClient.GetStream();
 
             byte[] message = new byte[4096];
             int bytesRead;
@@ -76,11 +80,85 @@ namespace Serveur
                 String bufferincmessage = encodeur.GetString(message, 0, bytesRead);
 
                 Console.WriteLine(bufferincmessage);
-                send("MESSAGE?salut", clientStream);
+                traite(bufferincmessage);
             }
         }
 
-        private void send(String reponse, NetworkStream clientStream)
+        private void traite(String message)
+        {
+            String[] tabMessage = message.Split('?');
+            if (tabMessage[0].Equals(""))
+            {
+                Console.WriteLine("***** Erreur lecture commande *****");
+
+            }
+            else
+            {
+                if(tabMessage[0].Equals("OPTIONS"))
+                {
+                    if (tabMessage[1].Equals("FACILE"))
+                        send("OPTIONS?3?10");
+                    else if (tabMessage[1].Equals("MOYEN"))
+                        send("OPTIONS?4?12");
+                    else if (tabMessage[1].Equals("DIFFICILE"))
+                        send("OPTIONS?6?15");
+                    else
+                        send("ERREUR difficulté inconnu");
+                }
+                else if(tabMessage[0].Equals("CHANSON"))
+                {
+                    if (tabMessage[1].Equals(chanson))
+                    {
+                        send("INFO?BONNECHANSON?" + chanson);
+                    }
+                    else //mauvaise chanson
+                    {
+                        send("INFO?MAUVAISECHANSON?" + chanson);
+                    }
+                    if (jeuFini == false)
+                    {
+                        chercheChanson();
+                        String res = "MUSIQUE";
+                        foreach (String chansonCourante in chercheChanson())
+                        {
+                            res += "?" + chansonCourante;
+                        }
+                        send(res);
+                    }
+                }
+                else if (tabMessage[0].Equals("INFO"))
+                {
+                    if(tabMessage[1].Equals("START"))
+                    {
+                        String res ="MUSIQUE";
+                        foreach(String chanson in chercheChanson())
+                        {
+                            res += "?" + chanson;
+                        }
+                        send(res);
+                    }
+                }
+                else
+                    send("MESSAGE?salut");
+            }
+        }
+
+        /// <summary>
+        /// Trouve aléatoirement une playlist de chanson
+        /// </summary>
+        /// <returns></returns>
+ 
+        private List<String> chercheChanson()
+        {
+            List<String> listechanson = new List<string>();
+            chanson = "katy"; // on définit la bonne chanson à katy
+            listechanson.Add("salut");
+            listechanson.Add("katy");
+            listechanson.Add("george");
+            return listechanson;
+        }
+
+        private void send(String reponse)
         {
             Console.WriteLine(reponse);
             byte[] buffer = encodeur.GetBytes(reponse);

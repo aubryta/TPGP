@@ -27,9 +27,6 @@ namespace BlindTestGroupe44
         /*
          * Truc à faire : 
          * 1 : vérifier que le nombre de chanson du répertoire est supérieur ou égale au nombre de choix de la dificulté
-         * 2 : vérifier que le score est bien incrémenter (possible bugg (coquille))
-         *      -> le score s'incrémente bien la première fois mais aps après il me semble (tu réinisialise pas le choixcorrect ?)
-         * 3 : Changer la chanson précédente de ligne (les titres long peuvent cacher le score)
          * 4 : éviter les doublons lors de la création
          * 
          * 
