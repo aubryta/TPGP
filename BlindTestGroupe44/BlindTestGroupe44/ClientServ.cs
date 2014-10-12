@@ -89,7 +89,7 @@ namespace BlindTestGroupe44
         }
         public void choisirBibliClick(object sender, RoutedEventArgs e)
         {
-            
+            envoi("CHOIXSTYLE?");
             //Créer une nouvelle fenêtre avec un bouton par style de musique possible
             //Fermer la fenêtre une fois le choix fait.
             
@@ -187,6 +187,10 @@ namespace BlindTestGroupe44
                 {
                     nbChoix = int.Parse(tabMessage[1]);
                     incrPoints = int.Parse(tabMessage[2]);
+                }
+                else if (tabMessage[0].Equals("CHOIXSTYLE"))
+                {
+                    Console.WriteLine(message);
                 }
                 else
                 {

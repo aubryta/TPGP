@@ -27,7 +27,8 @@ namespace BlindTestGroupe44
         /*
          * Truc à faire : 
          * 1 : vérifier que le nombre de chanson du répertoire est supérieur ou égale au nombre de choix de la dificulté
-         * 4 : éviter les doublons lors de la création
+         * 2 : éviter les doublons lors de la création
+         * 3 : fermer correctement les sockets pour les fermetures
          * 
          * 
          */ 
