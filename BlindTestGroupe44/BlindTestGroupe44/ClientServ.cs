@@ -14,7 +14,10 @@ namespace BlindTestGroupe44
 {
     class ClientServ : IClient
     {
-
+        /*
+         * 1 - Fenetre non redimensionnable dans les 2 clients
+         * 2 - fermer proprement la connexion avec le serveur quand on quitte la fenêtre (et fermer l'appli aussi pas que la fenêtre)
+         */ 
         private Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private MainWindow wind = new MainWindow();
         private ASCIIEncoding encodeur = new ASCIIEncoding();
@@ -191,6 +194,7 @@ namespace BlindTestGroupe44
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
                     Console.WriteLine(message);
+                    envoi("INFO?STYLE?Electro");
                 }
                 else
                 {

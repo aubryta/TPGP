@@ -10,15 +10,21 @@ using System.Threading.Tasks;
 
 namespace Serveur
 {
+    /*
+     * TODO list
+     * 1 - bouton enable sur commencer tant que le choix des styles n'est pas fait
+     * 2 - faire la fenêtre pour les boutons style
+     * 3 - variable de classe nbchanson
+     * 4 - jeufini = false 
+     */ 
     class Serveur
     {
         private TcpListener listen;
         private Thread listenThread;
         private ASCIIEncoding encodeur = new ASCIIEncoding();
-        private NetworkStream clientStream = null;
-        private String chanson = "";
         private bool jeuFini = false;
         private GestionMusique gestMusique = new GestionMusique();
+        private int nbChanson = 3;
 
         public void serverStart()
         {
@@ -62,7 +68,7 @@ namespace Serveur
                 try
                 {
                     //Attend la reception d'un message
-                    bytesRead = clientStream.Read(message, 0, 4096);
+                    bytesRead = cstm.Read(message, 0, 4096);
                 }
                 catch (Exception e)
                 {
@@ -109,19 +115,18 @@ namespace Serveur
                 }
                 else if (tabMessage[0].Equals("CHANSON"))
                 {
-                    if (tabMessage[1].Equals(chanson))
+                    if (tabMessage[1].Equals(gestMusique.getChanson()))
                     {
-                        send("INFO?BONNECHANSON?" + chanson, cstm);
+                        send("INFO?BONNECHANSON?" + gestMusique.getChanson(), cstm);
                     }
                     else //mauvaise chanson
                     {
-                        send("INFO?MAUVAISECHANSON?" + chanson, cstm);
+                        send("INFO?MAUVAISECHANSON?" + gestMusique.getChanson(), cstm);
                     }
                     if (jeuFini == false)
                     {
-                        chercheChanson();
                         String res = "MUSIQUE";
-                        foreach (String chansonCourante in chercheChanson())
+                        foreach (String chansonCourante in gestMusique.listeChansons(nbChanson))
                         {
                             res += "?" + chansonCourante;
                         }
@@ -133,21 +138,23 @@ namespace Serveur
                     if (tabMessage[1].Equals("START"))
                     {
                         String res = "MUSIQUE";
-                        foreach (String chanson in chercheChanson())
+                        foreach (String chanson in gestMusique.listeChansons(nbChanson))
                             res += "?" + chanson;
                         send(res, cstm);
                     }
+                    else if(tabMessage[1].Equals("STYLE"))
+                    {
+                        gestMusique.setStyle(tabMessage[2]);
+                    }
                     
                 }
-                else if(tabMessage[0].Equals("CHOIXSTYLE"))
+                else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
-                    string res = "CHOIXSTYLE";
-                    foreach (String style in gestMusique.choixStyle())
-                        res += "?" + style;
+                    String res = "CHOIXSTYLE";
+                    foreach (String styl in gestMusique.choixStyle())
+                        res += "?" + styl;
                     send(res, cstm);
                 }
-                else
-                    send("MESSAGE?Message non traité", cstm);
             }
         }
 
@@ -155,16 +162,6 @@ namespace Serveur
         /// Trouve aléatoirement une playlist de chanson
         /// </summary>
         /// <returns></returns>
-
-        private List<String> chercheChanson()
-        {
-            List<String> listechanson = new List<string>();
-            chanson = "katy"; // on définit la bonne chanson à katy
-            listechanson.Add("salut");
-            listechanson.Add("katy");
-            listechanson.Add("george");
-            return listechanson;
-        }
 
         private void send(String reponse, NetworkStream clientStream)
         {
