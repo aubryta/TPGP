@@ -14,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
 namespace BlindTestGroupe44
 {
     /// <summary>
@@ -26,6 +25,7 @@ namespace BlindTestGroupe44
       
         /*
          * Truc à faire : 
+         * 0 : COMMENTER
          * 1 : vérifier que le nombre de chanson du répertoire est supérieur ou égale au nombre de choix de la dificulté
          * 2 : éviter les doublons lors de la création
          * 3 : fermer correctement les sockets pour les fermetures

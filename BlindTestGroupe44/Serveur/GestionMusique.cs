@@ -14,6 +14,7 @@ namespace Serveur
         private String chanson = "";
 
         /*
+         * 0 - COMMENTER
          * 1 - trouver aléatoire et doublon dans les chansons
          * 
          */ 

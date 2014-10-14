@@ -50,3 +50,16 @@ D:\FullDoc\Mes documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\De
 D:\FullDoc\Mes documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.g.resources
 D:\FullDoc\Mes documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.Properties.Resources.resources
 D:\FullDoc\Mes documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csproj.GenerateResource.Cache
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe.config
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.exe
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.pdb
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.pdb
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csprojResolveAssemblyReference.cache
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\MainWindow.baml
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\MainWindow.g.cs
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\App.g.cs
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44_MarkupCompile.cache
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.g.resources
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.Properties.Resources.resources
+C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csproj.GenerateResource.Cache

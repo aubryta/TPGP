@@ -10,6 +10,9 @@ namespace BlindTestGroupe44
 {
     interface IClient
     {
+        /*
+         * 0 - COMMENTER
+         */
         void initialiseTest(object sender, RoutedEventArgs e);
         void validerBoutonClick(object sender, RoutedEventArgs e);
         void commencerBoutonClick(object sender, RoutedEventArgs e);

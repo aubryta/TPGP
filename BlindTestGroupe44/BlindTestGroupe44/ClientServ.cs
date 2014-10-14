@@ -15,8 +15,11 @@ namespace BlindTestGroupe44
     class ClientServ : IClient
     {
         /*
+         * 0 - COMMENTER
          * 1 - Fenetre non redimensionnable dans les 2 clients
          * 2 - fermer proprement la connexion avec le serveur quand on quitte la fenêtre (et fermer l'appli aussi pas que la fenêtre)
+         * 3 - Afficher les difficultés dynamiquement
+         * 4 - Garde la connexion variable lorsqu'on termine FIN D'UNE PARTIE
          */ 
         private Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private MainWindow wind = new MainWindow();
@@ -27,14 +30,16 @@ namespace BlindTestGroupe44
         private int nbChoix = 0;
         private int incrPoints = 0;
         private int score = 0;
+        private String style = "";
         /*
          * 
          */
         public ClientServ(MainWindow mw)
         {
             this.wind = mw;
+            //Contrairement à la version local, on choisit ici le style de musique
+            //et non la bibliothéque
             wind.choixBibliBouton.Content = "Style de musique";
-            wind.commencerBouton.IsEnabled = true;
             connexion();
         }
 
@@ -62,16 +67,16 @@ namespace BlindTestGroupe44
             String req = "";
             if (wind.facileButon.IsChecked == true)
             {
-                req ="OPTIONS?FACILE";
+                req ="INFO?DIFFICULTE?FACILE";
             }
 
             if (wind.moyenButon.IsChecked == true)
             {
-                req ="OPTIONS?MOYEN";
+                req = "INFO?DIFFICULTE?MOYEN";
             }
             if (wind.difficileButon.IsChecked == true)
             {
-                req ="OPTIONS?DIFFICILE";
+                req = "INFO?DIFFICULTE?DIFFICILE";
             }
 
             /* Si l'un des boutons est coché on peux passer à l'étape supérieur et lancer le test
@@ -93,6 +98,7 @@ namespace BlindTestGroupe44
         public void choisirBibliClick(object sender, RoutedEventArgs e)
         {
             envoi("CHOIXSTYLE?");
+            wind.commencerBouton.IsEnabled = true;
             //Créer une nouvelle fenêtre avec un bouton par style de musique possible
             //Fermer la fenêtre une fois le choix fait.
             
@@ -108,22 +114,26 @@ namespace BlindTestGroupe44
                 traite(bufferincmessage);
             }
         }
+
         private void connexion()
         {
-
+            //On essaye de se connecter au serveur
             try
             {
                 TcpClient tcpclnt = new TcpClient();
-                Console.WriteLine("Connecting.....");
+                Console.WriteLine("Connexion ....");
 
                 tcpclnt.Connect("localhost", 25000);
-                // use the ipaddress as in the server program
                 
                 stm = tcpclnt.GetStream();
+                Console.WriteLine("Connnexion réussi !");
 
+                //On lance un thread qui va écouter toutes les commandes du serveur
                 Thread th = new Thread(ecoute);
                 th.SetApartmentState(ApartmentState.STA);
                 th.Start();
+
+                //On ferme la connexion
                 if(gardeConnexion == false)
                     tcpclnt.Close();
             }
@@ -133,8 +143,13 @@ namespace BlindTestGroupe44
                 Console.WriteLine("Erreur : " + e.StackTrace);
             }
         }
+
+        /*
+         * Fonction qui analyse une commande et fait le traitement correspondant
+         */ 
         public void traite(String message)
         {
+            //La commande est "spliter" à chaque ? voir rapport commandes
             String[] tabMessage = message.Split('?');
             if(tabMessage[0].Equals(""))
             { 
@@ -149,11 +164,13 @@ namespace BlindTestGroupe44
                 }
                 else if (tabMessage[0].Equals("MUSIQUE"))
                 {
+                    //On reçoit la liste des chansons de la manche
                     List<String> chansons = new List<String>();
                     for(int i = 1; i < tabMessage.Length; i++)
                     {
                         chansons.Add(tabMessage[i]);
                     }
+                    //On crée les boutons radios correspondant
                     Application.Current.Dispatcher.BeginInvoke(
                     DispatcherPriority.Background,
                     new Action(() => creationRadioButtons(chansons)));
@@ -162,6 +179,8 @@ namespace BlindTestGroupe44
                 }
                 else if (tabMessage[0].Equals("INFO"))
                 {
+                    //Si la chanson est bonne, on incrémente le score
+                    //Et on affiche la chanson précédente dans le label correspondant
                     if (tabMessage[1].Equals("BONNECHANSON"))
                     {
                         Application.Current.Dispatcher.BeginInvoke(
@@ -173,6 +192,7 @@ namespace BlindTestGroupe44
                     }
                     else if(tabMessage[1].Equals("MAUVAISECHANSON"))
                     {
+                        //Sinon on affiche juste la chanson 
                         Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
                         new Action(() => chansonPrecendente(tabMessage[2])));
@@ -180,14 +200,14 @@ namespace BlindTestGroupe44
                 }
                 else if (tabMessage[0].Equals("DECONNEXION"))
                 {
-
+                    //Ferme la socket
                 }
                 else if (tabMessage[0].Equals("MESSAGE"))
-                {
+                {//affiche un simple message
                     Console.WriteLine(message);
                 }
                 else if (tabMessage[0].Equals("OPTIONS"))
-                {
+                {//initialise l'incrémentation des points à chaque bonne réponse et le nombre de bonne répone
                     nbChoix = int.Parse(tabMessage[1]);
                     incrPoints = int.Parse(tabMessage[2]);
                 }
@@ -195,6 +215,7 @@ namespace BlindTestGroupe44
                 {
                     Console.WriteLine(message);
                     envoi("INFO?STYLE?Electro");
+                    style = "Electro";
                 }
                 else
                 {
@@ -203,9 +224,8 @@ namespace BlindTestGroupe44
             }
         }
 
-
         public void changeScore()
-        {
+        {   //Met à jour le label des points et incrémente le score
             score += incrPoints;
             wind.scoreLabel.Content = "Score : " + score;
         }
