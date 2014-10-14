@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,10 +17,13 @@ namespace Serveur
         /*
          * 0 - COMMENTER
          * 1 - trouver aléatoire et doublon dans les chansons
+         * 2 - couvrir le fait répertoire vide
          * 
          */ 
         public List<String> choixStyle()
         {
+            
+            //************
             List<String> listeStyle = new List<string>();
             DirectoryInfo dir = new DirectoryInfo("Musique");
             DirectoryInfo[] styles = dir.GetDirectories();
@@ -43,7 +47,6 @@ namespace Serveur
         {
             if(!style.Equals(""))
             {
-                Console.WriteLine("Musique/" + style);
                 DirectoryInfo dir = new DirectoryInfo("Musique/" + style + "/");
                 FileInfo[] listeChansons = dir.GetFiles();
                 List<String> listeMusique = new List<string>();
@@ -53,7 +56,7 @@ namespace Serveur
                     Console.WriteLine(listeChansons.ElementAt(i).Name);
                 }
                 Random rnd = new Random();
-                int placeChanson = rnd.Next(0, nbChansons -1);
+                int placeChanson = rnd.Next(0, nbChansons);
                 chanson = listeMusique.ElementAt(placeChanson);
                 return listeMusique;
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serveur.OptionsPartie;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -73,49 +74,11 @@ namespace Serveur
             {
                 if (tabMessage[0].Equals("CHANSON"))
                 {
-                    if (tabMessage[1].Equals(gestMusique.getChanson()))
-                    {
-                        send("INFO?BONNECHANSON?" + gestMusique.getChanson(), cstm);
-                    }
-                    else //mauvaise chanson
-                    {
-                        send("INFO?MAUVAISECHANSON?" + gestMusique.getChanson(), cstm);
-                    }
-                    if (jeuFini == false)
-                    {
-                        String res = "MUSIQUE";
-                        foreach (String chansonCourante in gestMusique.listeChansons(nbChanson))
-                        {
-                            res += "?" + chansonCourante;
-                        }
-                        send(res, cstm);
-                    }
+                    traiteChanson(tabMessage, cstm);
                 }
                 else if (tabMessage[0].Equals("INFO"))
                 {
-                    if (tabMessage[1].Equals("START"))
-                    {
-                        String res = "MUSIQUE";
-                        foreach (String chanson in gestMusique.listeChansons(nbChanson))
-                            res += "?" + chanson;
-                        send(res, cstm);
-                    }
-                    else if (tabMessage[1].Equals("STYLE"))
-                    {
-                        gestMusique.setStyle(tabMessage[2]);
-                    }
-                    else if (tabMessage[1].Equals("DIFFICULTE"))
-                    {
-                        if (tabMessage[2].Equals("FACILE"))
-                            send("OPTIONS?3?10", cstm);
-                        else if (tabMessage[2].Equals("MOYEN"))
-                            send("OPTIONS?4?12", cstm);
-                        else if (tabMessage[2].Equals("DIFFICILE"))
-                            send("OPTIONS?6?15", cstm);
-                        else
-                            send("ERREUR difficulté inconnu", cstm);
-                    }
-
+                    traiteInfo(tabMessage, cstm);
                 }
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
@@ -138,6 +101,52 @@ namespace Serveur
             byte[] buffer = encodeur.GetBytes(reponse);
             clientStream.Write(buffer, 0, buffer.Length);
             clientStream.Flush();
+        }
+
+        private void traiteChanson(String[] tabMessage, NetworkStream cstm)
+        {
+            if (tabMessage[1].Equals(gestMusique.getChanson()))
+            {
+                send("INFO?BONNECHANSON?" + gestMusique.getChanson(), cstm);
+            }
+            else //mauvaise chanson
+            {
+                send("INFO?MAUVAISECHANSON?" + gestMusique.getChanson(), cstm);
+            }
+            if (jeuFini == false)
+            {
+                String res = "MUSIQUE";
+                foreach (String chansonCourante in gestMusique.listeChansons(nbChanson))
+                {
+                    res += "?" + chansonCourante;
+                }
+                send(res, cstm);
+            }
+        }
+
+        private void traiteInfo(String[] tabMessage,NetworkStream cstm)
+        {
+            if (tabMessage[1].Equals("START"))
+            {
+                String res = "MUSIQUE";
+                foreach (String chanson in gestMusique.listeChansons(nbChanson))
+                    res += "?" + chanson;
+                send(res, cstm);
+            }
+            else if (tabMessage[1].Equals("STYLE"))
+            {
+                gestMusique.setStyle(tabMessage[2]);
+            }
+            else if (tabMessage[1].Equals("DIFFICULTE"))
+            {
+                OptionsFactory of = new OptionsFactory();
+                IOptions io = of.createOptions(tabMessage[2]);
+
+                if (io == null)
+                    send("ERREUR difficulté inconnu", cstm);
+                else
+                    send("OPTIONS?" + io.getNbChoix() + "?" + io.getIncr(), cstm);
+            }
         }
     }
 }
