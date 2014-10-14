@@ -1,0 +1,14 @@
+﻿<Window x:Class="BlindTestGroupe44.ClientLigne.FenetreStyle"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FenetreStyle" Height="378" Width="300">
+    <Grid>
+        <Grid x:Name="gridButton" HorizontalAlignment="Left" Height="281" VerticalAlignment="Top" Width="292" Background="#FF00A2E8">
+            
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="67" Margin="0,281,0,0" VerticalAlignment="Top" Width="292" Background="#FF00A2E8">
+            <Button Content="Valider" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top" Width="258" Height="39" Click="Button_Click" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
+        </Grid>
+
+    </Grid>
+</Window>

@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using System.Threading;
 using System.Windows.Threading;
+using BlindTestGroupe44.ClientLigne;
 
 namespace BlindTestGroupe44
 {
@@ -20,6 +21,7 @@ namespace BlindTestGroupe44
          * 2 - fermer proprement la connexion avec le serveur quand on quitte la fenêtre (et fermer l'appli aussi pas que la fenêtre)
          * 3 - Afficher les difficultés dynamiquement
          * 4 - Garde la connexion variable lorsqu'on termine FIN D'UNE PARTIE
+         * 5 - Retirer nbChoix ?
          */ 
         private Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private MainWindow wind = new MainWindow();
@@ -30,7 +32,7 @@ namespace BlindTestGroupe44
         private int nbChoix = 0;
         private int incrPoints = 0;
         private int score = 0;
-        private String style = "";
+
         /*
          * 
          */
@@ -213,9 +215,15 @@ namespace BlindTestGroupe44
                 }
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
-                    Console.WriteLine(message);
-                    envoi("INFO?STYLE?Electro");
-                    style = "Electro";
+                    List<String> listChoix = new List<String>();
+                    for (int i = 1; i < tabMessage.Count(); i++)
+                    {
+                        listChoix.Add(tabMessage[i]);
+                    }
+                    FenetreStyle fs = new FenetreStyle();
+                    fs.setListeStyle(listChoix);
+                    fs.ShowDialog();
+                    envoi("INFO?STYLE?"+fs.getCoche());
                 }
                 else
                 {

@@ -63,3 +63,5 @@ C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\D
 C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.g.resources
 C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.Properties.Resources.resources
 C:\Users\Thomas\Documents\GitHub\TPGPs\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csproj.GenerateResource.Cache
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\ClientLigne\FenetreStyle.baml
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\ClientLigne\FenetreStyle.g.cs
