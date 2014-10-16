@@ -28,11 +28,13 @@ namespace Serveur
             List<String> listeStyle = new List<string>();
             DirectoryInfo dir = new DirectoryInfo("Musique");
             DirectoryInfo[] styles = dir.GetDirectories();
-
+            if (styles.Length == 0)
+                return null;
             foreach (DirectoryInfo fichier in styles)
             {
                 listeStyle.Add(fichier.Name);
             }
+            
             return listeStyle;
         }
 
@@ -61,6 +63,8 @@ namespace Serveur
         //Sauvegarde une chanson parmis cette liste dans "chanson".
         public List<String> listeChansons(int nbChansons)
         {
+            if (chansonsRep.Count == 0)
+                return null;
             List<String> res = new List<string>();
             Random rnd = new Random();
             

@@ -65,3 +65,5 @@ I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\ClientLig
 I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\ClientLigne\FenetreStyle.g.cs
 I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\MainWindow.baml
 I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\MainWindow.g.cs
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\PopUp.baml
+I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\PopUp.g.cs

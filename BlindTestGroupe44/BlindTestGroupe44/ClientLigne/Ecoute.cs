@@ -47,8 +47,6 @@ namespace BlindTestGroupe44.ClientLigne
             String[] tabMessage = message.Split('?');
             if (tabMessage[0].Equals(""))
             {
-                Console.WriteLine("***** Erreur lecture commande *****");
-
             }
             else
             {
@@ -107,9 +105,13 @@ namespace BlindTestGroupe44.ClientLigne
                     }
                     traiteReq.fenetreStyle(listRadios);
                 }
+                else if(tabMessage[0].Equals("ERREUR"))
+                {
+                    traiteReq.erreur(tabMessage[1]);
+                }
                 else
                 {
-                    Console.WriteLine("Erreur message : " + message);
+                    traiteReq.erreur("Commande inconnue" + message);
                 }
             }
         }

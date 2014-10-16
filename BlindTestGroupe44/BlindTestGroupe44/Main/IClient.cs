@@ -19,6 +19,7 @@ namespace BlindTestGroupe44
         void runGame();
         void changerVolume(double d);
         void resetScore();
+        void quitteAppli();
 
         // en local : bibli de l'utilisateur
         // serveur : style de musique

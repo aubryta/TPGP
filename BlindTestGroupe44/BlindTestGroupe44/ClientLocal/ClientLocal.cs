@@ -166,5 +166,9 @@ namespace BlindTestGroupe44
             player.stop();
             runGame();
         }
+        public void quitteAppli()
+        {
+            System.Environment.Exit(0);
+        }
     }
 }

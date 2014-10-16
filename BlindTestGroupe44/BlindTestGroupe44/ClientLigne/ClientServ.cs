@@ -53,8 +53,7 @@ namespace BlindTestGroupe44
 
         public void initialiseTest(object sender, RoutedEventArgs e)
         {
-            wind.grid1.Visibility = Visibility.Hidden;
-            wind.grid2.Visibility = Visibility.Visible;
+            
         }
         public void validerBoutonClick(object sender, RoutedEventArgs e)
         {
@@ -94,8 +93,9 @@ namespace BlindTestGroupe44
             {
                 envoi(Requete.infoDifficulte(req));
                 envoi(Requete.start());
-                initialiseTest(sender, e);
             }
+            else
+                traiteRequete.message("Il faut choisir une difficulté");
         }
 
         public void runGame()
@@ -119,10 +119,14 @@ namespace BlindTestGroupe44
                 Console.WriteLine("Connexion ....");
 
                 tcpclnt.Connect("localhost", 25000);
-                
+                Console.WriteLine("connexion : " + tcpclnt.Connected);
                 stm = tcpclnt.GetStream();
                 ecoute.setStream(stm);
                 Console.WriteLine("Connnexion réussi !");
+                
+                //On change de panel si la connexion est établie
+                wind.gridDebut.Visibility = Visibility.Hidden;
+                wind.grid1.Visibility = Visibility.Visible;
 
                 //On lance un thread qui va écouter toutes les commandes du serveur
                 Thread th = new Thread(ecoute.ecoute);
@@ -130,10 +134,10 @@ namespace BlindTestGroupe44
                 th.Start();
 
             }
-
             catch (Exception e)
             {
                 Console.WriteLine("Erreur : " + e.StackTrace);
+                traiteRequete.erreur("Connexion au serveur impossible");
             }
         }
 
@@ -173,6 +177,12 @@ namespace BlindTestGroupe44
         public IEnumerable<System.Windows.Controls.RadioButton> getRadios()
         {
             return listeRadioButtons;
+        }
+        public void quitteAppli()
+        {
+            if(stm != null)
+                stm.Close();
+            System.Environment.Exit(0);
         }
     }
 }

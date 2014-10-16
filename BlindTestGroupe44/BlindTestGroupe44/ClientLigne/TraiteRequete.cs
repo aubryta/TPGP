@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlindTestGroupe44.Main;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -62,15 +63,13 @@ namespace BlindTestGroupe44.ClientLigne
         {
 
             if (listeRadioButtons != null) // Si une liste de boutons existe
-            {
-
-                Application.Current.Dispatcher.BeginInvoke(
-                DispatcherPriority.Background,
-                new Action(() => editRadioBoutton(chansons)));
-                
-            }
+                editRadioBoutton(chansons);
             else
-            { //Si la liste n'existe pas, on l'a créé, ainsi que le bouton valider
+            { 
+                //Si la liste n'existe pas, on l'a créé, ainsi que le bouton valider
+                //et on affiche le panel lié
+                wind.grid1.Visibility = Visibility.Hidden;
+                wind.grid2.Visibility = Visibility.Visible;
                 creeRadioBouton(chansons);
             }
         }
@@ -101,5 +100,27 @@ namespace BlindTestGroupe44.ClientLigne
             fs.ShowDialog();
             client.envoi(Requete.infoStyle(fs.getStyle()));
         }
+        public void erreur(String err)
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+            DispatcherPriority.Background,
+            new Action(() => lanceFenetre(err, false)));
+        }
+        public void message(String err)
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+            DispatcherPriority.Background,
+            new Action(() => lanceFenetre(err, true)));
+        }
+        private void lanceFenetre(String mess, Boolean estMessage)
+        {
+            PopUp pu = new PopUp();
+            if (estMessage)
+                pu.setMessage(mess);
+            else
+                pu.setErreur(mess);
+            pu.ShowDialog();
+        }
+
     }
 }

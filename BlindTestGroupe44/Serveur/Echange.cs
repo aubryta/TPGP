@@ -67,7 +67,7 @@ namespace Serveur
             String[] tabMessage = message.Split('?');
             if (tabMessage[0].Equals(""))
             {
-                send("MESSAGE?Message mal formé", cstm);
+                send(Requete.erreur("Message mal forme"), cstm);
                 Console.WriteLine("***** Erreur lecture commande *****");
             }
             else
@@ -83,9 +83,17 @@ namespace Serveur
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
                     String res = "CHOIXSTYLE";
-                    foreach (String styl in gestMusique.choixStyle())
-                        res += "?" + styl;
-                    send(res, cstm);
+                    List<String> listeStyle = gestMusique.choixStyle();
+                    if (listeStyle == null)
+                    {
+                        send(Requete.erreur("Pas de style de musique defini"), cstm);
+                    }
+                    else
+                    {
+                        foreach (String styl in listeStyle)
+                            res += "?" + styl;
+                        send(res, cstm);
+                    }
                 }
             }
         }
@@ -131,9 +139,15 @@ namespace Serveur
                 //A faire à l'initialisation, va chercher les chansons dans le répertoire pour les stocker en mémoire
                 gestMusique.chercheChansons();
                 String res = "MUSIQUE";
-                foreach (String chanson in gestMusique.listeChansons(nbChoix))
-                    res += "?" + chanson;
-                send(res, cstm);
+                List<String> listeChansons = gestMusique.listeChansons(nbChoix);
+                if (listeChansons == null)
+                    send(Requete.erreur("Aucune musique dans ce dossier"), cstm);
+                else
+                {
+                    foreach (String chanson in listeChansons)
+                        res += "?" + chanson;
+                    send(res, cstm);
+                }
             }
             else if (tabMessage[1].Equals("STYLE"))
             {
@@ -145,7 +159,7 @@ namespace Serveur
                 IOptions io = of.createOptions(tabMessage[2]);
 
                 if (io == null)
-                    send("ERREUR difficulté inconnu", cstm);
+                    send(Requete.erreur("Difficulte inconnue"), cstm);
                 else
                 {
                     nbChoix = io.getNbChoix();

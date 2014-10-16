@@ -51,9 +51,6 @@ namespace BlindTestGroupe44
         private void cliqueServeur(object sender, RoutedEventArgs e)
         {
             client = new ClientServ(this);
-
-            gridDebut.Visibility = Visibility.Hidden;
-            grid1.Visibility = Visibility.Visible;
         }
         public void commencerBoutonClick(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -90,6 +87,11 @@ namespace BlindTestGroupe44
         private void resetScore(object sender, RoutedEventArgs e)
         {
             client.resetScore();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            client.quitteAppli();
         }
 
     }
