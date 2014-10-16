@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace BlindTestGroupe44.ClientLigne
 {
@@ -19,48 +20,86 @@ namespace BlindTestGroupe44.ClientLigne
     /// </summary>
     public partial class FenetreStyle : Window
     {
-        private IEnumerable<System.Windows.Controls.RadioButton> listeRadioButtons = null;
-        public FenetreStyle()
+        private IEnumerable<System.Windows.Controls.Button> listeButtons = null;
+        private MainWindow wind = null;
+        private String style = null;
+
+        public FenetreStyle(MainWindow wind)
         {
             InitializeComponent();
+            this.wind = wind;
+
+            //On désactive la grille principale pour ne pas pouvoir y faire
+            //de modification pendant le choix du style de musique
+            Application.Current.Dispatcher.BeginInvoke(
+            DispatcherPriority.Background,
+            new Action(() => desactiveMainGrid()));
         }
 
+        //Crée une liste de bouton avec leurs paramètres suivant la liste de String
+        //en arguments
         public void setListeStyle(List<String> listeStyle)
         {
             int y = 15;
+            int x = 15;
             //On crée un radiobouton par style
             foreach(String nomStyle in listeStyle)
             {
-                System.Windows.Controls.RadioButton r = new System.Windows.Controls.RadioButton();
-                r.Margin = new Thickness(20, y, 0, 0);
-                r.Content = nomStyle;
-                r.FontFamily = new System.Windows.Media.FontFamily("Arial Rounded MT Bold");
-                this.gridButton.Children.Add(r);
-                y = y + 20;
-            }
-            listeRadioButtons = this.gridButton.Children.OfType<System.Windows.Controls.RadioButton>();
-        }
-
-        //Retourne le bouton coché, null si aucun ne l'est
-        public String getCoche()
-        {
-            for(int i = 0; i < listeRadioButtons.Count(); i++)
-            {
-                if(listeRadioButtons.ElementAt(i).IsChecked == true)
+                System.Windows.Controls.Button b = new System.Windows.Controls.Button();
+                if (x == 15)
                 {
-                    return (String)listeRadioButtons.ElementAt(i).Content;
+                    //Si le bouton est le premier de la ligne
+                    b.Margin = new Thickness(x, y, 230, (this.gridButton.Height - y - 35));
+                    x = 230;
                 }
+                else
+                {
+                    //Si il est le deuxième
+                    b.Margin = new Thickness(x, y, 15, (this.gridButton.Height - y - 35));
+                    x = 15;
+                    y = y + 50;
+                }
+                b.Content = nomStyle;
+                b.Click += Button_Click;
+                b.FontFamily = new System.Windows.Media.FontFamily("Arial Rounded MT Bold");
+                this.gridButton.Children.Add(b);
+                
             }
-            return null;
+
+            listeButtons = this.gridButton.Children.OfType<System.Windows.Controls.Button>();
         }
 
+        //Récupère les informations d'un bouton cliqué et ferme la fenêtre
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            String res = getCoche();
+            //Initialise la variable style avec le style du bouton correspondants
+            style = ((sender as Button).Content as String);
 
-            //On ne peux pas fermer la fenêtre tant que un style n'est pas coché
-            if(res != null)
-                this.Close();
+            // Réactive la fenêtre principale
+            Application.Current.Dispatcher.BeginInvoke(
+            DispatcherPriority.Background,
+            new Action(() => activeMainGrid()));
+
+            //Ferme la fenêtre des style
+            this.Close();
+        }
+
+        //renvoi le style choisi, null sinon
+        public String getStyle()
+        {
+            return style;
+        }
+
+        //Réactive la grille principale
+        public void activeMainGrid()
+        {
+            wind.mainGrid.IsEnabled = true;
+        }
+
+        //Désactive la grille principale
+        public void desactiveMainGrid()
+        {
+            wind.mainGrid.IsEnabled = false;
         }
     }
 }

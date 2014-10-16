@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="BlindTestGroupe44.MainWindow"
         Title="Blindtest" Height="640" Width="840">
 
-    <Grid HorizontalAlignment="Left" Height="608" Margin="0,0,0,0" VerticalAlignment="Top" Width="830">
+    <Grid x:Name="mainGrid" HorizontalAlignment="Left" Height="608" Margin="0,0,0,0" VerticalAlignment="Top" Width="830">
         <Grid x:Name="gridDebut" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="840" Background="#FF00A2E8" Margin="0,0,-10,-5">
             <Button Content="Local" HorizontalAlignment="Left" Margin="323,200,0,0" VerticalAlignment="Top" Width="192" Height="80" Click="cliqueLocal" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
             <Button Content="En ligne" HorizontalAlignment="Left" Margin="323,375,0,0" VerticalAlignment="Top" Width="192" Height="80" Click="cliqueServeur" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
@@ -25,7 +25,6 @@
         <Grid x:Name="grid2" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="838" Background="#FF00A2E8" Margin="0,0,-8,-5" Visibility="Hidden">
             <Label x:Name="scoreLabel" Content="Score : 0" HorizontalAlignment="Left" Margin="91,140,0,0" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
             <Label x:Name="chansonPrecedente" Content="Première chanson" HorizontalAlignment="Left" Margin="91,169,0,0" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
-            <Image HorizontalAlignment="Left" Height="100" Margin="52,40,0,0" VerticalAlignment="Top" Width="250" Source="logo.png"/>
             <Menu x:Name="BarreDeMenu" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="828" Grid.ColumnSpan="2">
                 <MenuItem Header="Options">
                     <MenuItem Header="Nouveau Jeu" Click="newGameItem"/>

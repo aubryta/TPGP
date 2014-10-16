@@ -21,7 +21,7 @@ namespace Serveur
 
         private bool jeuFini = false;
         private GestionMusique gestMusique = new GestionMusique();
-        private int nbChanson = 3;
+        private int nbChoix = 0;
 
         public void Connexion(object client)
         {
@@ -116,7 +116,7 @@ namespace Serveur
             if (jeuFini == false)
             {
                 String res = "MUSIQUE";
-                foreach (String chansonCourante in gestMusique.listeChansons(nbChanson))
+                foreach (String chansonCourante in gestMusique.listeChansons(nbChoix))
                 {
                     res += "?" + chansonCourante;
                 }
@@ -128,8 +128,10 @@ namespace Serveur
         {
             if (tabMessage[1].Equals("START"))
             {
+                //A faire à l'initialisation, va chercher les chansons dans le répertoire pour les stocker en mémoire
+                gestMusique.chercheChansons();
                 String res = "MUSIQUE";
-                foreach (String chanson in gestMusique.listeChansons(nbChanson))
+                foreach (String chanson in gestMusique.listeChansons(nbChoix))
                     res += "?" + chanson;
                 send(res, cstm);
             }
@@ -145,7 +147,10 @@ namespace Serveur
                 if (io == null)
                     send("ERREUR difficulté inconnu", cstm);
                 else
+                {
+                    nbChoix = io.getNbChoix();
                     send("OPTIONS?" + io.getNbChoix() + "?" + io.getIncr(), cstm);
+                }
             }
         }
     }

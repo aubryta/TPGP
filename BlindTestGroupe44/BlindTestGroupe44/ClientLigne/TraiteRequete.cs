@@ -95,10 +95,11 @@ namespace BlindTestGroupe44.ClientLigne
         }
         public void fenetreStyle(List<String> listRadios)
         {
-            FenetreStyle fs = new FenetreStyle();
+            FenetreStyle fs = new FenetreStyle(wind);
             fs.setListeStyle(listRadios);
+            
             fs.ShowDialog();
-            client.envoi(Requete.infoStyle(fs.getCoche()));
+            client.envoi(Requete.infoStyle(fs.getStyle()));
         }
     }
 }

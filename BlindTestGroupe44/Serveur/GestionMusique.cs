@@ -13,6 +13,7 @@ namespace Serveur
 
         private String style = "";
         private String chanson = "";
+        private List<String> chansonsRep = new List<string>();
 
         /*
          * 0 - COMMENTER
@@ -43,24 +44,41 @@ namespace Serveur
         {
             this.style = style;
         }
+        
+        //Va rechercher dans le répertoire toutes les chansons et les stockent dans "chansonsRep"
+        public void chercheChansons()
+        {
+            DirectoryInfo dir = new DirectoryInfo("Musique/" + style + "/");
+            FileInfo[] listeChansons = dir.GetFiles();
+            List<String> listeMusique = new List<string>();
+            for (int i = 0; i < listeChansons.Length; i++)
+            {
+                chansonsRep.Add(listeChansons[i].Name);
+            }
+        }
+
+        //Retourne une liste aléatoire de chanson
+        //Sauvegarde une chanson parmis cette liste dans "chanson".
         public List<String> listeChansons(int nbChansons)
         {
-            if(!style.Equals(""))
+            List<String> res = new List<string>();
+            Random rnd = new Random();
+            
+            for (int i = 0; i < nbChansons; i ++ )
             {
-                DirectoryInfo dir = new DirectoryInfo("Musique/" + style + "/");
-                FileInfo[] listeChansons = dir.GetFiles();
-                List<String> listeMusique = new List<string>();
-                for (int i = 0; i < nbChansons; i++)
-                {
-                    listeMusique.Add(listeChansons.ElementAt(i).Name);
-                    Console.WriteLine(listeChansons.ElementAt(i).Name);
-                }
-                Random rnd = new Random();
-                int placeChanson = rnd.Next(0, nbChansons);
-                chanson = listeMusique.ElementAt(placeChanson);
-                return listeMusique;
+                Console.WriteLine("umber" + chansonsRep.Count);
+                int alea = rnd.Next(0, chansonsRep.Count);
+                res.Add(chansonsRep.ElementAt(alea));
+                chansonsRep.RemoveAt(alea);
+                Console.WriteLine("umber" + chansonsRep.Count);
             }
-            return null;
+            foreach (String chan in res)
+                chansonsRep.Add(chan);
+
+            int placeChanson = rnd.Next(0, nbChansons);
+            chanson = res.ElementAt(placeChanson);
+                
+            return res;
         }
         public String getChanson()
         {
