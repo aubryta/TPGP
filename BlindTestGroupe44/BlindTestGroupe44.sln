@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlindTestGroupe44", "BlindTestGroupe44\BlindTestGroupe44.csproj", "{E4875D64-ECF9-40E0-8C2D-F91F09979328}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serveur", "Serveur\Serveur.csproj", "{BDC16247-DB1F-4F17-9BE8-F45CB55DEF07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestURL", "TestURL\TestURL.csproj", "{8347178F-8BD4-47B9-B207-D22003D34832}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BDC16247-DB1F-4F17-9BE8-F45CB55DEF07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDC16247-DB1F-4F17-9BE8-F45CB55DEF07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDC16247-DB1F-4F17-9BE8-F45CB55DEF07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8347178F-8BD4-47B9-B207-D22003D34832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8347178F-8BD4-47B9-B207-D22003D34832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8347178F-8BD4-47B9-B207-D22003D34832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8347178F-8BD4-47B9-B207-D22003D34832}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -67,3 +67,20 @@ I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\Main
 I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\MainWindow.g.cs
 I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\PopUp.baml
 I:\Documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\PopUp.g.cs
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe.config
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.exe
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.pdb
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.exe
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\bin\Debug\BlindTestGroupe44.pdb
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csprojResolveAssemblyReference.cache
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\ClientLigne\FenetreStyle.baml
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\MainWindow.baml
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\PopUp.baml
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\ClientLigne\FenetreStyle.g.cs
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\MainWindow.g.cs
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\Main\PopUp.g.cs
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\App.g.cs
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44_MarkupCompile.cache
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.g.resources
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.Properties.Resources.resources
+D:\FullDoc\Mes documents\GitHub\TPGP\BlindTestGroupe44\BlindTestGroupe44\obj\Debug\BlindTestGroupe44.csproj.GenerateResource.Cache
