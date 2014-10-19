@@ -21,19 +21,17 @@ namespace BlindTestGroupe44.ClientLigne
     public partial class FenetreStyle : Window
     {
         private IEnumerable<System.Windows.Controls.Button> listeButtons = null;
-        private MainWindow wind = null;
+        private TraiteRequete traiteReq = null;
         private String style = null;
 
-        public FenetreStyle(MainWindow wind)
+        public FenetreStyle(TraiteRequete traiteReq)
         {
             InitializeComponent();
-            this.wind = wind;
+            this.traiteReq = traiteReq;
 
             //On désactive la grille principale pour ne pas pouvoir y faire
             //de modification pendant le choix du style de musique
-            Application.Current.Dispatcher.BeginInvoke(
-            DispatcherPriority.Background,
-            new Action(() => desactiveMainGrid()));
+            traiteReq.activeFenetre(false); 
         }
 
         //Crée une liste de bouton avec leurs paramètres suivant la liste de String
@@ -76,9 +74,7 @@ namespace BlindTestGroupe44.ClientLigne
             style = ((sender as Button).Content as String);
 
             // Réactive la fenêtre principale
-            Application.Current.Dispatcher.BeginInvoke(
-            DispatcherPriority.Background,
-            new Action(() => activeMainGrid()));
+            traiteReq.activeFenetre(true);
 
             //Ferme la fenêtre des style
             this.Close();
@@ -90,16 +86,5 @@ namespace BlindTestGroupe44.ClientLigne
             return style;
         }
 
-        //Réactive la grille principale
-        public void activeMainGrid()
-        {
-            wind.mainGrid.IsEnabled = true;
-        }
-
-        //Désactive la grille principale
-        public void desactiveMainGrid()
-        {
-            wind.mainGrid.IsEnabled = false;
-        }
     }
 }

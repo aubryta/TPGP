@@ -43,11 +43,13 @@
   <ItemGroup>
     <Compile Include="Echange.cs" />
     <Compile Include="GestionMusique.cs" />
+    <Compile Include="Joueur.cs" />
     <Compile Include="OptionsPartie\Difficile.cs" />
     <Compile Include="OptionsPartie\Facile.cs" />
     <Compile Include="OptionsPartie\IOptions.cs" />
     <Compile Include="OptionsPartie\Moyen.cs" />
     <Compile Include="OptionsPartie\OptionsFactory.cs" />
+    <Compile Include="Partie.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requete.cs" />

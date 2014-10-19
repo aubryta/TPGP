@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlindTestGroupe44.Main;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,13 +36,14 @@ namespace BlindTestGroupe44.ClientLigne
                 byte[] message = new byte[4096];
                 bytesRead = stm.Read(message, 0, 4096);
                 String bufferincmessage = encodeur.GetString(message, 0, bytesRead);
-                traite(bufferincmessage);
+                Console.WriteLine("Je recoit " + bufferincmessage);
+                parse(bufferincmessage);
             }
         }
         /*
          * Fonction qui analyse une commande et fait le traitement correspondant
          */
-        private void traite(String message)
+        private void parse(String message)
         {
             //La commande est "spliter" à chaque ? voir rapport commandes
             String[] tabMessage = message.Split('?');
@@ -53,6 +55,8 @@ namespace BlindTestGroupe44.ClientLigne
                 if (tabMessage[0].Equals("MUSIQUE"))
                 {
                     //On reçoit la liste des chansons de la manche
+                    //La manche est donc termine, on peux envoyer la réponse que l'on a coché
+                    traiteReq.envoiReponse();
                     List<String> chansons = new List<String>();
                     for (int i = 1; i < tabMessage.Length; i++)
                     {
@@ -71,17 +75,25 @@ namespace BlindTestGroupe44.ClientLigne
                     {
                         Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
-                        new Action(() => traiteReq.changeScore()));
-                        Application.Current.Dispatcher.BeginInvoke(
-                        DispatcherPriority.Background,
-                        new Action(() => traiteReq.chansonPrecendente(tabMessage[2])));
+                        new Action(() => traiteReq.chansonPrecedente(tabMessage[2])));
                     }
                     else if (tabMessage[1].Equals("MAUVAISECHANSON"))
                     {
                         //Sinon on affiche juste la chanson 
                         Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
-                        new Action(() => traiteReq.chansonPrecendente(tabMessage[2])));
+                        new Action(() => traiteReq.chansonPrecedente(tabMessage[2])));
+                    }
+                    else if(tabMessage[1].Equals("PSEUDOINCORRECT"))
+                    {
+                        traiteReq.pseudoErreur();
+                    }
+                    else if(tabMessage[1].Equals("SCORES"))
+                    {
+                        //INFO?SCORES?joueur&score?joueur&score?...
+                        Application.Current.Dispatcher.BeginInvoke(
+                        DispatcherPriority.Background,
+                        new Action(() => traiteReq.infoScores(tabMessage)));
                     }
                 }
                 else if (tabMessage[0].Equals("DECONNEXION"))
@@ -90,7 +102,7 @@ namespace BlindTestGroupe44.ClientLigne
                 }
                 else if (tabMessage[0].Equals("MESSAGE"))
                 {//affiche un simple message
-                    Console.WriteLine(message);
+                    traiteReq.message(tabMessage[1]);
                 }
                 else if (tabMessage[0].Equals("OPTIONS"))
                 {//initialise l'incrémentation des points à chaque bonne réponse et le nombre de bonne répone
@@ -98,12 +110,12 @@ namespace BlindTestGroupe44.ClientLigne
                 }
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
-                    List<String> listRadios = new List<String>();
+                    List<String> listStyles = new List<String>();
                     for (int i = 1; i < tabMessage.Count(); i++)
                     {
-                        listRadios.Add(tabMessage[i]);
+                        listStyles.Add(tabMessage[i]);
                     }
-                    traiteReq.fenetreStyle(listRadios);
+                    traiteReq.fenetreStyle(listStyles);
                 }
                 else if(tabMessage[0].Equals("ERREUR"))
                 {

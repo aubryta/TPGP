@@ -18,15 +18,20 @@ namespace Serveur
         private ASCIIEncoding encodeur = new ASCIIEncoding();
 
 
+        //private GestionMusique gestMusique = new GestionMusique();
+        private Joueur joueur = null;
+        private Serveur serv = null;
+        private Partie partie = null;
 
-        private bool jeuFini = false;
-        private GestionMusique gestMusique = new GestionMusique();
-        private int nbChoix = 0;
-
-        public void Connexion(object client)
+        public void Connexion(object client, object j, Serveur s)
         {
             TcpClient tcpClient = (TcpClient)client;
+            this.joueur = j as Joueur;
+            this.serv = s;
+
             NetworkStream cstm = tcpClient.GetStream();
+            joueur.setStream(cstm);
+
 
             byte[] message = new byte[4096];
             int bytesRead;
@@ -83,7 +88,8 @@ namespace Serveur
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
                     String res = "CHOIXSTYLE";
-                    List<String> listeStyle = gestMusique.choixStyle();
+                    GestionMusique gm = new GestionMusique();
+                    List<String> listeStyle = gm.choixStyle(); 
                     if (listeStyle == null)
                     {
                         send(Requete.erreur("Pas de style de musique defini"), cstm);
@@ -113,22 +119,14 @@ namespace Serveur
 
         private void traiteChanson(String[] tabMessage, NetworkStream cstm)
         {
-            if (tabMessage[1].Equals(gestMusique.getChanson()))
+            if (tabMessage[1].Equals(partie.getChanson()))
             {
-                send("INFO?BONNECHANSON?" + gestMusique.getChanson(), cstm);
+                send("INFO?BONNECHANSON?" + partie.getChanson(), cstm);
+                joueur.incrScore();
             }
             else //mauvaise chanson
             {
-                send("INFO?MAUVAISECHANSON?" + gestMusique.getChanson(), cstm);
-            }
-            if (jeuFini == false)
-            {
-                String res = "MUSIQUE";
-                foreach (String chansonCourante in gestMusique.listeChansons(nbChoix))
-                {
-                    res += "?" + chansonCourante;
-                }
-                send(res, cstm);
+                send("INFO?MAUVAISECHANSON?" + partie.getChanson(), cstm);
             }
         }
 
@@ -136,35 +134,28 @@ namespace Serveur
         {
             if (tabMessage[1].Equals("START"))
             {
-                //A faire à l'initialisation, va chercher les chansons dans le répertoire pour les stocker en mémoire
-                gestMusique.chercheChansons();
-                String res = "MUSIQUE";
-                List<String> listeChansons = gestMusique.listeChansons(nbChoix);
-                if (listeChansons == null)
-                    send(Requete.erreur("Aucune musique dans ce dossier"), cstm);
-                else
-                {
-                    foreach (String chanson in listeChansons)
-                        res += "?" + chanson;
-                    send(res, cstm);
-                }
+                //Le joueur est pret il peut donc jouer
+                //On lui envoi le nombre de réponse à afficher
+                send(Requete.options(joueur.getNbChoix(), joueur.getIncr()), joueur.getStream());
+                //On l'ajoute à la partie
+                serv.getPartie(joueur.getStyle()).addJoueur(joueur);
             }
             else if (tabMessage[1].Equals("STYLE"))
             {
-                gestMusique.setStyle(tabMessage[2]);
+                joueur.setStyle(tabMessage[2]);
             }
             else if (tabMessage[1].Equals("DIFFICULTE"))
             {
-                OptionsFactory of = new OptionsFactory();
-                IOptions io = of.createOptions(tabMessage[2]);
+                joueur.setDifficulte(tabMessage[2]);
+                
+            }
+            else if(tabMessage[1].Equals("NAME"))
+            {
+                /*if(!tabMessage[2].Equals("t"))
+                    send("INFO?PSEUDOINCORRECT", cstm);
+                 */
+                joueur.setName(tabMessage[2]);
 
-                if (io == null)
-                    send(Requete.erreur("Difficulte inconnue"), cstm);
-                else
-                {
-                    nbChoix = io.getNbChoix();
-                    send("OPTIONS?" + io.getNbChoix() + "?" + io.getIncr(), cstm);
-                }
             }
         }
     }

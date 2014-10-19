@@ -91,7 +91,10 @@ namespace BlindTestGroupe44
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            client.quitteAppli();
+            if (client != null)
+                client.quitteAppli();
+            else
+                System.Environment.Exit(0);
         }
 
     }

@@ -13,7 +13,7 @@ using BlindTestGroupe44.ClientLigne;
 
 namespace BlindTestGroupe44
 {
-    class ClientServ : IClient
+    public class ClientServ : IClient
     {
         /*
          * 0 - COMMENTER
@@ -43,7 +43,6 @@ namespace BlindTestGroupe44
 
             traiteRequete.setTraite(this, wind, listeRadioButtons);
             ecoute.setEcoute(traiteRequete);
-
             //Contrairement à la version local, on choisit ici le style de musique
             //et non la bibliothéque
             wind.choixBibliBouton.Content = "Style de musique";
@@ -132,6 +131,8 @@ namespace BlindTestGroupe44
                 Thread th = new Thread(ecoute.ecoute);
                 th.SetApartmentState(ApartmentState.STA);
                 th.Start();
+                // Il faut définir un nom à l'utilisateur
+                traiteRequete.pseudo();
 
             }
             catch (Exception e)
@@ -143,6 +144,7 @@ namespace BlindTestGroupe44
 
         public void envoi(String mot)
         {
+            Console.WriteLine("Envoi " + mot);
             ASCIIEncoding asen = new ASCIIEncoding();
             byte[] ba = asen.GetBytes(mot);
             stm.Write(ba, 0, ba.Length);
@@ -184,5 +186,6 @@ namespace BlindTestGroupe44
                 stm.Close();
             System.Environment.Exit(0);
         }
+        
     }
 }

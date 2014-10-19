@@ -12,5 +12,22 @@ namespace Serveur
         {
             return "ERREUR?" + err;
         }
+        public static String infoPseudoIncorrect()
+        {
+            return "INFO?PSEUDOINCORRECT";
+        }
+        public static String musique(List<String> listeChansons)
+        {
+            String res = "MUSIQUE";
+            foreach(String chanson in listeChansons)
+            {
+                res += "?" + chanson;
+            }
+            return res;
+        }
+        public static String options(int nbchoix, int incr)
+        {
+            return "OPTIONS?" + nbchoix + "?" + incr;
+        }
     }
 }

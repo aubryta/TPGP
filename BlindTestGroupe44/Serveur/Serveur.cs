@@ -23,13 +23,23 @@ namespace Serveur
     {
         private TcpListener listen;
         private Thread listenThread;
+        private List<Partie> listePartie = new List<Partie>();
 
         public void serverStart()
         {
             this.listen = new TcpListener(IPAddress.Any, 25000);
-            Console.WriteLine("client se connect");
+            Console.WriteLine("Serveur connecté");
             this.listenThread = new Thread(new ThreadStart(ListenForClients));
             this.listenThread.Start();
+
+            //p = new Partie();
+            listePartie.Add(new Partie("Electro"));
+            listePartie.Add(new Partie("Jazz"));
+            foreach(Partie p in listePartie)
+            {
+                Thread t = new Thread(p.attendPartie);
+                t.Start();
+            }
         }
 
         private void ListenForClients()
@@ -38,20 +48,23 @@ namespace Serveur
 
             while (true)
             {
-                //blocks until a client has connected to the server
                 TcpClient client = this.listen.AcceptTcpClient();
-                //
-                ///////////////////////////////////////////////////
-
-                //create a thread to handle communication
-                //with connected client
                 Echange e = new Echange();
-                Thread clientThread = new Thread(new ParameterizedThreadStart(e.Connexion));
-
-                clientThread.Start(client);
+                Joueur j = new Joueur();
+                ThreadStart starter = delegate { e.Connexion(client, j, this); };
+                new Thread(starter).Start();
             }
         }
 
-        
+        public Partie getPartie(String style)
+        {
+            for(int i = 0; i <listePartie.Count(); i++)
+            {
+                if (listePartie[i].getStyle().Equals(style))
+                    return listePartie[i];
+                    
+            }
+            return null;
+        }
     }
 }

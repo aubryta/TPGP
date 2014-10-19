@@ -28,5 +28,9 @@ namespace BlindTestGroupe44.ClientLigne
         {
             return "CHOIXSTYLE?";
         }
+        public static String infoName(String name)
+        {
+            return "INFO?NAME?" + name;
+        }
     }
 }

@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace BlindTestGroupe44.ClientLigne
 {
-    class TraiteRequete
+    public class TraiteRequete
     {
         private ASCIIEncoding encodeur = new ASCIIEncoding();
         private ClientServ client = null;
@@ -28,34 +29,21 @@ namespace BlindTestGroupe44.ClientLigne
         }
         private void creeRadioBouton(List<String> chansons)
         {
-            int y = 256;
+            int y = 10;
             foreach (String chanson in chansons)
             {
                 System.Windows.Controls.RadioButton r = new System.Windows.Controls.RadioButton();
-                r.Margin = new Thickness(256, y, 0, 0);
+                r.Margin = new Thickness(10, y, 0, 0);
                 r.Content = chanson;
                 r.FontFamily = new System.Windows.Media.FontFamily("Arial Rounded MT Bold");
-                client.getWind().grid2.Children.Add(r);
+                client.getWind().gridButton.Children.Add(r);
                 y = y + 40;
             }
-            System.Windows.Controls.Button valider = new System.Windows.Controls.Button();
-            valider.Click += client.validerBoutonClick;
-            valider.Content = "Valider";
-            valider.Width = 164;
-            valider.Height = 61;
-            valider.Margin = new Thickness(256, y, 0, 0);
-            valider.FontFamily = new System.Windows.Media.FontFamily("Arial Rounded MT Bold");
-            valider.FontSize = 16;
-            valider.Visibility = Visibility.Visible;
-            valider.IsEnabled = true;
-
-            client.getWind().grid2.Children.Add(valider);
-
             //on finit par ajouter tous les boutons à la liste 
-            listeRadioButtons = client.getWind().grid2.Children.OfType<System.Windows.Controls.RadioButton>();
+            listeRadioButtons = client.getWind().gridButton.Children.OfType<System.Windows.Controls.RadioButton>();
             client.setRadios(listeRadioButtons);
         }
-        public void chansonPrecendente(String chanson)
+        public void chansonPrecedente(String chanson)
         {
             client.getWind().chansonPrecedente.Content = "Chanson précédente : " + chanson;
         }
@@ -63,9 +51,11 @@ namespace BlindTestGroupe44.ClientLigne
         {
 
             if (listeRadioButtons != null) // Si une liste de boutons existe
+            {
                 editRadioBoutton(chansons);
+            }
             else
-            { 
+            {
                 //Si la liste n'existe pas, on l'a créé, ainsi que le bouton valider
                 //et on affiche le panel lié
                 wind.grid1.Visibility = Visibility.Hidden;
@@ -94,7 +84,7 @@ namespace BlindTestGroupe44.ClientLigne
         }
         public void fenetreStyle(List<String> listRadios)
         {
-            FenetreStyle fs = new FenetreStyle(wind);
+            FenetreStyle fs = new FenetreStyle(this);
             fs.setListeStyle(listRadios);
             
             fs.ShowDialog();
@@ -121,6 +111,61 @@ namespace BlindTestGroupe44.ClientLigne
                 pu.setErreur(mess);
             pu.ShowDialog();
         }
+        public void activeFenetre(Boolean active)
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+            DispatcherPriority.Background,
+            new Action(() => actFenetreThread(active)));
+        }
+        private void actFenetreThread(Boolean active)
+        {
+            wind.mainGrid.IsEnabled = active;
+        }
+        public void pseudo()
+        {
+            FenetreNom fNom = new FenetreNom();
+            activeFenetre(false);
+            fNom.ShowDialog();
+            client.envoi(Requete.infoName(fNom.getName()));
+            activeFenetre(true);
 
+        }
+        public void pseudoErreur()
+        {
+            FenetreNom fNom = new FenetreNom();
+            activeFenetre(false);
+            fNom.pseudoExistant();
+            fNom.ShowDialog();
+            client.envoi(Requete.infoName(fNom.getName()));
+            activeFenetre(true);
+        }
+        public void infoScores(String[] tabMessage)
+        {
+            int y = 10;
+            wind.nomScore.Content = "";
+            wind.valeurScore.Content = "";
+            for(int i = 2; i < tabMessage.Length; i++)
+            {
+                String score = tabMessage[i];
+                String[] scoreTab = score.Split('&');
+                wind.nomScore.Content += scoreTab[0] + "\n";
+                wind.valeurScore.Content += scoreTab[1] + "\n";
+            }
+        }
+        public void envoiReponse()
+        {
+            if (listeRadioButtons != null)
+            {
+                foreach(RadioButton r in listeRadioButtons)
+                {
+                    if(r.IsChecked == true)
+                    {
+                        client.envoi(Requete.proposeChanson(r.Content as String)); 
+                    }
+                }
+            }
+            else
+                Console.WriteLine("COUCOU JE PEUX PAS ENVOYER MON SCORE");
+        }
     }
 }

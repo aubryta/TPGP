@@ -16,10 +16,13 @@ namespace Serveur
         private List<String> chansonsRep = new List<string>();
 
         /*
-         * 0 - COMMENTER
-         * 1 - trouver aléatoire et doublon dans les chansons
-         * 2 - couvrir le fait répertoire vide
-         * 
+         * Pour utiliser cette classe, 
+         * 1 - il faut d'abord initialiser la liste (chercheChansons)
+         * 2 - trouver aléatoirement une chanson et mélanger la liste (melange)
+         * 3 - on utilise le nombre de choix voulu (listechanson(nbChoix) : vu que la liste est mélangé à chaque fois, 
+         *      les nbChoix premier seront utilisés hors la chanson à trouver
+         * 4 - on peux comparer la réponse de l'utilisateur avec la chanson getChanson()
+         * 5 - pour recommencer on reprend à l'étape 2
          */ 
         public List<String> choixStyle()
         {
@@ -46,6 +49,32 @@ namespace Serveur
         {
             this.style = style;
         }
+
+        //Mélange la liste chanson rep, et retire aléatoirement une chanson pour la 
+        //placer dans chanson
+        public void melange()
+        {
+            //Test lors de la première utilisation (il n'y a aucune chanson précédente)
+            if (chanson != null)
+                chansonsRep.Add(chanson);
+
+            Random rnd = new Random();
+            String tmp = "";
+            int swapIndex = 0;
+            //melange
+            for (int i = 0; i < chansonsRep.Count; i++)
+            {
+                tmp = chansonsRep.ElementAt(i);
+                swapIndex = rnd.Next(0, chansonsRep.Count - 1);
+                chansonsRep[i] = chansonsRep.ElementAt(swapIndex);
+                chansonsRep[swapIndex] = tmp;
+            }
+
+            //Choisit et retire une chanson au hasard
+            int alea = rnd.Next(0, chansonsRep.Count);
+            chanson = chansonsRep.ElementAt(alea);
+            chansonsRep.RemoveAt(alea);
+        }
         
         //Va rechercher dans le répertoire toutes les chansons et les stockent dans "chansonsRep"
         public void chercheChansons()
@@ -65,23 +94,18 @@ namespace Serveur
         {
             if (chansonsRep.Count == 0)
                 return null;
+            
             List<String> res = new List<string>();
             Random rnd = new Random();
-            
+            //on cherche aléatoirement ou cette chanson va aller dans la liste
+            int aleaChanson = rnd.Next(0, nbChansons);
             for (int i = 0; i < nbChansons; i ++ )
             {
-                Console.WriteLine("umber" + chansonsRep.Count);
-                int alea = rnd.Next(0, chansonsRep.Count);
-                res.Add(chansonsRep.ElementAt(alea));
-                chansonsRep.RemoveAt(alea);
-                Console.WriteLine("umber" + chansonsRep.Count);
+                if (i == aleaChanson)
+                    res.Add(chanson);
+                else
+                    res.Add(chansonsRep.ElementAt(i));
             }
-            foreach (String chan in res)
-                chansonsRep.Add(chan);
-
-            int placeChanson = rnd.Next(0, nbChansons);
-            chanson = res.ElementAt(placeChanson);
-                
             return res;
         }
         public String getChanson()
