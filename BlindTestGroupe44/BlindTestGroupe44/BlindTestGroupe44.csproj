@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ClientLigne\FenetreNom.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ClientLigne\FenetreStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -69,6 +73,9 @@
     </Compile>
     <Compile Include="ClientLigne\ClientServ.cs" />
     <Compile Include="ClientLigne\Ecoute.cs" />
+    <Compile Include="ClientLigne\FenetreNom.xaml.cs">
+      <DependentUpon>FenetreNom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ClientLigne\FenetreStyle.xaml.cs">
       <DependentUpon>FenetreStyle.xaml</DependentUpon>
     </Compile>

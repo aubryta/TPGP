@@ -25,6 +25,10 @@ namespace BlindTestGroupe44
         public ClientLocal(MainWindow mw)
         {
             this.wind = mw;
+
+            //Les panels d'affichage de mutlijoueur ne sont pas utilisés :
+            wind.gridScores.Visibility = Visibility.Hidden;
+            wind.gridButton.Visibility = Visibility.Hidden;
         }
 
         // Initialise la fenetre du jeu, lancement de la musique, affichage des réponses possibles

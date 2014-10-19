@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Echange.cs" />
     <Compile Include="GestionMusique.cs" />
+    <Compile Include="GestionURL.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="OptionsPartie\Difficile.cs" />
     <Compile Include="OptionsPartie\Facile.cs" />

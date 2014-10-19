@@ -25,9 +25,34 @@ namespace Serveur
             }
             return res;
         }
-        public static String options(int nbchoix, int incr)
+        public static String options(int nbchoix)
         {
-            return "OPTIONS?" + nbchoix + "?" + incr;
+            return "OPTIONS?" + nbchoix;
+        }
+        public static String choixStyle(List<String> listeStyle)
+        {
+            String res = "CHOIXSTYLE";
+            foreach (String styl in listeStyle)
+                res += "?" + styl;
+            return res;        
+        }
+        public static String infoBonneChanson(String chanson)
+        {
+            return "INFO?BONNECHANSON?" + chanson;
+        }
+        public static String infoMauvaiseChanson(String chanson)
+        {
+            return "INFO?MAUVAISECHANSON?" + chanson;
+        }
+
+        public static String infoScores(List<Joueur> lj)
+        {
+            String res = "INFO?SCORES";
+            foreach (Joueur j in lj)
+            {
+                res += "?" + j.getName() + "&" + j.getScore();
+            }
+            return res;
         }
     }
 }

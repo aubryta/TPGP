@@ -34,9 +34,20 @@ namespace BlindTestGroupe44.ClientLigne
             {
                 int bytesRead = 0;
                 byte[] message = new byte[4096];
-                bytesRead = stm.Read(message, 0, 4096);
-                String bufferincmessage = encodeur.GetString(message, 0, bytesRead);
-                Console.WriteLine("Je recoit " + bufferincmessage);
+                String bufferincmessage = "";
+                try
+                {
+                    bytesRead = stm.Read(message, 0, 4096);
+                    bufferincmessage = encodeur.GetString(message, 0, bytesRead);
+                    Console.WriteLine("Je recoit " + bufferincmessage);
+                }
+                catch
+                {
+                    PopUp quitte = new PopUp();
+                    quitte.setMessage("Connexion au serveur interrompue");
+                    quitte.ShowDialog();
+                    System.Environment.Exit(0);
+                }
                 parse(bufferincmessage);
             }
         }
@@ -56,7 +67,9 @@ namespace BlindTestGroupe44.ClientLigne
                 {
                     //On reçoit la liste des chansons de la manche
                     //La manche est donc termine, on peux envoyer la réponse que l'on a coché
-                    traiteReq.envoiReponse();
+                    Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => traiteReq.envoiReponse()));
                     List<String> chansons = new List<String>();
                     for (int i = 1; i < tabMessage.Length; i++)
                     {
@@ -106,7 +119,7 @@ namespace BlindTestGroupe44.ClientLigne
                 }
                 else if (tabMessage[0].Equals("OPTIONS"))
                 {//initialise l'incrémentation des points à chaque bonne réponse et le nombre de bonne répone
-                    traiteReq.initialisationOptions(int.Parse(tabMessage[1]), int.Parse(tabMessage[2]));
+                    traiteReq.initialisationOptions(int.Parse(tabMessage[1]));
                 }
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {

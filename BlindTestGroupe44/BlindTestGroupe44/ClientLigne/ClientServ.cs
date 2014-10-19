@@ -27,7 +27,7 @@ namespace BlindTestGroupe44
         private MainWindow wind = new MainWindow();
         private TraiteRequete traiteRequete = new TraiteRequete();
         private Ecoute ecoute = new Ecoute();
-
+        private String name = "";
         private Stream stm = null;
         IEnumerable<System.Windows.Controls.RadioButton> listeRadioButtons = null;
         //private int nbChoix = 0;
@@ -182,10 +182,20 @@ namespace BlindTestGroupe44
         }
         public void quitteAppli()
         {
-            if(stm != null)
+            if (stm != null)
+            {
+                envoi(Requete.deconnexion());
                 stm.Close();
+            }
             System.Environment.Exit(0);
         }
-        
+        public String getName()
+        {
+            return name;
+        }
+        public void setName(String name)
+        {
+            this.name = name;
+        }
     }
 }

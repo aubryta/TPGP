@@ -43,12 +43,12 @@ namespace Serveur
                 try
                 {
                     //Attend la reception d'un message
+                    Console.WriteLine("je suis pret à écouter");
                     bytesRead = cstm.Read(message, 0, 4096);
                 }
-                catch (Exception e)
+                catch
                 {
-                    Console.WriteLine("ERREUR RECEPTION" + e.ToString());
-                    break;
+                    Console.WriteLine("ERREUR RECEPTION");
                 }
 
                 if (bytesRead == 0)
@@ -58,8 +58,6 @@ namespace Serveur
                 }
 
                 //Affiche le message reçu
-
-
                 String bufferincmessage = encodeur.GetString(message, 0, bytesRead);
 
                 traite(bufferincmessage, cstm);
@@ -73,7 +71,6 @@ namespace Serveur
             if (tabMessage[0].Equals(""))
             {
                 send(Requete.erreur("Message mal forme"), cstm);
-                Console.WriteLine("***** Erreur lecture commande *****");
             }
             else
             {
@@ -87,19 +84,21 @@ namespace Serveur
                 }
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
-                    String res = "CHOIXSTYLE";
                     GestionMusique gm = new GestionMusique();
-                    List<String> listeStyle = gm.choixStyle(); 
+                    List<String> listeStyle = gm.choixStyle();
                     if (listeStyle == null)
                     {
                         send(Requete.erreur("Pas de style de musique defini"), cstm);
                     }
                     else
                     {
-                        foreach (String styl in listeStyle)
-                            res += "?" + styl;
-                        send(res, cstm);
+                        send(Requete.choixStyle(listeStyle), cstm);
                     }
+                }
+                else if( tabMessage [0].Equals("DECONNEXION"))
+                {
+                    Console.WriteLine("Le joueur " + joueur.getName() + " est retiré du serveur");
+                    partie.removeJoueur(joueur);
                 }
             }
         }
@@ -121,13 +120,15 @@ namespace Serveur
         {
             if (tabMessage[1].Equals(partie.getChanson()))
             {
-                send("INFO?BONNECHANSON?" + partie.getChanson(), cstm);
+                send(Requete.infoBonneChanson(partie.getChanson()), cstm);
                 joueur.incrScore();
             }
             else //mauvaise chanson
             {
-                send("INFO?MAUVAISECHANSON?" + partie.getChanson(), cstm);
+                send(Requete.infoMauvaiseChanson(partie.getChanson()), cstm);
             }
+            //On envoi les socres à tous le monde dès qu'il y'a potentiellement un changement
+            partie.envoiScores();
         }
 
         private void traiteInfo(String[] tabMessage,NetworkStream cstm)
@@ -136,9 +137,10 @@ namespace Serveur
             {
                 //Le joueur est pret il peut donc jouer
                 //On lui envoi le nombre de réponse à afficher
-                send(Requete.options(joueur.getNbChoix(), joueur.getIncr()), joueur.getStream());
+                send(Requete.options(joueur.getNbChoix()), joueur.getStream());
                 //On l'ajoute à la partie
                 serv.getPartie(joueur.getStyle()).addJoueur(joueur);
+                partie = serv.getPartie(joueur.getStyle());
             }
             else if (tabMessage[1].Equals("STYLE"))
             {

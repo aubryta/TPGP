@@ -32,12 +32,16 @@ namespace Serveur
             this.listenThread = new Thread(new ThreadStart(ListenForClients));
             this.listenThread.Start();
 
-            //p = new Partie();
-            listePartie.Add(new Partie("Electro"));
-            listePartie.Add(new Partie("Jazz"));
+            //On crée une partie par style de musique
+            GestionMusique gm = new GestionMusique();
+            List<String> styles = gm.choixStyle();
+            foreach (String style in styles)
+                listePartie.Add(new Partie(style));
+
+            //Et on lance toutes les parties
             foreach(Partie p in listePartie)
             {
-                Thread t = new Thread(p.attendPartie);
+                Thread t = new Thread(p.runGame);
                 t.Start();
             }
         }
@@ -45,7 +49,7 @@ namespace Serveur
         private void ListenForClients()
         {
             this.listen.Start();
-
+            //On écoute en boucle la connexion des clients
             while (true)
             {
                 TcpClient client = this.listen.AcceptTcpClient();
@@ -56,6 +60,7 @@ namespace Serveur
             }
         }
 
+        //Retourne la partie du style définie en paramètre
         public Partie getPartie(String style)
         {
             for(int i = 0; i <listePartie.Count(); i++)

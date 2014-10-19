@@ -23,32 +23,31 @@ namespace Serveur
             gm.setStyle(style);
             gm.chercheChansons();
         }
-        public void attendPartie()
+
+        //Gere les manches, la fin d'une partie, les envois d'informations aux joueurs
+        public void runGame()
         {
             if (lj.Count > 0)
             {
                 nouvelleManche();
-                Console.WriteLine("Je lance " + style);
-                Thread.Sleep(10000);
-                Console.WriteLine("Je termine " + style);
-                attendPartie();
+                Thread.Sleep(100000);
+                runGame();
             }
         }
-
         /*
          * Envoi les scores à tous le monde
          * puis la liste de musique
          */
         public void nouvelleManche()
         {
-            envoiScores();
             envoiMusique();
         }
+
+        //Envoi a tous les joueurs un stream
         public void envoiATous(String message)
         {
             foreach(Joueur j in lj)
             {
-                Console.WriteLine("J'envoi à " + j.getName());
                 try
                 {
                     if (j.getStream() != null)
@@ -61,6 +60,7 @@ namespace Serveur
             }
         }
 
+        //Envoi un message au joueur via son stream
         private void envoi(String message, NetworkStream clientStream)
         {
             Console.WriteLine("Envoi : " + message);
@@ -68,6 +68,8 @@ namespace Serveur
             clientStream.Write(buffer, 0, buffer.Length);
             clientStream.Flush();
         }
+
+        //Ajoute un joueur à la liste et commence une partie si c'est le premier joueur
         public void addJoueur(Joueur j)
         {
             lj.Add(j);
@@ -75,29 +77,41 @@ namespace Serveur
             if(lj.Count == 1)
             {
                 //on peux lancer la diffusion des chansons
-                attendPartie();
+                Thread th = new Thread(runGame);
+                th.Start();
             }
             else // Si il y'a des joueurs, on lui envoi les chansons en cours
             {
                 envoi(Requete.musique(gm.listeChansons(j.getNbChoix())),
                     j.getStream());
             }
+            //Dans tous les cas on initialise les scores 
+            envoiScores();
         }
+
+        //Retire le joueur j de la liste des joueurs si ce n'est pas déjà fait
+        public void removeJoueur(Joueur j)
+        {
+            try
+            {
+                lj.Remove(j);
+            }
+            catch
+            {
+                Console.WriteLine("Erreur, le joueur " + j.getName() + " n'existe déjà plus");
+            }
+        }
+
+        //Retourne la chanson précédente
         public String getChanson()
         {
             return chansonPrecedente;
         }
         
+        //Envoi à tous les joueurs, tous les scores
         public void envoiScores()
         {
-            //Faire une commande dans le fichier requete
-            //retirer les utilisateurs proprement
-            String res = "INFO?SCORES";
-            foreach (Joueur j2 in lj)
-            {
-                res += "?" + j2.getName() + "&" + j2.getScore();
-            }
-            envoiATous(res);
+            envoiATous(Requete.infoScores(lj));
         }
         public void envoiMusique()
         {
@@ -106,6 +120,7 @@ namespace Serveur
 
             //On remélange les chansons
             gm.melange();
+            List<Joueur> ljTmp = new List<Joueur>();
             foreach(Joueur j in lj)
             {
                 //Et on les envois à tous les joueurs
@@ -117,16 +132,24 @@ namespace Serveur
                 catch
                 {
                     //Si le joueur n'est plus en lien avec le serveur, on l'enléve de la liste
-                    lj.Remove(j);
+                    //joueurASuprr.Add(j.getName());
+                    ljTmp.Add(j);
                 }
+            }
+
+            foreach (Joueur j in ljTmp)
+            {
+                lj.Remove(j);
             }
         }
 
+        //Renvoi le style de musique de cette partie
         public String getStyle()
         {
             return style;
         }
 
+        //Retourne le gestionnaire de musique qui lui est associé
         public GestionMusique getGestionMusique()
         { 
             return gm;
