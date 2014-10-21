@@ -97,6 +97,18 @@ namespace BlindTestGroupe44
                 System.Environment.Exit(0);
         }
 
+      
+
+        private void keyDownFunctiond(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                client.validerBoutonClick(sender, e);
+        }
+
+
+      
+      
+
        
 
     }

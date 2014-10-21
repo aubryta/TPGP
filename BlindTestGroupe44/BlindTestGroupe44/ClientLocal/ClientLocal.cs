@@ -36,6 +36,7 @@ namespace BlindTestGroupe44
             //Les panels d'affichage de mutlijoueur ne sont pas utilisés :
             wind.gridScores.Visibility = Visibility.Hidden;
             wind.gridButton.Visibility = Visibility.Hidden;
+          
         }
 
         // Initialise la fenetre du jeu, lancement de la musique, affichage des réponses possibles
@@ -45,6 +46,7 @@ namespace BlindTestGroupe44
             listeRadioButtons = wind.grid2.Children.OfType<System.Windows.Controls.RadioButton>();
             wind.grid1.Visibility = Visibility.Hidden;
             wind.grid2.Visibility = Visibility.Visible;
+
             runGame();
             
         }
@@ -84,25 +86,28 @@ namespace BlindTestGroupe44
             valider.Visibility = Visibility.Visible;
             valider.IsEnabled = true;
             wind.grid2.Children.Add(valider);
+           
         }
 
+              
         // correspond au bouton valider, si on a la bonne reponse, le score augmente
         // puis on passe a la chanson suivante
         public void validerBoutonClick(object sender, System.Windows.RoutedEventArgs e)
         {
             watch.Stop();
-            int x = (int) (watch.ElapsedTicks/ 1000000); // on recupere le temps écoulé depuis le debut de la manche.
+            int x = (int)(watch.ElapsedTicks / 1000000); // on recupere le temps écoulé depuis le debut de la manche.
             // TODO : le calcul de l'incrementation
 
             player.stop();
             // Tant qu'on a pas de liste on vérifie R2
-            if (listeRadioButtons.ElementAt(choixCorrect-1).IsChecked == true)
+            if (listeRadioButtons.ElementAt(choixCorrect - 1).IsChecked == true)
             {
-                scorePoints += incrPoints;                
-                wind.scoreLabel.Content = "Score : " + scorePoints;
+                scorePoints += (incrPoints / x);
+                wind.scoreLabel.Content = "Score : " + scorePoints + " \t Vous avez répondu en " + watch.ElapsedMilliseconds / 1000 + " secondes";
             }
-            wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();      
-            
+            watch.Reset();
+            wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();
+
             runGame();
         }
 
@@ -116,18 +121,18 @@ namespace BlindTestGroupe44
             if (wind.facileButon.IsChecked == true)
             {
                 nbChoix = 3;
-                incrPoints = 10;
+                incrPoints = 100;
             }
 
             if (wind.moyenButon.IsChecked == true)
             {
                 nbChoix = 4;
-                incrPoints = 12;
+                incrPoints = 200;
             }
             if (wind.difficileButon.IsChecked == true)
             {
                 nbChoix = 6;
-                incrPoints = 15;
+                incrPoints = 350;
             }
 
             /* Si l'un des boutons est coché on peux passer à l'étape supérieur et lancer le test
@@ -148,7 +153,6 @@ namespace BlindTestGroupe44
             int place = rnd.Next(1, nbChoix);
             var songsList = player.listeChanson(repertoireMusique);
            List<String>chansonsBouton = new List<String>();
-
             for (int i = 1; i <= nbChoix; i++)
             {
                 if (i == place)

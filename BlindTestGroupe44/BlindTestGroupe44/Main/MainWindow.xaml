@@ -23,7 +23,7 @@
             <Button x:Name="choixBibliBouton" Content="Choix d'une bibliothèque..." HorizontalAlignment="Left" Margin="111,379,0,0" VerticalAlignment="Top" Width="242" Height="49" Click="choisirBibliClick" FontFamily="Arial Rounded MT Bold" FontSize="16" Grid.ColumnSpan="2"/>
             <Grid HorizontalAlignment="Left" Height="100" Margin="127,262,0,0" VerticalAlignment="Top" Width="100"/>
         </Grid>
-        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="838" Margin="0,0,0,0" Visibility="Hidden" >
+        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="838" Margin="0,0,0,0" Visibility="Hidden" KeyDown="keyDownFunctiond" >
             <Label x:Name="scoreLabel" Content="Score : 0" HorizontalAlignment="Left" Margin="91,140,0,0" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
             <Label x:Name="chansonPrecedente" Content="Première chanson" HorizontalAlignment="Left" Margin="91,169,0,0" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
             <Menu x:Name="BarreDeMenu" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="828" Grid.ColumnSpan="2">

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TestURL;
 
 namespace Serveur
 {
@@ -14,6 +15,7 @@ namespace Serveur
         private String style = "";
         private String chanson = "";
         private List<String> chansonsRep = new List<string>();
+        private GestionURL gm = new GestionURL();
 
         /*
          * Pour utiliser cette classe, 
@@ -28,6 +30,7 @@ namespace Serveur
         {
             
             //************
+            /*
             List<String> listeStyle = new List<string>();
             DirectoryInfo dir = new DirectoryInfo("Musique");
             DirectoryInfo[] styles = dir.GetDirectories();
@@ -39,6 +42,8 @@ namespace Serveur
             }
             
             return listeStyle;
+             */
+            return gm.listStyle();
         }
 
         public String getStyle()
@@ -50,9 +55,9 @@ namespace Serveur
             this.style = style;
         }
 
-        //Mélange la liste chanson rep, et retire aléatoirement une chanson pour la 
+        // la liste chanson rep, et retire aléatoirement une chanson pour la 
         //placer dans chanson
-        public void melange()
+        public void melange(int nbChoix)
         {
             //Test lors de la première utilisation (il n'y a aucune chanson précédente)
             if (chanson != null)
@@ -62,7 +67,7 @@ namespace Serveur
             String tmp = "";
             int swapIndex = 0;
             //melange
-            for (int i = 0; i < chansonsRep.Count; i++)
+            for (int i = 0; i < nbChoix; i++)
             {
                 tmp = chansonsRep.ElementAt(i);
                 swapIndex = rnd.Next(0, chansonsRep.Count - 1);
@@ -79,14 +84,18 @@ namespace Serveur
         //Va rechercher dans le répertoire toutes les chansons et les stockent dans "chansonsRep"
         public void chercheChansons()
         {
-            DirectoryInfo dir = new DirectoryInfo("Musique/" + style + "/");
+            
+           /* DirectoryInfo dir = new DirectoryInfo("Musique/" + style + "/");
             FileInfo[] listeChansons = dir.GetFiles();
             List<String> listeMusique = new List<string>();
             for (int i = 0; i < listeChansons.Length; i++)
             {
                 chansonsRep.Add(listeChansons[i].Name);
-            }
+            }*/
+            chansonsRep = gm.listeChansons(style);
         }
+
+
 
         //Retourne une liste aléatoire de chanson
         //Sauvegarde une chanson parmis cette liste dans "chanson".
@@ -94,7 +103,7 @@ namespace Serveur
         {
             if (chansonsRep.Count == 0)
                 return null;
-            
+            melange(nbChansons);
             List<String> res = new List<string>();
             Random rnd = new Random();
             //on cherche aléatoirement ou cette chanson va aller dans la liste

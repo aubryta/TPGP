@@ -30,7 +30,7 @@ namespace Serveur
             if (lj.Count > 0)
             {
                 nouvelleManche();
-                Thread.Sleep(100000);
+                Thread.Sleep(10000);
                 runGame();
             }
         }
@@ -119,7 +119,7 @@ namespace Serveur
             chansonPrecedente = gm.getChanson();
 
             //On remélange les chansons
-            gm.melange();
+           // gm.melange();
             List<Joueur> ljTmp = new List<Joueur>();
             foreach(Joueur j in lj)
             {
