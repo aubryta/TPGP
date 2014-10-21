@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.IO;
+using WMPLib;
 
 
 
@@ -21,7 +22,7 @@ namespace BlindTestGroupe44
         public static extern int WaveOutSetVolume(IntPtr hwo, uint dwVolume);
         
         private String nomChanson = ""; // Nom de la chanson courante
-
+        WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer(); //lecteur media pour les url
 
         // recupere la liste des chanson d'un repertoire en parcourant toute son arborescence
         public IEnumerable<FileInfo> listeChanson (string path)
@@ -67,6 +68,17 @@ namespace BlindTestGroupe44
         {
             string command = "play MyMp3";
             mciSendString(command, null, 0, 0);
+        }
+
+        public void playFromURL(String urlChanson)
+        {    
+            wplayer.URL = urlChanson;
+            wplayer.controls.play();   
+        }
+
+        public void stopFromURL()
+        {
+            wplayer.controls.stop();
         }
 
         // le paramettre d est une valeur comprise entre 0 et 10 ( ce sont les propriétés d'un slider)

@@ -5,9 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-
+using System.Windows.Controls;
+using System.Windows.Threading;
+using System.Diagnostics;
 namespace BlindTestGroupe44
 {
+    /** TODO
+     * 0. COMMENTER
+     * 1. Coder le calcul de l'incrementation de score ( a discuter)
+     *
+     **/
     class ClientLocal : IClient
     {
         private MusicPlayer player = new MusicPlayer();
@@ -18,7 +25,7 @@ namespace BlindTestGroupe44
         private int scorePoints = 0;
         private int choixCorrect; // index de la bonne reponse
         private IEnumerable<System.Windows.Controls.RadioButton> listeRadioButtons;
-
+        private Stopwatch watch = new Stopwatch();
         private MainWindow wind;
 
 
@@ -48,6 +55,7 @@ namespace BlindTestGroupe44
                 rb.IsChecked = false;
             }
             player.open(repertoireMusique);
+            watch.Start();
             trouveAleatoire();
             player.play();
         }
@@ -82,11 +90,15 @@ namespace BlindTestGroupe44
         // puis on passe a la chanson suivante
         public void validerBoutonClick(object sender, System.Windows.RoutedEventArgs e)
         {
+            watch.Stop();
+            int x = (int) (watch.ElapsedTicks/ 1000000); // on recupere le temps écoulé depuis le debut de la manche.
+            // TODO : le calcul de l'incrementation
+
             player.stop();
             // Tant qu'on a pas de liste on vérifie R2
             if (listeRadioButtons.ElementAt(choixCorrect-1).IsChecked == true)
             {
-                scorePoints += incrPoints;
+                scorePoints += incrPoints;                
                 wind.scoreLabel.Content = "Score : " + scorePoints;
             }
             wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();      
@@ -135,16 +147,26 @@ namespace BlindTestGroupe44
             Random rnd = new Random();
             int place = rnd.Next(1, nbChoix);
             var songsList = player.listeChanson(repertoireMusique);
+           List<String>chansonsBouton = new List<String>();
+
             for (int i = 1; i <= nbChoix; i++)
             {
                 if (i == place)
                 {
+                    chansonsBouton.Add(player.getChanson());
                     listeRadioButtons.ElementAt(i-1).Content = player.getChanson();
+                    chansonsBouton.Add(player.getChanson());
                     this.choixCorrect = i;
                 }
                 else
                 {
-                    listeRadioButtons.ElementAt(i - 1).Content = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
+                    String element = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
+                    while (chansonsBouton.Contains(element))
+                    {
+                        element = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
+                    }
+                    chansonsBouton.Add(element);
+                    listeRadioButtons.ElementAt(i - 1).Content = element;
                 }
             }
         }
@@ -153,8 +175,18 @@ namespace BlindTestGroupe44
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.ShowDialog();
-            repertoireMusique = fbd.SelectedPath;
-            wind.commencerBouton.IsEnabled = true;
+            repertoireMusique = fbd.SelectedPath;          
+            var songsList = player.listeChanson(repertoireMusique);
+            // Si le repertoir ne contient pas au moins 10 chansons
+            // message d'erreur 
+            if (songsList.Count() < 10)
+            {
+                System.Windows.Forms.MessageBox.Show("La bibliothèque choisie ne contient pas assez de chansons");
+                repertoireMusique = "";               
+            }
+            if (!repertoireMusique.Equals(""))
+                wind.commencerBouton.IsEnabled = true;
+                
         }
 
         public void changerVolume(double d)
