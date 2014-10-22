@@ -109,10 +109,8 @@ namespace BlindTestGroupe44.ClientLigne
                         new Action(() => traiteReq.infoScores(tabMessage)));
                     }
                     else if (tabMessage[1].Equals("CHANSON"))
-                    {/*
-                        Application.Current.Dispatcher.BeginInvoke(
-                        DispatcherPriority.Background,
-                        new Action(() => traiteReq.?????(tabMessage[2])));*/
+                    {
+                        traiteReq.lireChanson(tabMessage[2]);
                     }
                 }
                 else if (tabMessage[0].Equals("DECONNEXION"))

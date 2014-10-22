@@ -26,6 +26,7 @@ namespace BlindTestGroupe44
         private Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private MainWindow wind = new MainWindow();
         private TraiteRequete traiteRequete = new TraiteRequete();
+        private MusicPlayer musicPlayer = new MusicPlayer();
         private Ecoute ecoute = new Ecoute();
         private String name = "";
         private Stream stm = null;
@@ -196,6 +197,16 @@ namespace BlindTestGroupe44
         public void setName(String name)
         {
             this.name = name;
+        }
+
+        public void lireChansonUrl(String url)
+        {
+            musicPlayer.playFromURL(url);
+        }
+
+        internal void arretMusique()
+        {
+            musicPlayer.stopFromURL();
         }
     }
 }

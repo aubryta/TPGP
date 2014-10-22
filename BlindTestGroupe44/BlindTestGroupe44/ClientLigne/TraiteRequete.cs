@@ -46,9 +46,11 @@ namespace BlindTestGroupe44.ClientLigne
             client.setRadios(listeRadioButtons);
         }
 
-        //On affiche la chanson qui était à trouver le tours d'avant dans le panel correspondant
+        //On affiche la chanson qui était à trouver le tour d'avant dans le panel correspondant
+        // et on coupe la musique
         public void chansonPrecedente(String chanson)
         {
+            client.arretMusique();
             client.getWind().chansonPrecedente.Content = "Chanson précédente : " + chanson;
         }
 
@@ -197,6 +199,11 @@ namespace BlindTestGroupe44.ClientLigne
                     }
                 }
             }
+        }
+
+        internal void lireChanson(string p)
+        {
+            client.lireChansonUrl(p);
         }
     }
 }
