@@ -85,7 +85,7 @@ namespace Serveur
             {
                 envoi(Requete.musique(gm.listeChansons(j.getNbChoix())),
                     j.getStream());
-                envoi(Requete.infoChanson(gm.getUrlChanson(gm.getChanson())), j.getStream());
+                envoi(Requete.infoChanson(gm.getUrlChanson()), j.getStream());
             }
             //Dans tous les cas on initialise les scores 
             envoiScores();
@@ -128,7 +128,7 @@ namespace Serveur
                 try 
                 {
                     List<String> chansons = gm.listeChansons(j.getNbChoix());
-                    envoi(Requete.infoChanson(gm.getUrlChanson(gm.getChanson())),j.getStream());
+                    envoi(Requete.infoChanson(gm.getUrlChanson()),j.getStream());
                     envoi(Requete.musique(chansons), j.getStream());
                 }
                 catch
