@@ -127,6 +127,7 @@ namespace Serveur
                 //Et on les envois à tous les joueurs
                 try 
                 {
+                    Console.WriteLine("normalement on envoi ici");
                     List<String> chansons = gm.listeChansons(j.getNbChoix());
                     envoi(Requete.infoChanson(gm.getUrlChanson()),j.getStream());
                     envoi(Requete.musique(chansons), j.getStream());

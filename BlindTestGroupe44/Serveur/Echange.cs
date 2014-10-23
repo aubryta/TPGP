@@ -117,7 +117,7 @@ namespace Serveur
 
         private void traiteChanson(String[] tabMessage, NetworkStream cstm)
         {
-            if (tabMessage[1].Equals(partie.getChanson()))
+            if (tabMessage[1].Equals(partie.getChanson().Replace('_', ' ').Split('.').ElementAt(0)))
             {
                 send(Requete.infoBonneChanson(partie.getChanson()), cstm);
                 joueur.incrScore();

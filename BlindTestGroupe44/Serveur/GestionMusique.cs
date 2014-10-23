@@ -14,7 +14,6 @@ namespace Serveur
 
         private String style = "";
         private String chanson = "";
-        private String chansonTitre = "";
         private List<String> chansonsRep = new List<string>();
         private GestionURL gUrl = new GestionURL();
         private int nbChoixMax = 0;
@@ -82,9 +81,7 @@ namespace Serveur
 
             //Choisit et retire une chanson au hasard
             int alea = rnd.Next(0, chansonsRep.Count);
-            String titre = chansonsRep.ElementAt(alea);
-            chanson = titre.Replace('_', ' ').Split('.').ElementAt(0);
-            chansonTitre = titre;
+            chanson = chansonsRep.ElementAt(alea);
             chansonsRep.RemoveAt(alea);
         }
         
@@ -130,7 +127,7 @@ namespace Serveur
         }
         public String getUrlChanson()
         {
-            return gUrl.getUrlChanson(style, chansonTitre);
+            return gUrl.getUrlChanson(style, chanson);
         }
     }
 }

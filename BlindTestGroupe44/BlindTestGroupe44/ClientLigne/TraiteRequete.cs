@@ -77,7 +77,7 @@ namespace BlindTestGroupe44.ClientLigne
             for (int i = 0; i < nbRadios; i++)
             {
                 listeRadioButtons.ElementAt(i).IsChecked = false;
-                listeRadioButtons.ElementAt(i).Content = chansons.ElementAt(i);
+                listeRadioButtons.ElementAt(i).Content = chansons.ElementAt(i).Replace('_', ' ').Split('.').ElementAt(0);
             }
             client.setRadios(listeRadioButtons);
         }
@@ -190,13 +190,23 @@ namespace BlindTestGroupe44.ClientLigne
         {
             if (listeRadioButtons != null)
             {
+                int cpt = 0;
                 //On regarde parmis tous les radios bouton lequel est coché
                 foreach (System.Windows.Controls.RadioButton r in listeRadioButtons)
                 {
-                    if(r.IsChecked == true)
+                   
+                    if (r.IsChecked == true)
                     {
-                        client.envoi(Requete.proposeChanson(r.Content as String)); 
+                        cpt++;
+                        client.envoi(Requete.proposeChanson(r.Content as String));
                     }
+                }
+
+                //Si aucun bouton n'est coché
+                if (cpt == 0)
+                {
+                    //on envoi un réponse vide (donc mauvaise)
+                    client.envoi(Requete.proposeChanson(""));
                 }
             }
         }
