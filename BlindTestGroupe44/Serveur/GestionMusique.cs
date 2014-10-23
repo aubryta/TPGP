@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using TestURL;
+
 
 namespace Serveur
 {
@@ -15,8 +15,8 @@ namespace Serveur
         private String style = "";
         private String chanson = "";
         private List<String> chansonsRep = new List<string>();
-        private GestionURL gm = new GestionURL();
-
+        private GestionURL gUrl = new GestionURL();
+        private int nbChoixMax = 0;
         /*
          * Pour utiliser cette classe, 
          * 1 - il faut d'abord initialiser la liste (chercheChansons)
@@ -43,7 +43,7 @@ namespace Serveur
             
             return listeStyle;
              */
-            return gm.listStyle();
+            return gUrl.listStyle();
         }
 
         public String getStyle()
@@ -55,9 +55,13 @@ namespace Serveur
             this.style = style;
         }
 
+        public void setNbChoixMax(int nbChoix)
+        {
+            this.nbChoixMax = nbChoix;
+        }
         // la liste chanson rep, et retire aléatoirement une chanson pour la 
         //placer dans chanson
-        public void melange(int nbChoix)
+        public void melange()
         {
             //Test lors de la première utilisation (il n'y a aucune chanson précédente)
             if (chanson != null)
@@ -67,7 +71,7 @@ namespace Serveur
             String tmp = "";
             int swapIndex = 0;
             //melange
-            for (int i = 0; i < nbChoix; i++)
+            for (int i = 0; i < nbChoixMax; i++)
             {
                 tmp = chansonsRep.ElementAt(i);
                 swapIndex = rnd.Next(0, chansonsRep.Count - 1);
@@ -92,7 +96,7 @@ namespace Serveur
             {
                 chansonsRep.Add(listeChansons[i].Name);
             }*/
-            chansonsRep = gm.listeChansons(style);
+            chansonsRep = gUrl.listeChansons(style);
         }
 
 
@@ -103,7 +107,7 @@ namespace Serveur
         {
             if (chansonsRep.Count == 0)
                 return null;
-            melange(nbChansons);
+
             List<String> res = new List<string>();
             Random rnd = new Random();
             //on cherche aléatoirement ou cette chanson va aller dans la liste
@@ -120,6 +124,10 @@ namespace Serveur
         public String getChanson()
         {
             return chanson;
+        }
+        public String getUrlChanson(String chanson)
+        {
+            return gUrl.getUrlChanson(style, chanson);
         }
     }
 }

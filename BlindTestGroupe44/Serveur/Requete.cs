@@ -54,5 +54,10 @@ namespace Serveur
             }
             return res;
         }
+
+        public static String infoChanson(String urlChanson)
+        {
+            return "INFO?CHANSON?" + urlChanson;
+        }
     }
 }

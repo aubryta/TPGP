@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 
-namespace TestURL{
+namespace Serveur{
    
     
     class GestionURL
@@ -14,6 +14,11 @@ namespace TestURL{
 
         private String urlBase = "ftp://ftp.magix-online.com";
 
+        /// <summary>
+        /// Renvoi tous le contenu de racine
+        /// </summary>
+        /// <param name="racine">Répertoire à analyser</param>
+        /// <returns>Retourne la liste de ce qui est dans "racine"</returns>
         public List<String> listeSousDossier(String racine)
         {
             List<String> res = new List<string>();
@@ -53,7 +58,7 @@ namespace TestURL{
         }
 
         public String getUrlChanson(String style, String chanson){
-            return (urlBase + "/" + style+"/"+chanson);
+            return "http://tpgp.magix.net/public/" + style+"/"+chanson;
         }
 
 

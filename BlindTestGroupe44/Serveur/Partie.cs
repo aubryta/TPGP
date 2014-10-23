@@ -22,6 +22,7 @@ namespace Serveur
             this.style = style;
             gm.setStyle(style);
             gm.chercheChansons();
+            gm.setNbChoixMax(6);
         }
 
         //Gere les manches, la fin d'une partie, les envois d'informations aux joueurs
@@ -84,6 +85,7 @@ namespace Serveur
             {
                 envoi(Requete.musique(gm.listeChansons(j.getNbChoix())),
                     j.getStream());
+                envoi(Requete.infoChanson(gm.getUrlChanson(gm.getChanson())), j.getStream());
             }
             //Dans tous les cas on initialise les scores 
             envoiScores();
@@ -107,7 +109,6 @@ namespace Serveur
         {
             return chansonPrecedente;
         }
-        
         //Envoi à tous les joueurs, tous les scores
         public void envoiScores()
         {
@@ -119,7 +120,7 @@ namespace Serveur
             chansonPrecedente = gm.getChanson();
 
             //On remélange les chansons
-           // gm.melange();
+            gm.melange();
             List<Joueur> ljTmp = new List<Joueur>();
             foreach(Joueur j in lj)
             {
@@ -127,6 +128,7 @@ namespace Serveur
                 try 
                 {
                     List<String> chansons = gm.listeChansons(j.getNbChoix());
+                    envoi(Requete.infoChanson(gm.getUrlChanson(gm.getChanson())),j.getStream());
                     envoi(Requete.musique(chansons), j.getStream());
                 }
                 catch
@@ -155,6 +157,4 @@ namespace Serveur
             return gm;
         }
     }
-
-    
 }
