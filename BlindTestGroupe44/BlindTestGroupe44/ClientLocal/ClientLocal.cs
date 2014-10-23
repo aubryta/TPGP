@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Diagnostics;
+using BlindTestGroupe44.Main;
 namespace BlindTestGroupe44
 {
     /** TODO
@@ -152,13 +153,14 @@ namespace BlindTestGroupe44
             Random rnd = new Random();
             int place = rnd.Next(1, nbChoix);
             var songsList = player.listeChanson(repertoireMusique);
-           List<String>chansonsBouton = new List<String>();
+            List<String>chansonsBouton = new List<String>();
             for (int i = 1; i <= nbChoix; i++)
             {
                 if (i == place)
                 {
                     chansonsBouton.Add(player.getChanson());
-                    listeRadioButtons.ElementAt(i-1).Content = player.getChanson();
+                    String nomChanson = player.getChanson();
+                    listeRadioButtons.ElementAt(i - 1).Content = nomChanson.Split('.').ElementAt(0); ;
                     chansonsBouton.Add(player.getChanson());
                     this.choixCorrect = i;
                 }
@@ -170,7 +172,7 @@ namespace BlindTestGroupe44
                         element = songsList.ElementAt(rnd.Next(0, songsList.Count())).Name;
                     }
                     chansonsBouton.Add(element);
-                    listeRadioButtons.ElementAt(i - 1).Content = element;
+                    listeRadioButtons.ElementAt(i - 1).Content = element.Split('.').ElementAt(0); ;
                 }
             }
         }
@@ -181,16 +183,23 @@ namespace BlindTestGroupe44
             fbd.ShowDialog();
             repertoireMusique = fbd.SelectedPath;          
             var songsList = player.listeChanson(repertoireMusique);
-            // Si le repertoir ne contient pas au moins 10 chansons
-            // message d'erreur 
-            if (songsList.Count() < 10)
+
+            //Si le dossier est valide
+            if (songsList != null)
             {
-                System.Windows.Forms.MessageBox.Show("La bibliothèque choisie ne contient pas assez de chansons");
-                repertoireMusique = "";               
-            }
-            if (!repertoireMusique.Equals(""))
-                wind.commencerBouton.IsEnabled = true;
-                
+                // Si le repertoir ne contient pas au moins 10 chansons
+                // message d'erreur 
+                if (songsList.Count() < 10)
+                {
+                    //System.Windows.Forms.MessageBox.Show("La bibliothèque choisie ne contient pas assez de chansons");
+                    PopUp popup = new PopUp();
+                    popup.setErreur("La bibliothèque choisie ne contient pas assez de chansons");
+                    popup.ShowDialog();
+                    repertoireMusique = "";
+                }
+                if (!repertoireMusique.Equals(""))
+                    wind.commencerBouton.IsEnabled = true;
+            }  
         }
 
         public void changerVolume(double d)

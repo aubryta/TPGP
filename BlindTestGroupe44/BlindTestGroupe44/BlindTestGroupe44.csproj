@@ -124,9 +124,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="MediaPlayer">
       <Guid>{22D6F304-B0F6-11D0-94AB-0080C74C7E95}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -163,6 +160,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Main\calque.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Main\calque2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Main\fond popup.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

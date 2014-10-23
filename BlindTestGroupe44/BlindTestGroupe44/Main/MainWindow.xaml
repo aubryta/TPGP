@@ -2,38 +2,34 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="BlindTestGroupe44.MainWindow"
-        Title="Blindtest" Height="640" Width="840" Closing="Window_Closing">
+        Title="Blindtest" Height="660" Width="840" Closing="Window_Closing">
 
-    <Grid x:Name="mainGrid" HorizontalAlignment="Left" Height="614" Margin="0,0,-8,-4" VerticalAlignment="Top" Width="840" Background="#FF00A2E8">
-        <Grid x:Name="gridDebut" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="840" Margin="0,0,-10,-5">
+    <Grid x:Name="mainGrid" HorizontalAlignment="Left" Margin="0,0,-8,-3" Height="640" Width="840">
+        <Image Name="imageFondNom" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Source="calque2.bmp"/>
+        <Image Name="imageFond" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Source="calque.bmp" Visibility="Hidden"/>
+        <Menu x:Name="BarreDeMenu" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="828" Grid.ColumnSpan="2" Visibility="Hidden">
+            <MenuItem Header="Options">
+                <MenuItem Header="Nouvelle partie" Click="newGameItem"/>
+                <MenuItem Header="Reset Score" Click="resetScore" />
+                <MenuItem Header="Reglages"/>
+                <MenuItem Header="Aide"/>
+            </MenuItem>
+        </Menu>
+        <Grid x:Name="gridDebut" HorizontalAlignment="Left" Height="638" VerticalAlignment="Top" Width="840" Margin="0,0,0,-5">
             <Button Content="Local" HorizontalAlignment="Left" Margin="323,200,0,0" VerticalAlignment="Top" Width="192" Height="80" Click="cliqueLocal" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
             <Button Content="En ligne" HorizontalAlignment="Left" Margin="323,375,0,0" VerticalAlignment="Top" Width="192" Height="80" Click="cliqueServeur" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
-            <Label Content="Mathilde Verrier&#xD;&#xA;Thomas Aubry" HorizontalAlignment="Left" Margin="631,495,0,0" VerticalAlignment="Top" Height="84" Width="181" FontFamily="Forte" FontSize="22" Foreground="White"/>
         </Grid>
-        <Grid x:Name="grid1" Canvas.Left="175" Canvas.Top="141" Margin="0,-3,-8,-5" d:IsHidden="False" Visibility="Hidden">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="303*"/>
-                <ColumnDefinition Width="535*"/>
-            </Grid.ColumnDefinitions>
-            <RadioButton x:Name="facileButon" Content="Facile" Height="25" VerticalAlignment="Top" Width="148" Margin="25,237,362,0" Grid.Column="1" FontFamily="Arial Rounded MT Bold"/>
-            <RadioButton x:Name="moyenButon" Content="Moyen" Height="25" VerticalAlignment="Top" Width="148" Margin="25,262,362,0" Grid.Column="1" FontFamily="Arial Rounded MT Bold"/>
-            <RadioButton x:Name="difficileButon" Content="Difficile" Height="25" VerticalAlignment="Top" Width="148" Margin="25,287,362,0" Grid.Column="1" FontFamily="Arial Rounded MT Bold"/>
-            <Label Content="Difficulté :" Height="37" VerticalAlignment="Top" Margin="0,195,412,0" Grid.Column="1" FontFamily="Arial Rounded MT Bold" FontSize="22"/>
-            <Button x:Name="commencerBouton" Content="Commencer" Width="215" Height="49" Click="commencerBoutonClick" Margin="192,379,128,183" Grid.Column="1" IsEnabled="False" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
-            <Button x:Name="choixBibliBouton" Content="Choix d'une bibliothèque..." HorizontalAlignment="Left" Margin="111,379,0,0" VerticalAlignment="Top" Width="242" Height="49" Click="choisirBibliClick" FontFamily="Arial Rounded MT Bold" FontSize="16" Grid.ColumnSpan="2"/>
-            <Grid HorizontalAlignment="Left" Height="100" Margin="127,262,0,0" VerticalAlignment="Top" Width="100"/>
+        <Grid Name="grid1" Canvas.Left="175" Canvas.Top="141" Margin="0,-3,-8,-5" d:IsHidden="False" Visibility="Hidden">
+            <RadioButton x:Name="facileButon" Content="Facile" Height="25" VerticalAlignment="Top" Width="148" Margin="334,237,366,0" FontFamily="Arial Rounded MT Bold"/>
+            <RadioButton x:Name="moyenButon" Content="Moyen" Height="25" VerticalAlignment="Top" Width="148" Margin="334,262,366,0" FontFamily="Arial Rounded MT Bold"/>
+            <RadioButton x:Name="difficileButon" Content="Difficile" Height="25" VerticalAlignment="Top" Width="148" Margin="334,287,366,0" FontFamily="Arial Rounded MT Bold"/>
+            <Label Content="Difficulté :" Height="37" VerticalAlignment="Top" Margin="277,180,135,0" FontFamily="Arial Rounded MT Bold" FontSize="22"/>
+            <Button x:Name="commencerBouton" Content="Commencer" Width="215" Height="49" Click="commencerBoutonClick" Margin="472,398,161,201" IsEnabled="False" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
+            <Button x:Name="choixBibliBouton" Content="Choix d'une bibliothèque..." HorizontalAlignment="Left" Margin="111,398,0,0" VerticalAlignment="Top" Width="242" Height="48" Click="choisirBibliClick" FontFamily="Arial Rounded MT Bold" FontSize="16" Grid.ColumnSpan="2"/>
         </Grid>
-        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="838" Margin="0,0,0,0" Visibility="Hidden" KeyDown="keyDownFunctiond" >
+        <Grid x:Name="grid2" HorizontalAlignment="Left" Height="613" VerticalAlignment="Top" Width="838" Margin="0,0,0,0" Visibility="Hidden" KeyDown="keyDownFunctiond">
             <Label x:Name="scoreLabel" Content="Score : 0" HorizontalAlignment="Left" Margin="91,140,0,0" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
             <Label x:Name="chansonPrecedente" Content="Première chanson" HorizontalAlignment="Left" Margin="91,169,0,0" VerticalAlignment="Top" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
-            <Menu x:Name="BarreDeMenu" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="828" Grid.ColumnSpan="2">
-                <MenuItem Header="Options">
-                    <MenuItem Header="Nouveau Jeu" Click="newGameItem"/>
-                    <MenuItem Header="Reset Score" Click="resetScore" />
-                    <MenuItem Header="Reglages"/>
-                    <MenuItem Header="Aide"/>
-                </MenuItem>
-            </Menu>
             <Slider x:Name ="volumeSlideBar" HorizontalAlignment="Left" Height="23" Margin="545,58,0,0" VerticalAlignment="Top" Width="198" RenderTransformOrigin="0.328,-1.261" ValueChanged="volumeChanged" Maximum="50"/>
             <Label Content="Volume" HorizontalAlignment="Left" Margin="610,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.105,-0.192" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
             <Grid Name="gridButton" HorizontalAlignment="Left" Height="327" Margin="36,253,0,0" VerticalAlignment="Top" Width="518" Background="#C0C0C0"/>
@@ -41,8 +37,10 @@
                 <Label Name="nomScore" Content="nomScore" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Label Name="valeurScore" Content="valeurScore" Margin="0,10,10,0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
             </Grid>
+            
         </Grid>
-        <Image HorizontalAlignment="Left" Height="100" Margin="36,34,0,0" VerticalAlignment="Top" Width="250" Source="/BlindTestGroupe44;component/logo.png"/>
+
+
 
     </Grid>
 

@@ -42,9 +42,11 @@ namespace BlindTestGroupe44
         private void cliqueLocal(object sender, RoutedEventArgs e)
         {
             client = new ClientLocal(this);
-            
+            BarreDeMenu.Visibility = Visibility.Visible;
             gridDebut.Visibility = Visibility.Hidden;
             grid1.Visibility = Visibility.Visible;
+            imageFondNom.Visibility = Visibility.Hidden;
+            imageFond.Visibility = Visibility.Visible;
             
         }
 
@@ -72,7 +74,6 @@ namespace BlindTestGroupe44
         {
             System.Diagnostics.Process.Start(System.Windows.Application.ResourceAssembly.Location);
             System.Windows.Application.Current.Shutdown();
-            
         }        
 
         private void volumeChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

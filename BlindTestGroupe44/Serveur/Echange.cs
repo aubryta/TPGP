@@ -43,7 +43,6 @@ namespace Serveur
                 try
                 {
                     //Attend la reception d'un message
-                    Console.WriteLine("je suis pret à écouter");
                     bytesRead = cstm.Read(message, 0, 4096);
                 }
                 catch

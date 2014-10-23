@@ -2,12 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PopUp" Height="212" Width="592">
-    <Grid Background="#FF00A2E8">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="231" VerticalAlignment="Top" Width="584" Source="fond popup.bmp" Margin="0,0,0,-49"/>
         <Grid Name="grid" HorizontalAlignment="Left" Height="131" VerticalAlignment="Top" Width="584">
             <Label Name="labelTitre" Content="Titre" HorizontalAlignment="Center" Margin="0,22,10,0" VerticalAlignment="Top" RenderTransformOrigin="-0.132,-0.5" Height="36" Width="574" HorizontalContentAlignment="Center" FontFamily="Arial" FontSize="16" FontWeight="Bold"/>
             <Label Name="labelMessage" Content="Label" Margin="0,68,10,0" VerticalAlignment="Top" Height="53" Width="574" HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Arial" FontSize="16"/>
         </Grid>
-        <Image HorizontalAlignment="Left" Height="58" Margin="10,0,0,0" VerticalAlignment="Top" Width="156" Source="/BlindTestGroupe44;component/logo.png"/>
         <Button Name="okButton" Content="Ok" HorizontalAlignment="Left" Margin="230,131,0,0" VerticalAlignment="Top" Width="123" Height="36" Click="okButton_Click"/>
+
     </Grid>
 </Window>

@@ -27,14 +27,23 @@ namespace BlindTestGroupe44
         // recupere la liste des chanson d'un repertoire en parcourant toute son arborescence
         public IEnumerable<FileInfo> listeChanson (string path)
         {
-            var dir = new DirectoryInfo(path);
-            var extensions = new string[] { ".mp3", ".wma" }; // choix dse extension
-            var mp3Files = dir.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower())); // le *.* permet de dire que tu cherche un fic
-            var sousDossier = dir.GetDirectories();  
-            foreach(DirectoryInfo path2 in sousDossier){
-                mp3Files = mp3Files.Union(listeChanson(path2.FullName));
+            try
+            {
+                var dir = new DirectoryInfo(path);
+                var extensions = new string[] { ".mp3", ".wma" }; // choix dse extension
+                var mp3Files = dir.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower())); // le *.* permet de dire que tu cherche un fic
+                var sousDossier = dir.GetDirectories();
+                foreach (DirectoryInfo path2 in sousDossier)
+                {
+                    mp3Files = mp3Files.Union(listeChanson(path2.FullName));
+                }
+                return mp3Files;
             }
-            return mp3Files;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.GetBaseException());
+                return null;
+            }
         }
 
         // Cette fonction ouvre une chanson aléatoire a aprtir du chemin d'un repertoire
@@ -54,7 +63,7 @@ namespace BlindTestGroupe44
                     } while (nomChanson.Equals(chanson.Name)); //Evite de lancer 2 fois d'affilées la même chanson
                     
                     file = chanson.FullName;
-                    nomChanson = chanson.Name;
+                    nomChanson = chanson.Name.Split('.').ElementAt(0); ;
 
                 }
                 catch { }

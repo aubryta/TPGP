@@ -81,7 +81,8 @@ namespace Serveur
 
             //Choisit et retire une chanson au hasard
             int alea = rnd.Next(0, chansonsRep.Count);
-            chanson = chansonsRep.ElementAt(alea);
+            String titre = chansonsRep.ElementAt(alea);
+            chanson = titre.Replace('_', ' ').Split('.').ElementAt(0);
             chansonsRep.RemoveAt(alea);
         }
         

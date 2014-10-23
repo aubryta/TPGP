@@ -127,6 +127,9 @@ namespace BlindTestGroupe44
                 //On change de panel si la connexion est établie
                 wind.gridDebut.Visibility = Visibility.Hidden;
                 wind.grid1.Visibility = Visibility.Visible;
+                wind.BarreDeMenu.Visibility = Visibility.Visible;
+                wind.imageFondNom.Visibility = Visibility.Hidden;
+                wind.imageFond.Visibility = Visibility.Visible;
 
                 //On lance un thread qui va écouter toutes les commandes du serveur
                 Thread th = new Thread(ecoute.ecoute);

@@ -13,7 +13,6 @@ namespace BlindTestGroupe44.ClientLigne
     {
         private ASCIIEncoding encodeur = new ASCIIEncoding();
         private ClientServ client = null;
-        private int incrPoints = 0;
         private int nbRadios = 0;
         private MainWindow wind = null;
 
@@ -36,7 +35,8 @@ namespace BlindTestGroupe44.ClientLigne
             {
                 System.Windows.Controls.RadioButton r = new System.Windows.Controls.RadioButton();
                 r.Margin = new Thickness(10, y, 0, 0);
-                r.Content = chanson;
+                //Rend la chanson propre (enléve l'extention et les '_')
+                r.Content = chanson.Replace('_', ' ').Split('.').ElementAt(0);
                 r.FontFamily = new System.Windows.Media.FontFamily("Arial Rounded MT Bold");
                 client.getWind().gridButton.Children.Add(r);
                 y = y + 40;
