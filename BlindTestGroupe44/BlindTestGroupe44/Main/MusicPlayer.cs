@@ -84,11 +84,7 @@ namespace BlindTestGroupe44
             wplayer.URL = urlChanson;
             wplayer.controls.play();   
         }
-
-        public void stopFromURL()
-        {
-            wplayer.controls.stop();
-        }
+      
 
         // le paramettre d est une valeur comprise entre 0 et 10 ( ce sont les propriétés d'un slider)
         // on le multiplie arbitrairement par une valeur pour que le son puisse etre raisonablement fort

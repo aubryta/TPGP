@@ -50,7 +50,6 @@ namespace BlindTestGroupe44.ClientLigne
         // et on coupe la musique
         public void chansonPrecedente(String chanson)
         {
-            client.arretMusique();
             client.getWind().chansonPrecedente.Content = "Chanson précédente : " + chanson;
         }
 

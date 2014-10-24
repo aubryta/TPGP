@@ -206,10 +206,5 @@ namespace BlindTestGroupe44
         {
             musicPlayer.playFromURL(url);
         }
-
-        internal void arretMusique()
-        {
-            musicPlayer.stopFromURL();
-        }
     }
 }

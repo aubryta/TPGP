@@ -64,7 +64,7 @@ namespace Serveur
         public void melange()
         {
             //Test lors de la première utilisation (il n'y a aucune chanson précédente)
-            if (chanson != null)
+            if (!chanson.Equals(""))
                 chansonsRep.Add(chanson);
 
             Random rnd = new Random();
