@@ -17,6 +17,13 @@ namespace Serveur
         private String style = "";
         private GestionMusique gm = new GestionMusique();
 
+        private Boolean partieFinie = false;
+        private int cptManche = 0;
+
+        /// <summary>
+        /// Constructeur, initialise la classe Partie
+        /// </summary>
+        /// <param name="style">le style qui correspond à cette classe</param>
         public Partie(String style)
         {
             this.style = style;
@@ -25,26 +32,50 @@ namespace Serveur
             gm.setNbChoixMax(6);
         }
 
-        //Gere les manches, la fin d'une partie, les envois d'informations aux joueurs
+        /// <summary>
+        /// Gere les manches, la fin d'une partie, les envois d'informations aux joueurs
+        /// </summary>
         public void runGame()
         {
             if (lj.Count > 0)
             {
-                nouvelleManche();
-                Thread.Sleep(10000);
-                runGame();
+                //Si la partie est finie
+                if (cptManche >= 5)
+                {
+                    partieFinie = true;
+                    cptManche = 0;
+                    //On envoi le récapitulatif des scores
+                    envoiATous(Requete.infoPartieFinie(lj));
+                    resetScores();
+                    Thread.Sleep(5000);
+                    //Après avoir attendu 5 secondes, on recommence une partie
+                    envoiATous(Requete.nouvellePartie());
+                    envoiScores();
+                    runGame();
+                }
+                else
+                {
+                    cptManche++;
+                    nouvelleManche();
+                    Thread.Sleep(5000);
+                    runGame();
+                }
             }
         }
-        /*
-         * Envoi les scores à tous le monde
-         * puis la liste de musique
-         */
+
+        /// <summary>
+        /// Envoi à tous les joueurs, les scores, 
+        /// puis la liste de musique
+        /// </summary>
         public void nouvelleManche()
         {
             envoiMusique();
         }
 
-        //Envoi a tous les joueurs un stream
+        /// <summary>
+        /// Envoi a tous les joueurs un message
+        /// </summary>
+        /// <param name="message">message à envoyer</param>
         public void envoiATous(String message)
         {
             foreach(Joueur j in lj)
@@ -61,7 +92,11 @@ namespace Serveur
             }
         }
 
-        //Envoi un message au joueur via son stream
+        /// <summary>
+        /// Envoi un message au joueur via son stream
+        /// </summary>
+        /// <param name="message">message a envoyer</param>
+        /// <param name="clientStream">stream sur lequel est connnecté le client</param>
         private void envoi(String message, NetworkStream clientStream)
         {
             Console.WriteLine("Envoi : " + message);
@@ -70,7 +105,10 @@ namespace Serveur
             clientStream.Flush();
         }
 
-        //Ajoute un joueur à la liste et commence une partie si c'est le premier joueur
+        /// <summary>
+        /// Ajoute un joueur à la liste et commence une partie si c'est le premier joueur
+        /// </summary>
+        /// <param name="j">joueur à ajouter</param>
         public void addJoueur(Joueur j)
         {
             lj.Add(j);
@@ -83,15 +121,25 @@ namespace Serveur
             }
             else // Si il y'a des joueurs, on lui envoi les chansons en cours
             {
-                envoi(Requete.musique(gm.listeChansons(j.getNbChoix())),
-                    j.getStream());
-                envoi(Requete.infoChanson(gm.getUrlChanson()), j.getStream());
+                if (partieFinie)
+                {
+                    envoiATous(Requete.infoPartieFinie(lj));
+                }
+                else
+                {
+                    envoi(Requete.musique(gm.listeChansons(j.getNbChoix())),
+                        j.getStream());
+                    envoi(Requete.infoChanson(gm.getUrlChanson()), j.getStream());
+                }
             }
             //Dans tous les cas on initialise les scores 
             envoiScores();
         }
 
-        //Retire le joueur j de la liste des joueurs si ce n'est pas déjà fait
+        /// <summary>
+        /// Retire le joueur j de la liste des joueurs si ce n'est pas déjà fait
+        /// </summary>
+        /// <param name="j">joueur a retirer</param>
         public void removeJoueur(Joueur j)
         {
             try
@@ -104,16 +152,27 @@ namespace Serveur
             }
         }
 
-        //Retourne la chanson précédente
+        /// <summary>
+        /// Retourne la chanson de la manche précédente
+        /// </summary>
+        /// <returns>chanson précédente</returns>
         public String getChanson()
         {
             return chansonPrecedente;
         }
-        //Envoi à tous les joueurs, tous les scores
+
+        /// <summary>
+        /// Envoi à tous les joueurs, tous les scores
+        /// </summary>
         public void envoiScores()
         {
             envoiATous(Requete.infoScores(lj));
         }
+
+        /// <summary>
+        /// Melange et envoi un panel de musique à chaque joueur, avec
+        /// plus ou moins de chansons par joueurs.
+        /// </summary>
         public void envoiMusique()
         {
             //On stocke la chanson qui était à trouver pour pouvoir 
@@ -146,16 +205,51 @@ namespace Serveur
             }
         }
 
-        //Renvoi le style de musique de cette partie
+        /// <summary>
+        /// Renvoi le style de musique de cette partie
+        /// </summary>
+        /// <returns>style de musique</returns>
         public String getStyle()
         {
             return style;
         }
 
-        //Retourne le gestionnaire de musique qui lui est associé
+        /// <summary>
+        /// Retourne le gestionnaire de musique qui lui est associé
+        /// </summary>
+        /// <returns>gestionnaire de musique d'une partie</returns>
         public GestionMusique getGestionMusique()
         { 
             return gm;
+        }
+
+        /// <summary>
+        /// Mets tous les scores des joueurs à zéro
+        /// </summary>
+        private void resetScores()
+        {
+            foreach(Joueur j in lj)
+            {
+                j.setScore(0);
+            }
+        }
+
+        /// <summary>
+        /// Si le pseudo en paramètre existe déjà parmis la liste de joueur, renvoi faux sinon vrai
+        /// </summary>
+        /// <param name="pseudo">le pseudo a vérifier</param>
+        /// <returns>la validité du pseudo</returns>
+        public Boolean existePseudo(String pseudo)
+        {
+            foreach(Joueur j in lj)
+            {
+                if (!j.getName().Equals("")) //En gros son pseudo qui n'est pas encore initialisé
+                {
+                    if (j.getName().Equals(pseudo))
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -15,6 +15,7 @@ namespace BlindTestGroupe44.ClientLigne
         private ClientServ client = null;
         private int nbRadios = 0;
         private MainWindow wind = null;
+        private Boolean debutPartie = true;
 
         IEnumerable<System.Windows.Controls.RadioButton> listeRadioButtons = null;
 
@@ -187,13 +188,13 @@ namespace BlindTestGroupe44.ClientLigne
         //Envoi la chanson proposer par l'utilisateur
         public void envoiReponse()
         {
-            if (listeRadioButtons != null)
+            if (!debutPartie)
             {
                 int cpt = 0;
                 //On regarde parmis tous les radios bouton lequel est coché
                 foreach (System.Windows.Controls.RadioButton r in listeRadioButtons)
                 {
-                   
+
                     if (r.IsChecked == true)
                     {
                         cpt++;
@@ -208,11 +209,41 @@ namespace BlindTestGroupe44.ClientLigne
                     client.envoi(Requete.proposeChanson(""));
                 }
             }
+            else
+                debutPartie = false;
+        }
+
+        /// <summary>
+        /// Trie est affiche une liste de score dans une nouvelle grille
+        /// </summary>
+        /// <param name="scores">la liste composé du joueur au rang i et de son score au rang i+1</param>
+        public void partieFinie(List<String> scores)
+        {
+            wind.afficheScores.Content = "";
+            wind.grid1.Visibility = Visibility.Hidden;
+            wind.grid2.Visibility = Visibility.Hidden;
+            wind.gridAfficheScores.Visibility = Visibility.Visible;
+            for (int i = 0; i < scores.Count(); i=i + 2)
+            {
+                wind.afficheScores.Content += scores[i] + " : " + scores[i + 1] + "\n";
+            }
+            wind.chansonPrecedente.Content = "Première chanson";
+            debutPartie = true;
+        }
+
+        /// <summary>
+        /// Réaffiche le panel de déroulement d'une manche
+        /// </summary>
+        public void nouvellePartie()
+        {
+            wind.gridAfficheScores.Visibility = Visibility.Hidden;
+            wind.grid2.Visibility = Visibility.Visible;
         }
 
         internal void lireChanson(string p)
         {
             client.lireChansonUrl(p);
         }
+
     }
 }

@@ -66,7 +66,7 @@ namespace BlindTestGroupe44.ClientLigne
                 if (tabMessage[0].Equals("MUSIQUE"))
                 {
                     //On reçoit la liste des chansons de la manche
-                    //La manche est donc termine, on peux envoyer la réponse que l'on a coché
+                    //La manche précédente est donc termine, on peux envoyer la réponse que l'on a coché
                     Application.Current.Dispatcher.BeginInvoke(
                     DispatcherPriority.Background,
                     new Action(() => traiteReq.envoiReponse()));
@@ -111,6 +111,26 @@ namespace BlindTestGroupe44.ClientLigne
                     else if (tabMessage[1].Equals("CHANSON"))
                     {
                         traiteReq.lireChanson(tabMessage[2]);
+                    }
+                    else if(tabMessage[1].Equals("PARTIEFINIE"))
+                    {
+                        List<String> scores = new List<String>();
+                        for (int i = 2; i < tabMessage.Count(); i++ )
+                        {
+                            String []scoreTab = tabMessage[i].Split('=');
+                            scores.Add(scoreTab[0]); //On ajoute le nom
+                            scores.Add(scoreTab[1]); //puis le score correspondant
+                        }
+                        Application.Current.Dispatcher.BeginInvoke(
+                        DispatcherPriority.Background,
+                        new Action(() => traiteReq.partieFinie(scores)));
+                    }
+                    else if(tabMessage[1].Equals("NOUVELLEPARTIE"))
+                    {
+                        //On remet le panel pour jouer
+                        Application.Current.Dispatcher.BeginInvoke(
+                        DispatcherPriority.Background,
+                        new Action(() => traiteReq.nouvellePartie()));
                     }
                 }
                 else if (tabMessage[0].Equals("DECONNEXION"))

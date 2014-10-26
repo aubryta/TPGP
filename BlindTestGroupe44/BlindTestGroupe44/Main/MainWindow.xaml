@@ -37,7 +37,10 @@
                 <Label Name="nomScore" Content="nomScore" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Label Name="valeurScore" Content="valeurScore" Margin="0,10,10,0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
             </Grid>
-            
+        </Grid>
+        <Grid Name="gridAfficheScores" HorizontalAlignment="Left" Height="630" VerticalAlignment="Top" Width="838" Margin="0,0,0,0" Visibility="Hidden">
+            <Label Content="Scores :" Height="37" VerticalAlignment="Top" Margin="277,180,135,0" FontFamily="Arial Rounded MT Bold" FontSize="22"/>
+            <Label Name="afficheScores" HorizontalAlignment="Left" Height="318" Margin="305,239,0,0" VerticalAlignment="Top" Width="292" FontFamily="Arial Rounded MT Bold" FontSize="16"/>
         </Grid>
 
 

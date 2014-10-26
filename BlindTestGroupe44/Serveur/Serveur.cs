@@ -71,5 +71,20 @@ namespace Serveur
             }
             return null;
         }
+
+        /// <summary>
+        /// Regarde si un pseudo existe parmis toutes les parties
+        /// </summary>
+        /// <param name="pseudo">Le pseudo à vérifier</param>
+        /// <returns>si il existe ou pas</returns>
+        public Boolean existePseudo(String pseudo)
+        {
+            foreach(Partie p in listePartie)
+            {
+                if (p.existePseudo(pseudo))
+                    return true;
+            }
+            return false;
+        }
     }
 }
