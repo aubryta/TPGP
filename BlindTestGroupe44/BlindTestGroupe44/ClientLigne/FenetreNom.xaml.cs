@@ -25,6 +25,7 @@ namespace BlindTestGroupe44.ClientLigne
         public FenetreNom()
         {
             InitializeComponent();
+           
         }
 
         public void pseudoExistant()
@@ -60,6 +61,25 @@ namespace BlindTestGroupe44.ClientLigne
         {
             champPseudo.Text = "";
         }
+
+        private void keyEnterDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                name = champPseudo.Text;
+                if (name.Length >= 10 || name.Length <= 0)
+                {
+                    PopUp pu = new PopUp();
+                    pu.setErreur("Le pseudo ne fait pas la bonne taille");
+                    pu.ShowDialog();
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+        }
+
 
     }
 }

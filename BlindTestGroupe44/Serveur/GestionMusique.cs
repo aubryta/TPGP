@@ -14,9 +14,9 @@ namespace Serveur
 
         private String style = "";
         private String chanson = "";
-        private List<String> chansonsRep = new List<string>();
-        private GestionURL gUrl = new GestionURL();
+        private List<String> chansonsRep = new List<string>();       
         private int nbChoixMax = 0;
+        private String urlBase = "ftp://ftp.magix-online.com";
         /*
          * Pour utiliser cette classe, 
          * 1 - il faut d'abord initialiser la liste (chercheChansons)
@@ -25,42 +25,41 @@ namespace Serveur
          *      les nbChoix premier seront utilisés hors la chanson à trouver
          * 4 - on peux comparer la réponse de l'utilisateur avec la chanson getChanson()
          * 5 - pour recommencer on reprend à l'étape 2
-         */ 
-        public List<String> choixStyle()
+         */
+
+        public List<String> listeSousDossier(String racine)
         {
-            
-            //************
-            /*
-            List<String> listeStyle = new List<string>();
-            DirectoryInfo dir = new DirectoryInfo("Musique");
-            DirectoryInfo[] styles = dir.GetDirectories();
-            if (styles.Length == 0)
-                return null;
-            foreach (DirectoryInfo fichier in styles)
+            List<String> res = new List<string>();
+            // on crée une requete ftp qui demande la liste des repertoire
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(racine);
+            request.Method = WebRequestMethods.Ftp.ListDirectory;
+            // identifiant
+            request.Credentials = new NetworkCredential("aubry.tom@live.fr", "coucou34.");
+            // recupération de la réponse dans un stream
+            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+            Stream responseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(responseStream);
+            String liste = reader.ReadToEnd();
+            // on split le resultat et on ajoute les resultats dans la liste
+            String[] tabStyle = liste.Split(new Char[] { '\n', '\r', ' ', '\t' });
+            for (int i = 0; i < (tabStyle.Length); i++)
             {
-                listeStyle.Add(fichier.Name);
+                if (!tabStyle[i].Equals("index.html") && !tabStyle[i].Equals(""))
+                {
+                    res.Add(tabStyle[i]);
+                }
             }
-            
-            return listeStyle;
-             */
-            return gUrl.listStyle();
+            reader.Close();
+            response.Close();
+            return res;
         }
 
-        public String getStyle()
+
+        public void chercheChansons()
         {
-            return style;
-        }
-        public void setStyle(String style)
-        {
-            this.style = style;
+            chansonsRep = listeSousDossier(urlBase + "/" + style);
         }
 
-        public void setNbChoixMax(int nbChoix)
-        {
-            this.nbChoixMax = nbChoix;
-        }
-        // la liste chanson rep, et retire aléatoirement une chanson pour la 
-        //placer dans chanson
         public void melange()
         {
             //Test lors de la première utilisation (il n'y a aucune chanson précédente)
@@ -84,21 +83,32 @@ namespace Serveur
             chanson = chansonsRep.ElementAt(alea);
             chansonsRep.RemoveAt(alea);
         }
-        
-        //Va rechercher dans le répertoire toutes les chansons et les stockent dans "chansonsRep"
-        public void chercheChansons()
+
+
+        public List<String> choixStyle()
         {
-            
-           /* DirectoryInfo dir = new DirectoryInfo("Musique/" + style + "/");
-            FileInfo[] listeChansons = dir.GetFiles();
-            List<String> listeMusique = new List<string>();
-            for (int i = 0; i < listeChansons.Length; i++)
-            {
-                chansonsRep.Add(listeChansons[i].Name);
-            }*/
-            chansonsRep = gUrl.listeChansons(style);
+            return listeSousDossier(urlBase);
         }
 
+        public String getStyle()
+        {
+            return style;
+        }
+        public void setStyle(String style)
+        {
+            this.style = style;
+        }
+
+        public void setNbChoixMax(int nbChoix)
+        {
+            this.nbChoixMax = nbChoix;
+        }
+        // la liste chanson rep, et retire aléatoirement une chanson pour la 
+        //placer dans chanson
+       
+        
+        //Va rechercher dans le répertoire toutes les chansons et les stockent dans "chansonsRep"
+       
 
 
         //Retourne une liste aléatoire de chanson
@@ -121,13 +131,15 @@ namespace Serveur
             }
             return res;
         }
+
         public String getChanson()
         {
             return chanson;
         }
+
         public String getUrlChanson()
         {
-            return gUrl.getUrlChanson(style, chanson);
+            return "http://tpgp.magix.net/public/" + style + "/" + chanson;
         }
     }
 }

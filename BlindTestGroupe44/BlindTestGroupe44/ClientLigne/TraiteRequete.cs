@@ -229,6 +229,7 @@ namespace BlindTestGroupe44.ClientLigne
             }
             wind.chansonPrecedente.Content = "Première chanson";
             debutPartie = true;
+            client.arretMusique();
         }
 
         /// <summary>

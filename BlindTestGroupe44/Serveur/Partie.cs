@@ -47,7 +47,7 @@ namespace Serveur
                     //On envoi le récapitulatif des scores
                     envoiATous(Requete.infoPartieFinie(lj));
                     resetScores();
-                    Thread.Sleep(5000);
+                    Thread.Sleep(7500);
                     //Après avoir attendu 5 secondes, on recommence une partie
                     envoiATous(Requete.nouvellePartie());
                     envoiScores();

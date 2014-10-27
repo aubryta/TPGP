@@ -46,7 +46,7 @@ namespace BlindTestGroupe44
             gridDebut.Visibility = Visibility.Hidden;
             grid1.Visibility = Visibility.Visible;
             imageFondNom.Visibility = Visibility.Hidden;
-            imageFond.Visibility = Visibility.Visible;
+            imageFond.Visibility = Visibility.Visible;            
             
         }
 
@@ -104,6 +104,15 @@ namespace BlindTestGroupe44
         {
             if (e.Key == Key.Enter)
                 client.validerBoutonClick(sender, e);
+        }
+
+        private void volumeChange(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // ... Get Slider reference.
+            var slider = sender as Slider;
+            // ... Get Value.
+            double value = slider.Value;
+            client.changerVolume(value);
         }
 
 

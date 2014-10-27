@@ -47,6 +47,7 @@ namespace BlindTestGroupe44
             //Contrairement à la version local, on choisit ici le style de musique
             //et non la bibliothéque
             wind.choixBibliBouton.Content = "Style de musique";
+
             connexion();
         }
 
@@ -157,7 +158,7 @@ namespace BlindTestGroupe44
 
         public void changerVolume(double d)
         {
-
+            musicPlayer.volumeFromURL(d);
         }
         public void resetScore()
         {
@@ -205,6 +206,11 @@ namespace BlindTestGroupe44
         public void lireChansonUrl(String url)
         {
             musicPlayer.playFromURL(url);
+        }
+
+        internal void arretMusique()
+        {
+            musicPlayer.stopFromURL();     
         }
     }
 }

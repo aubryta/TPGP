@@ -32,11 +32,13 @@ namespace BlindTestGroupe44
 
         public ClientLocal(MainWindow mw)
         {
+            
             this.wind = mw;
-
+            wind.BarreDeMenu.IsEnabled=false;
             //Les panels d'affichage de mutlijoueur ne sont pas utilisés :
             wind.gridScores.Visibility = Visibility.Hidden;
             wind.gridButton.Visibility = Visibility.Hidden;
+            
           
         }
 
@@ -46,10 +48,8 @@ namespace BlindTestGroupe44
             creationRadioButtons(nbChoix);
             listeRadioButtons = wind.grid2.Children.OfType<System.Windows.Controls.RadioButton>();
             wind.grid1.Visibility = Visibility.Hidden;
-            wind.grid2.Visibility = Visibility.Visible;
-
+            wind.grid2.Visibility = Visibility.Visible;           
             runGame();
-            
         }
 
         public void runGame()
@@ -86,8 +86,7 @@ namespace BlindTestGroupe44
             valider.FontSize = 16;
             valider.Visibility = Visibility.Visible;
             valider.IsEnabled = true;
-            wind.grid2.Children.Add(valider);
-           
+            wind.grid2.Children.Add(valider);           
         }
 
               
@@ -108,7 +107,6 @@ namespace BlindTestGroupe44
             }
             watch.Reset();
             wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();
-
             runGame();
         }
 
@@ -142,8 +140,10 @@ namespace BlindTestGroupe44
                 || wind.moyenButon.IsChecked == true
                 || wind.difficileButon.IsChecked == true)
             {
+                wind.BarreDeMenu.IsEnabled = true;
                 initialiseTest(sender, e);
             }
+
         }
 
         //initialise le contenu des radioButtons avec un nom de chanson (aléatoire) de la bibliothèque choisie
