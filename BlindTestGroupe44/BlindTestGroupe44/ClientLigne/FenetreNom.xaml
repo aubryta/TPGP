@@ -7,7 +7,7 @@
             <Button Name ="valide" Content="Valider" HorizontalAlignment="Left" Margin="207,210,0,0" VerticalAlignment="Top" Width="123" Height="36" FontFamily="Arial" FontSize="16" Click="Button_Click"/>
             <Image HorizontalAlignment="Left" Height="58" Margin="21,25,0,0" VerticalAlignment="Top" Width="156" Source="/BlindTestGroupe44;component/logo.png"/>
             <Label Content="Veuillez entrer un pseudo (10 caractères max) :" HorizontalAlignment="Left" Margin="0,97,-10,0" VerticalAlignment="Top" Width="555" HorizontalContentAlignment="Center" FontFamily="Arial" FontSize="16" FontWeight="Bold"/>
-            <TextBox Name="champPseudo" HorizontalAlignment="Left" Height="31" Margin="134,130,0,0" TextWrapping="Wrap" Text="Pseudo ..." VerticalAlignment="Top" Width="293" FontFamily="Arial" FontSize="16" GotFocus="champPseudo_GotFocus" KeyDown="keyEnterDown"/>
+            <TextBox Name="champPseudo" HorizontalAlignment="Left" Height="31" Margin="134,130,0,0" TextWrapping="Wrap" Text="Pseudo ..." VerticalAlignment="Top" Width="293" FontFamily="Arial" FontSize="16" KeyDown="keyEnterDown" GotFocus="champPseudo_GotFocus"/>
         </Grid>
 
     </Grid>

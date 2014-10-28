@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace BlindTestGroupe44.ClientLigne
 {
-    public class TraiteRequete
+    public class Traitement
     {
         private ASCIIEncoding encodeur = new ASCIIEncoding();
         private ClientServ client = null;

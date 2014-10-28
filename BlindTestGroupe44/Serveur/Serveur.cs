@@ -24,7 +24,13 @@ namespace Serveur
         private TcpListener listen;
         private Thread listenThread;
         private List<Partie> listePartie = new List<Partie>();
+        private GestionMusique gm;
 
+        /// <summary>
+        /// Crée un thread d'écoute de client
+        /// Récupére les identifiants du serveur
+        /// Crée une partie par style de musique
+        /// </summary>
         public void serverStart()
         {
             this.listen = new TcpListener(IPAddress.Any, 25000);
@@ -32,8 +38,15 @@ namespace Serveur
             this.listenThread = new Thread(new ThreadStart(ListenForClients));
             this.listenThread.Start();
 
+            //Récupére les identifiants du serveur ftp
+            Console.WriteLine("Adresse du serveur ftp : ftp://ftp.magix-online.com");
+            Console.Write("Identifiant : ");
+            String idUser = Console.ReadLine();
+            Console.Write("Mot de passe");
+            String mdpUser = Console.ReadLine();
+            Console.WriteLine("salut + " + idUser + " + " + mdpUser);
             //On crée une partie par style de musique
-            GestionMusique gm = new GestionMusique();
+            this.gm = new GestionMusique();
             List<String> styles = gm.choixStyle();
             foreach (String style in styles)
                 listePartie.Add(new Partie(style));
@@ -46,6 +59,9 @@ namespace Serveur
             }
         }
 
+        /// <summary>
+        /// Ecoute en boucle la connection de tous les clients
+        /// </summary>
         private void ListenForClients()
         {
             this.listen.Start();
@@ -60,7 +76,11 @@ namespace Serveur
             }
         }
 
-        //Retourne la partie du style définie en paramètre
+        /// <summary>
+        /// Retourne la partie du style définie en paramètre
+        /// </summary>
+        /// <param name="style">Le style de musique voulu</param>
+        /// <returns>Retourne la partie associée</returns>
         public Partie getPartie(String style)
         {
             for(int i = 0; i <listePartie.Count(); i++)
@@ -85,6 +105,16 @@ namespace Serveur
                     return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// On retourne une gestion musique "générique" pour permettre à la classe échange
+        /// d'envoyer la liste des styles disponibe
+        /// </summary>
+        /// <returns>La gestion musique</returns>
+        public GestionMusique getGM()
+        {
+            return gm;
         }
     }
 }

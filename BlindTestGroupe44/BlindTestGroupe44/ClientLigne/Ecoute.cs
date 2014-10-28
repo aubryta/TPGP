@@ -15,19 +15,30 @@ namespace BlindTestGroupe44.ClientLigne
 
         private Boolean gardeConnexion = true;
         private ASCIIEncoding encodeur = new ASCIIEncoding();
-        private TraiteRequete traiteReq = null;
+        private Traitement traitement = null;
         private Stream stm = null;
 
-        public void setEcoute(TraiteRequete traiteReq)
+        /// <summary>
+        /// Instancie la classe qui va traiter les requêtes.
+        /// </summary>
+        /// <param name="traitement">Classe qui va traiter les requêtes</param>
+        public void setTraitement(Traitement traitement)
         {
-            this.traiteReq = traiteReq;
+            this.traitement = traitement;
         }
 
+        /// <summary>
+        /// Initialise le stream du client
+        /// </summary>
+        /// <param name="stm">Le stream du client</param>
         public void setStream(Stream stm)
         {
             this.stm = stm;
         }
 
+        /// <summary>
+        /// Ecoute en boucle les messages envoyés par le serveur
+        /// </summary>
         public void ecoute()
         {
             while (gardeConnexion)
@@ -51,9 +62,12 @@ namespace BlindTestGroupe44.ClientLigne
                 parse(bufferincmessage);
             }
         }
-        /*
-         * Fonction qui analyse une commande et fait le traitement correspondant
-         */
+
+        /// <summary>
+        /// Fonction qui analyse une commande et fait le traitement correspondant
+        /// En appelant la classe traiteRequete
+        /// </summary>
+        /// <param name="message">Le message recut par le serveur</param>
         private void parse(String message)
         {
             //La commande est "spliter" à chaque ? voir rapport commandes
@@ -69,7 +83,7 @@ namespace BlindTestGroupe44.ClientLigne
                     //La manche précédente est donc termine, on peux envoyer la réponse que l'on a coché
                     Application.Current.Dispatcher.BeginInvoke(
                     DispatcherPriority.Background,
-                    new Action(() => traiteReq.envoiReponse()));
+                    new Action(() => traitement.envoiReponse()));
                     List<String> chansons = new List<String>();
                     for (int i = 1; i < tabMessage.Length; i++)
                     {
@@ -78,7 +92,7 @@ namespace BlindTestGroupe44.ClientLigne
                     //On crée les boutons radios correspondant
                     Application.Current.Dispatcher.BeginInvoke(
                     DispatcherPriority.Background,
-                    new Action(() => traiteReq.creationRadioButtons(chansons)));
+                    new Action(() => traitement.creationRadioButtons(chansons)));
                 }
                 else if (tabMessage[0].Equals("INFO"))
                 {
@@ -88,29 +102,29 @@ namespace BlindTestGroupe44.ClientLigne
                     {
                         Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
-                        new Action(() => traiteReq.chansonPrecedente(tabMessage[2])));
+                        new Action(() => traitement.chansonPrecedente(tabMessage[2])));
                     }
                     else if (tabMessage[1].Equals("MAUVAISECHANSON"))
                     {
                         //Sinon on affiche juste la chanson 
                         Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
-                        new Action(() => traiteReq.chansonPrecedente(tabMessage[2])));
+                        new Action(() => traitement.chansonPrecedente(tabMessage[2])));
                     }
                     else if(tabMessage[1].Equals("PSEUDOINCORRECT"))
                     {
-                        traiteReq.pseudoErreur();
+                        traitement.pseudoErreur();
                     }
                     else if(tabMessage[1].Equals("SCORES"))
                     {
                         //INFO?SCORES?joueur&score?joueur&score?...
                         Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
-                        new Action(() => traiteReq.infoScores(tabMessage)));
+                        new Action(() => traitement.infoScores(tabMessage)));
                     }
                     else if (tabMessage[1].Equals("CHANSON"))
                     {
-                        traiteReq.lireChanson(tabMessage[2]);
+                        traitement.lireChanson(tabMessage[2]);
                     }
                     else if(tabMessage[1].Equals("PARTIEFINIE"))
                     {
@@ -123,14 +137,14 @@ namespace BlindTestGroupe44.ClientLigne
                         }
                         Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
-                        new Action(() => traiteReq.partieFinie(scores)));
+                        new Action(() => traitement.partieFinie(scores)));
                     }
                     else if(tabMessage[1].Equals("NOUVELLEPARTIE"))
                     {
                         //On remet le panel pour jouer
                         Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
-                        new Action(() => traiteReq.nouvellePartie()));
+                        new Action(() => traitement.nouvellePartie()));
                     }
                 }
                 else if (tabMessage[0].Equals("DECONNEXION"))
@@ -139,11 +153,11 @@ namespace BlindTestGroupe44.ClientLigne
                 }
                 else if (tabMessage[0].Equals("MESSAGE"))
                 {//affiche un simple message
-                    traiteReq.message(tabMessage[1]);
+                    traitement.message(tabMessage[1]);
                 }
                 else if (tabMessage[0].Equals("OPTIONS"))
                 {//initialise l'incrémentation des points à chaque bonne réponse et le nombre de bonne répone
-                    traiteReq.initialisationOptions(int.Parse(tabMessage[1]));
+                    traitement.initialisationOptions(int.Parse(tabMessage[1]));
                 }
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
@@ -152,15 +166,15 @@ namespace BlindTestGroupe44.ClientLigne
                     {
                         listStyles.Add(tabMessage[i]);
                     }
-                    traiteReq.fenetreStyle(listStyles);
+                    traitement.fenetreStyle(listStyles);
                 }
                 else if(tabMessage[0].Equals("ERREUR"))
                 {
-                    traiteReq.erreur(tabMessage[1]);
+                    traitement.erreur(tabMessage[1]);
                 }
                 else
                 {
-                    traiteReq.erreur("Commande inconnue" + message);
+                    traitement.erreur("Commande inconnue" + message);
                 }
             }
         }

@@ -25,7 +25,7 @@ namespace BlindTestGroupe44
          */ 
         private Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         private MainWindow wind = new MainWindow();
-        private TraiteRequete traiteRequete = new TraiteRequete();
+        private Traitement traiteRequete = new Traitement();
         private MusicPlayer musicPlayer = new MusicPlayer();
         private Ecoute ecoute = new Ecoute();
         private String name = "";
@@ -43,7 +43,7 @@ namespace BlindTestGroupe44
             this.wind = mw;
 
             traiteRequete.setTraite(this, wind, listeRadioButtons);
-            ecoute.setEcoute(traiteRequete);
+            ecoute.setTraitement(traiteRequete);
             //Contrairement à la version local, on choisit ici le style de musique
             //et non la bibliothéque
             wind.choixBibliBouton.Content = "Style de musique";

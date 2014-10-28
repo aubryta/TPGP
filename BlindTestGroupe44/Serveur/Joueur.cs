@@ -18,15 +18,24 @@ namespace Serveur
         private IOptions io = null;
         private String style = "";
 
+        /// <summary>
+        /// Associe une difficulté à un joueur
+        /// </summary>
+        /// <param name="difficulte">Le nom de la chanson à trouver</param>
         public void setDifficulte(String difficulte)
         {
-            
+            //La difficulté est est recherchée, et les options sont définies
             OptionsFactory of = new OptionsFactory();
             io = of.createOptions(difficulte);
             this.nbChoix = io.getNbChoix();
             this.incrPoint = io.getIncr();
 
         }
+
+        /// <summary>
+        /// Retourne la valeur d'incrémentation du score à chaque bonne réponse
+        /// </summary>
+        /// <returns>Valeur de l'incrémentation</returns>
         public int getIncr()
         {
             return incrPoint;
@@ -79,6 +88,11 @@ namespace Serveur
         {
             return stm;
         }
+
+        /// <summary>
+        /// Incrémente le score du joueur
+        /// </summary>
+        /// <returns>Retourne le score</returns>
         public int incrScore()
         {
             score += incrPoint;

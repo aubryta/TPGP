@@ -21,10 +21,10 @@ namespace BlindTestGroupe44.ClientLigne
     public partial class FenetreStyle : Window
     {
         private IEnumerable<System.Windows.Controls.Button> listeButtons = null;
-        private TraiteRequete traiteReq = null;
+        private Traitement traiteReq = null;
         private String style = null;
 
-        public FenetreStyle(TraiteRequete traiteReq)
+        public FenetreStyle(Traitement traiteReq)
         {
             InitializeComponent();
             this.traiteReq = traiteReq;

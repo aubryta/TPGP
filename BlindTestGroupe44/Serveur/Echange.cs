@@ -22,6 +22,7 @@ namespace Serveur
         private Joueur joueur = null;
         private Serveur serv = null;
         private Partie partie = null;
+        private GestionMusique gm = null;
 
         /// <summary>
         /// Initialise la classe échange est écoute en boucle sur un client
@@ -29,12 +30,16 @@ namespace Serveur
         /// <param name="client">Le client sous format tcp</param>
         /// <param name="j">Un joueur j</param>
         /// <param name="s">Et le serveur pour accéder à la partie</param>
-        public void Connexion(object client, object j, Serveur s)
+        public void Connexion(TcpClient client, Joueur j, Serveur s)
         {
+            /*
             TcpClient tcpClient = (TcpClient)client;
             this.joueur = j as Joueur;
             this.serv = s;
-
+            */
+            TcpClient tcpClient = client;
+            joueur = j;
+            serv = s;
             NetworkStream cstm = tcpClient.GetStream();
             joueur.setStream(cstm);
 
@@ -93,7 +98,7 @@ namespace Serveur
                 }
                 else if (tabMessage[0].Equals("CHOIXSTYLE"))
                 {
-                    GestionMusique gm = new GestionMusique();
+                    GestionMusique gm = serv.getGM();
                     List<String> listeStyle = gm.choixStyle();
                     if (listeStyle == null)
                     {
@@ -173,15 +178,12 @@ namespace Serveur
                 /*if(!tabMessage[2].Equals("t"))
                     send("INFO?PSEUDOINCORRECT", cstm);
                  */
-                Console.WriteLine(tabMessage[2]);
                 if (serv.existePseudo(tabMessage[2]))
                 {
-                    Console.WriteLine(tabMessage[2]);
                     send(Requete.infoPseudoIncorrect(), joueur.getStream());
                 }
                 else
                 {
-                    Console.WriteLine(tabMessage[2]);
                     joueur.setName(tabMessage[2]);
                 }
             }

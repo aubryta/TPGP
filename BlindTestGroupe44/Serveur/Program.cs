@@ -9,6 +9,10 @@ namespace Serveur
 {
     class Program
     {
+        /// <summary>
+        /// Crée et lance l'application serveur
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             Serveur serv = new Serveur();

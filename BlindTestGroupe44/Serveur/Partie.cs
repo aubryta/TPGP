@@ -15,7 +15,7 @@ namespace Serveur
         private List<Joueur> lj = new List<Joueur>();
         private String chansonPrecedente = "";
         private String style = "";
-        private GestionMusique gm = new GestionMusique();
+        private GestionMusique gm = null;
 
         private Boolean partieFinie = false;
         private int cptManche = 0;
@@ -26,6 +26,7 @@ namespace Serveur
         /// <param name="style">le style qui correspond à cette classe</param>
         public Partie(String style)
         {
+            gm = new GestionMusique();
             this.style = style;
             gm.setStyle(style);
             gm.chercheChansons();
@@ -148,7 +149,7 @@ namespace Serveur
             }
             catch
             {
-                Console.WriteLine("Erreur, le joueur " + j.getName() + " n'existe déjà plus");
+                Console.WriteLine("Erreur : Le joueur " + j.getName() + " n'existe déjà plus");
             }
         }
 
@@ -186,7 +187,6 @@ namespace Serveur
                 //Et on les envois à tous les joueurs
                 try 
                 {
-                    Console.WriteLine("normalement on envoi ici");
                     List<String> chansons = gm.listeChansons(j.getNbChoix());
                     envoi(Requete.infoChanson(gm.getUrlChanson()),j.getStream());
                     envoi(Requete.musique(chansons), j.getStream());
@@ -251,5 +251,7 @@ namespace Serveur
             }
             return false;
         }
+
+       
     }
 }

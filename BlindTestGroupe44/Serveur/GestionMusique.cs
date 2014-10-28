@@ -17,24 +17,35 @@ namespace Serveur
         private List<String> chansonsRep = new List<string>();       
         private int nbChoixMax = 0;
         private String urlBase = "ftp://ftp.magix-online.com";
-        /*
-         * Pour utiliser cette classe, 
-         * 1 - il faut d'abord initialiser la liste (chercheChansons)
-         * 2 - trouver aléatoirement une chanson et mélanger la liste (melange)
-         * 3 - on utilise le nombre de choix voulu (listechanson(nbChoix) : vu que la liste est mélangé à chaque fois, 
-         *      les nbChoix premier seront utilisés hors la chanson à trouver
-         * 4 - on peux comparer la réponse de l'utilisateur avec la chanson getChanson()
-         * 5 - pour recommencer on reprend à l'étape 2
-         */
 
-        public List<String> listeSousDossier(String racine)
+        private String idUser = "";
+        private String mdpUser = "";
+
+        /// <summary>
+        /// On initialise la classe avec l'identifiant et le mot de passe
+        /// du serveur ftp
+        /// </summary>
+        /// <param name="id">identifiant utilisateur</param>
+        /// <param name="mdp">mot de passe utilisateur</param>
+        public GestionMusique()
+        {
+            this.idUser = "aubry.tom@live.fr";
+            this.mdpUser = "coucou34.";
+        }
+
+        /// <summary>
+        /// Retourne la liste des fichiers contenu dans le répertoire en paramètre
+        /// </summary>
+        /// <param name="repertoire">Adresse du répertoire</param>
+        /// <returns>La liste des fichiers du serveur</returns>
+        public List<String> listeSousDossier(String repertoire)
         {
             List<String> res = new List<string>();
             // on crée une requete ftp qui demande la liste des repertoire
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(racine);
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(repertoire);
             request.Method = WebRequestMethods.Ftp.ListDirectory;
             // identifiant
-            request.Credentials = new NetworkCredential("aubry.tom@live.fr", "coucou34.");
+            request.Credentials = new NetworkCredential(idUser, mdpUser);
             // recupération de la réponse dans un stream
             FtpWebResponse response = (FtpWebResponse)request.GetResponse();
             Stream responseStream = response.GetResponseStream();
@@ -54,12 +65,20 @@ namespace Serveur
             return res;
         }
 
-
+        /// <summary>
+        /// Stocke dans une liste les chansons contenu dans le style de musique
+        /// associé au style de la classe GestionMusique
+        /// </summary>
         public void chercheChansons()
         {
             chansonsRep = listeSousDossier(urlBase + "/" + style);
         }
 
+        /// <summary>
+        /// Mélange la liste de chanson du style de musique concerné, 
+        /// Retire également une chanson tiré aléatoirement qui sera la chanson
+        /// a trouver.
+        /// </summary>
         public void melange()
         {
             //Test lors de la première utilisation (il n'y a aucune chanson précédente)
@@ -84,35 +103,49 @@ namespace Serveur
             chansonsRep.RemoveAt(alea);
         }
 
-
+        /// <summary>
+        /// Cherche la liste des styles du serveur depuis la racine
+        /// </summary>
+        /// <returns>La liste des style</returns>
         public List<String> choixStyle()
         {
             return listeSousDossier(urlBase);
         }
 
+        /// <summary>
+        /// Retourne le style associé a la gestion de la musique
+        /// </summary>
+        /// <returns>Le style associé</returns>
         public String getStyle()
         {
             return style;
         }
+
+        /// <summary>
+        /// Associe un style de musique à la gestion de musique d'une partie
+        /// </summary>
+        /// <param name="style">Le style à associer</param>
         public void setStyle(String style)
         {
             this.style = style;
         }
 
+        /// <summary>
+        /// Associe le nombre de chanson qui seront tirés au maximum dans une chanson
+        /// </summary>
+        /// <param name="nbChoix">Le nombre de chanson possible</param>
         public void setNbChoixMax(int nbChoix)
         {
             this.nbChoixMax = nbChoix;
         }
-        // la liste chanson rep, et retire aléatoirement une chanson pour la 
-        //placer dans chanson
-       
-        
-        //Va rechercher dans le répertoire toutes les chansons et les stockent dans "chansonsRep"
-       
 
-
-        //Retourne une liste aléatoire de chanson
-        //Sauvegarde une chanson parmis cette liste dans "chanson".
+        //
+        /// <summary>
+        /// Retourne une liste aléatoire de chanson
+        /// Avec la chanson à trouvé aléatoirement placée dedans
+        /// </summary>
+        /// <param name="nbChansons">Le nombre de chanson de la liste</param>
+        /// <returns>La liste de chanson à retournée</returns>
         public List<String> listeChansons(int nbChansons)
         {
             if (chansonsRep.Count == 0)
@@ -132,11 +165,19 @@ namespace Serveur
             return res;
         }
 
+        /// <summary>
+        /// Retourne la chanson qui est à trouver lors de la manche
+        /// </summary>
+        /// <returns>La chanson qui est à trouver</returns>
         public String getChanson()
         {
             return chanson;
         }
 
+        /// <summary>
+        /// Retourne l'url de la chanson qui est a trouver
+        /// </summary>
+        /// <returns>L'url de la chanson qui est a trouver</returns>
         public String getUrlChanson()
         {
             return "http://tpgp.magix.net/public/" + style + "/" + chanson;

@@ -28,6 +28,9 @@ namespace BlindTestGroupe44.ClientLigne
            
         }
 
+        /// <summary>
+        /// Lorsque le pseudo est déjà utilisé, on affiche une popup pour le signaler
+        /// </summary>
         public void pseudoExistant()
         {
             PopUp pu = new PopUp();
@@ -36,6 +39,12 @@ namespace BlindTestGroupe44.ClientLigne
 
         }
        
+        /// <summary>
+        /// Lorsque le bouton valider est cliqué, si le pseudo à la bonne taille
+        /// on valide et on quitte la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             
@@ -52,6 +61,10 @@ namespace BlindTestGroupe44.ClientLigne
             }
         }
 
+        /// <summary>
+        /// Retourne le pseudo qui a été validé
+        /// </summary>
+        /// <returns>Le nom à retourner</returns>
         public String getName()
         {
             return name;
