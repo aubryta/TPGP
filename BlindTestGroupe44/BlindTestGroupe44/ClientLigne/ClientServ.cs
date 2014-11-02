@@ -212,5 +212,10 @@ namespace BlindTestGroupe44
         {
             musicPlayer.stopFromURL();     
         }
+
+        internal void askBestScores()
+        {
+            envoi(Requete.bestScores());
+        }
     }
 }

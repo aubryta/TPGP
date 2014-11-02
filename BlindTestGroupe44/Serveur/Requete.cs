@@ -143,12 +143,12 @@ namespace Serveur
         public static String bestScores(Serveur serv)
         {
             List<Partie> lp = serv.getParties();
-            String res = "BESTSCORES";
+            String res = "BESTSCORE";
             for (int i = 0; i < lp.Count ;i++ )
             {
                 res += unePartie(lp[i]);
             }
-            if (res.Equals("BESTSCORES")) //si aucune partie n'a était jouée :
+            if (res.Equals("BESTSCORE")) //si aucune partie n'a était jouée :
                 return res + "?KO";
             return res;
                 
@@ -165,7 +165,7 @@ namespace Serveur
             //Si le fichier existe
             if (File.Exists("bestScore" + p.getStyle() + ".xml"))
             {
-                res = "?style&" + p.getStyle();
+                res = "?" + p.getStyle();
                 JoueurSerialisable[] ljs = p.readBestScores();
                 for (int i = 0; i < ljs.Length; i++)
                 {

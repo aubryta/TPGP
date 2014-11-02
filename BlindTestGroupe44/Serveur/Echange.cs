@@ -114,7 +114,7 @@ namespace Serveur
                     Console.WriteLine("Le joueur " + joueur.getName() + " est retiré du serveur");
                     partie.removeJoueur(joueur);
                 }
-                else if( tabMessage[0].Equals("BESTSCORES"))
+                else if( tabMessage[0].Equals("BESTSCORE"))
                 {
                     //Si on a mis un style en paramètre
                     send(Requete.bestScores(serv), joueur.getStream());

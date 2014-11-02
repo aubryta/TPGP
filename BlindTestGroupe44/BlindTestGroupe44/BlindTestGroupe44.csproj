@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ClientLigne\FenetreBestScorse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ClientLigne\FenetreNom.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -73,6 +77,9 @@
     </Compile>
     <Compile Include="ClientLigne\ClientServ.cs" />
     <Compile Include="ClientLigne\Ecoute.cs" />
+    <Compile Include="ClientLigne\FenetreBestScorse.xaml.cs">
+      <DependentUpon>FenetreBestScorse.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ClientLigne\FenetreNom.xaml.cs">
       <DependentUpon>FenetreNom.xaml</DependentUpon>
     </Compile>

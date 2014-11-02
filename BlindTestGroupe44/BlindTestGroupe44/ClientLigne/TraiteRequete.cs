@@ -15,7 +15,7 @@ namespace BlindTestGroupe44.ClientLigne
         private ClientServ client = null;
         private int nbRadios = 0;
         private MainWindow wind = null;
-        private Boolean debutPartie = true;
+        private Boolean debutPartie = true;        
 
         IEnumerable<System.Windows.Controls.RadioButton> listeRadioButtons = null;
 
@@ -185,6 +185,52 @@ namespace BlindTestGroupe44.ClientLigne
             }
         }
 
+        internal void infoBestScores(string[] tabMessage)
+        {
+            FenetreBestScores fenetre = new FenetreBestScores();           
+            Thickness thickNom = new Thickness();
+            thickNom.Left=100;
+            thickNom.Top = 100;
+            Thickness thickScore = new Thickness();
+            thickScore.Left = 150;
+            thickScore.Top = 100;
+            Thickness thickStyle = new Thickness();
+            thickStyle.Left = 100;
+            thickStyle.Top = 50;
+            Label nomScore = new Label();
+            Label valeurScore = new Label();          
+            for (int i = 1; i < tabMessage.Length; i++)
+            {
+                string[] tabTemp = tabMessage[i].Split('&');
+                if (tabTemp.Length == 1)
+                {
+                    Console.WriteLine("Stylefound");
+                    String style = tabTemp[0];
+                    Label styleLabel = new Label();
+                    styleLabel.FontSize = 18;
+                    styleLabel.Content = style;
+                    styleLabel.Margin = thickStyle;
+                    fenetre.gridScores.Children.Add(styleLabel);
+                    nomScore = new Label();
+                    valeurScore = new Label();
+                    nomScore.Margin = thickNom;
+                    valeurScore.Margin = thickScore;
+                    fenetre.gridScores.Children.Add(nomScore);
+                    fenetre.gridScores.Children.Add(valeurScore);
+                    thickNom.Left = thickNom.Left + 100;
+                    thickScore.Left = thickScore.Left + 100;
+                    thickStyle.Left = thickStyle.Left + 100;
+                }
+                else
+                {                                                     
+                        nomScore.Content += tabTemp[0] + "\n";
+                        valeurScore.Content += tabTemp[1] + "\n";
+
+                }
+            }
+            fenetre.Visibility=Visibility.Visible;
+        }
+
         //Envoi la chanson proposer par l'utilisateur
         public void envoiReponse()
         {
@@ -245,6 +291,7 @@ namespace BlindTestGroupe44.ClientLigne
         {
             client.lireChansonUrl(p);
         }
+
 
     }
 }

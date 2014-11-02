@@ -172,6 +172,14 @@ namespace BlindTestGroupe44.ClientLigne
                 {
                     traitement.erreur(tabMessage[1]);
                 }
+                else if (tabMessage[0].Equals("BESTSCORE"))
+                {
+                    Application.Current.Dispatcher.BeginInvoke(
+                        DispatcherPriority.Background,
+                        new Action(() => traitement.infoBestScores(tabMessage)));
+
+
+                }
                 else
                 {
                     traitement.erreur("Commande inconnue" + message);

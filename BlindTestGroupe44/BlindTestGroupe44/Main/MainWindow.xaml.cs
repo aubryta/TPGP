@@ -115,6 +115,12 @@ namespace BlindTestGroupe44
             client.changerVolume(value);
         }
 
+        private void askBestScore(object sender, RoutedEventArgs e)
+        {
+            if(client.GetType()==typeof(ClientServ))
+                ((ClientServ)client).askBestScores();
+        }
+
 
       
       

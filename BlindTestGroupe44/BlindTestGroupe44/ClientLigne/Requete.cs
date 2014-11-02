@@ -32,6 +32,10 @@ namespace BlindTestGroupe44.ClientLigne
         {
             return "INFO?NAME?" + name;
         }
+        public static String bestScores()
+        {
+            return "BESTSCORE?";
+        }
         public static String deconnexion()
         {
             return "DECONNEXION?";
