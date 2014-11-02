@@ -38,13 +38,6 @@ namespace Serveur
             this.listenThread = new Thread(new ThreadStart(ListenForClients));
             this.listenThread.Start();
 
-            //Récupére les identifiants du serveur ftp
-            Console.WriteLine("Adresse du serveur ftp : ftp://ftp.magix-online.com");
-            Console.Write("Identifiant : ");
-            String idUser = Console.ReadLine();
-            Console.Write("Mot de passe");
-            String mdpUser = Console.ReadLine();
-            Console.WriteLine("salut + " + idUser + " + " + mdpUser);
             //On crée une partie par style de musique
             this.gm = new GestionMusique();
             List<String> styles = gm.choixStyle();

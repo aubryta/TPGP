@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Serveur
 {
@@ -41,24 +43,15 @@ namespace Serveur
             if (lj.Count > 0)
             {
                 //Si la partie est finie
-                if (cptManche >= 5)
+                if (cptManche >= 2)
                 {
-                    partieFinie = true;
-                    cptManche = 0;
-                    //On envoi le récapitulatif des scores
-                    envoiATous(Requete.infoPartieFinie(lj));
-                    resetScores();
-                    Thread.Sleep(7500);
-                    //Après avoir attendu 5 secondes, on recommence une partie
-                    envoiATous(Requete.nouvellePartie());
-                    envoiScores();
-                    runGame();
+                    finDePartie();
                 }
                 else
                 {
                     cptManche++;
                     nouvelleManche();
-                    Thread.Sleep(5000);
+                    Thread.Sleep(2000);
                     runGame();
                 }
             }
@@ -79,14 +72,14 @@ namespace Serveur
         /// <param name="message">message à envoyer</param>
         public void envoiATous(String message)
         {
-            foreach(Joueur j in lj)
+            foreach (Joueur j in lj)
             {
                 try
                 {
                     if (j.getStream() != null)
                         envoi(message, j.getStream());
                 }
-                catch 
+                catch
                 {
                     lj.Remove(j);
                 }
@@ -114,7 +107,7 @@ namespace Serveur
         {
             lj.Add(j);
             //Si le serveur était vide et que un premier utilisateur se connecte
-            if(lj.Count == 1)
+            if (lj.Count == 1)
             {
                 //on peux lancer la diffusion des chansons
                 Thread th = new Thread(runGame);
@@ -182,13 +175,13 @@ namespace Serveur
             //On remélange les chansons
             gm.melange();
             List<Joueur> ljTmp = new List<Joueur>();
-            foreach(Joueur j in lj)
+            foreach (Joueur j in lj)
             {
                 //Et on les envois à tous les joueurs
-                try 
+                try
                 {
                     List<String> chansons = gm.listeChansons(j.getNbChoix());
-                    envoi(Requete.infoChanson(gm.getUrlChanson()),j.getStream());
+                    envoi(Requete.infoChanson(gm.getUrlChanson()), j.getStream());
                     envoi(Requete.musique(chansons), j.getStream());
                 }
                 catch
@@ -219,7 +212,7 @@ namespace Serveur
         /// </summary>
         /// <returns>gestionnaire de musique d'une partie</returns>
         public GestionMusique getGestionMusique()
-        { 
+        {
             return gm;
         }
 
@@ -228,7 +221,7 @@ namespace Serveur
         /// </summary>
         private void resetScores()
         {
-            foreach(Joueur j in lj)
+            foreach (Joueur j in lj)
             {
                 j.setScore(0);
             }
@@ -241,7 +234,7 @@ namespace Serveur
         /// <returns>la validité du pseudo</returns>
         public Boolean existePseudo(String pseudo)
         {
-            foreach(Joueur j in lj)
+            foreach (Joueur j in lj)
             {
                 if (!j.getName().Equals("")) //En gros son pseudo qui n'est pas encore initialisé
                 {
@@ -252,6 +245,105 @@ namespace Serveur
             return false;
         }
 
-       
+        /// <summary>
+        /// A la fin d'une partie, affiche pendant 5 secondes les scores et réinitialise tout
+        /// </summary>
+        public void finDePartie()
+        {
+            partieFinie = true;
+            cptManche = 0;
+            //On envoi le récapitulatif des scores
+            envoiATous(Requete.infoPartieFinie(lj));
+            //On écrit éventuellement les meilleurs scores dans le fichier xml correspondant
+            ecritScore();
+            resetScores();
+            Thread.Sleep(7500);
+            //Après avoir attendu 5 secondes, on recommence une partie
+            envoiATous(Requete.nouvellePartie());
+            envoiScores();
+            runGame();
+        }
+
+        /// <summary>
+        /// Regarde parmis la liste des joueurs si il existe un joueur pouvant faire partie des meilleurs scores et l'écrit si oui.
+        /// </summary>
+        public void ecritScore()
+        {
+            //On ajoute tous les joueurs à une liste
+            List<JoueurSerialisable> ljs = new List<JoueurSerialisable>();
+            for (int i = 0; i < lj.Count; i++)
+            {
+                JoueurSerialisable js = new JoueurSerialisable
+                {
+                    nom = lj[i].getName(),
+                    score = lj[i].getScore()
+                };
+                ljs.Add(js);
+            }
+
+            //On récupére les anciens joueurs et on les ajoutent à cette même liste
+            JoueurSerialisable[] tabjs = readBestScores();
+            for (int i = 0; i < tabjs.Length; i++)
+            {
+                ljs.Add(tabjs[i]);
+            }
+
+            ljs = bestJoueur(ljs);
+
+            //Puis on les écrit dans le fichier à la fin
+            XmlSerializer xs = new XmlSerializer(typeof(List<JoueurSerialisable>));
+            using (StreamWriter wr = new StreamWriter("bestScore" + style + ".xml"))
+            {
+                xs.Serialize(wr, ljs);
+            }
+        }
+
+        /// <summary>
+        /// Lit et renvoie la liste des meilleurs joueurs de ce style la
+        /// </summary>
+        /// <returns>Liste des meilleurs joueurs de ce style</returns>
+        public JoueurSerialisable[] readBestScores()
+        {
+            XmlSerializer xRead = new XmlSerializer(typeof(JoueurSerialisable[]));
+            JoueurSerialisable[] ljs;
+            using (StreamReader rd = new StreamReader("bestScore" + style + ".xml"))
+            {
+                ljs = xRead.Deserialize(rd) as JoueurSerialisable[];
+            }
+            return ljs;
+        }
+
+        /// <summary>
+        /// Récupére les meilleurs joueurs d'une liste et les renvois
+        /// </summary>
+        /// <param name="ljs">La liste à analyser</param>
+        /// <returns>Les meilleurs joueurs</returns>
+        public List<JoueurSerialisable> bestJoueur(List<JoueurSerialisable> ljs)
+        {
+            //On calcul le minimum entre 10 et la taille de la liste
+            int tailleAffiche = 10;
+            if (ljs.Count < 10)
+                tailleAffiche = ljs.Count;
+
+            //On tri et on ajoute les 10 premiers à une nouvelle liste
+            List<JoueurSerialisable> newljs = new List<JoueurSerialisable>();
+            for (int i = 0; i < tailleAffiche; i++)
+            {
+                int best = -1;
+                JoueurSerialisable js = null;
+                for (int j = 0; j < ljs.Count; j++)
+                {
+                    if (ljs[j].score > best)
+                    {
+                        js = ljs[j];
+                        best = ljs[j].score;
+                    }
+
+                }
+                newljs.Add(js); //On vient donc de récuperer le meilleur joueur de la liste
+                ljs.Remove(js);
+            }
+            return newljs;
+        }
     }
 }

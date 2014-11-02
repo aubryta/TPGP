@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -132,6 +133,27 @@ namespace Serveur
         public static String nouvellePartie()
         {
             return "INFO?NOUVELLEPARTIE?";
+        }
+
+        /// <summary>
+        /// Envoi la liste des meilleurs scores après lecture dans le fichier xml de la
+        /// partie correspondant
+        /// </summary>
+        /// <param name="p">La partie que l'ont veux</param>
+        /// <returns>La liste des meilleurs scores</returns>
+        public static String bestScores(Partie p)
+        {
+            //Si le fichier existe
+            if (File.Exists("bestScore"+p.getStyle()+".xml"))
+            {
+                String res = "BESTSCORES";
+                JoueurSerialisable[] ljs = p.readBestScores();
+                for(int i = 0 ; i < ljs.Length; i++)
+                {
+                    res += "?" + ljs[i].nom + "&" + ljs[i].score;
+                }
+            }
+            return "BESTSCORES?KO";
         }
     }
 }

@@ -109,10 +109,16 @@ namespace Serveur
                         send(Requete.choixStyle(listeStyle), joueur.getStream());
                     }
                 }
-                else if( tabMessage [0].Equals("DECONNEXION"))
+                else if( tabMessage[0].Equals("DECONNEXION"))
                 {
                     Console.WriteLine("Le joueur " + joueur.getName() + " est retiré du serveur");
                     partie.removeJoueur(joueur);
+                }
+                else if( tabMessage[0].Equals("BESTSCORES"))
+                {
+                    //Si on a mis un style en paramètre
+                    send(Requete.bestScores(serv.getPartie(tabMessage[1])), joueur.getStream());
+
                 }
             }
         }
