@@ -304,11 +304,15 @@ namespace Serveur
         /// <returns>Liste des meilleurs joueurs de ce style</returns>
         public JoueurSerialisable[] readBestScores()
         {
-            XmlSerializer xRead = new XmlSerializer(typeof(JoueurSerialisable[]));
-            JoueurSerialisable[] ljs;
-            using (StreamReader rd = new StreamReader("bestScore" + style + ".xml"))
+            JoueurSerialisable[] ljs = {} ;
+            if (File.Exists("bestScore" + style + ".xml"))
             {
-                ljs = xRead.Deserialize(rd) as JoueurSerialisable[];
+                XmlSerializer xRead = new XmlSerializer(typeof(JoueurSerialisable[]));
+                using (StreamReader rd = new StreamReader("bestScore" + style + ".xml"))
+                {
+                    ljs = xRead.Deserialize(rd) as JoueurSerialisable[];
+                }
+                return ljs;
             }
             return ljs;
         }

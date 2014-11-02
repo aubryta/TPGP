@@ -117,7 +117,7 @@ namespace Serveur
                 else if( tabMessage[0].Equals("BESTSCORES"))
                 {
                     //Si on a mis un style en paramètre
-                    send(Requete.bestScores(serv.getPartie(tabMessage[1])), joueur.getStream());
+                    send(Requete.bestScores(serv), joueur.getStream());
 
                 }
             }

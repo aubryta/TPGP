@@ -136,24 +136,43 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Envoi la liste des meilleurs scores après lecture dans le fichier xml de la
-        /// partie correspondant
+        /// Envoie tous les meilleurs scores de toutes les parties du serveur
         /// </summary>
-        /// <param name="p">La partie que l'ont veux</param>
-        /// <returns>La liste des meilleurs scores</returns>
-        public static String bestScores(Partie p)
+        /// <param name="serv">le serveur</param>
+        /// <returns>les meilleurs parties</returns>
+        public static String bestScores(Serveur serv)
         {
-            //Si le fichier existe
-            if (File.Exists("bestScore"+p.getStyle()+".xml"))
+            List<Partie> lp = serv.getParties();
+            String res = "BESTSCORES";
+            for (int i = 0; i < lp.Count ;i++ )
             {
-                String res = "BESTSCORES";
+                res += unePartie(lp[i]);
+            }
+            if (res.Equals("BESTSCORES")) //si aucune partie n'a était jouée :
+                return res + "?KO";
+            return res;
+                
+        }
+
+        /// <summary>
+        /// Envoi tous les meilleurs scores d'une partie
+        /// </summary>
+        /// <param name="p">la partie</param>
+        /// <returns>les meilleurs scores</returns>
+        public static String unePartie(Partie p)
+        {
+            String res = "";
+            //Si le fichier existe
+            if (File.Exists("bestScore" + p.getStyle() + ".xml"))
+            {
+                res = "?style&" + p.getStyle();
                 JoueurSerialisable[] ljs = p.readBestScores();
-                for(int i = 0 ; i < ljs.Length; i++)
+                for (int i = 0; i < ljs.Length; i++)
                 {
                     res += "?" + ljs[i].nom + "&" + ljs[i].score;
                 }
             }
-            return "BESTSCORES?KO";
+            return res; ;
         }
     }
 }

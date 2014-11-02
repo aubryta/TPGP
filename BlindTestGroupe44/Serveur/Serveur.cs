@@ -109,5 +109,10 @@ namespace Serveur
         {
             return gm;
         }
+
+        public List<Partie> getParties()
+        {
+            return listePartie;
+        }
     }
 }
