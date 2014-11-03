@@ -87,7 +87,7 @@
       <DependentUpon>FenetreStyle.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientLigne\Requete.cs" />
-    <Compile Include="ClientLigne\TraiteRequete.cs" />
+    <Compile Include="ClientLigne\Traitement.cs" />
     <Compile Include="ClientLocal\ClientLocal.cs" />
     <Compile Include="Main\IClient.cs" />
     <Compile Include="Main\MainWindow.xaml.cs">
@@ -176,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Main\fond popup.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ClientLigne\fond style.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

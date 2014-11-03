@@ -250,19 +250,23 @@ namespace Serveur
         /// </summary>
         public void finDePartie()
         {
+            envoiATous(Requete.finDePartie());
             partieFinie = true;
             cptManche = 0;
+            //On attend de recevoir tous les scores
+            Thread.Sleep(5000);
             //On envoi le récapitulatif des scores
             envoiATous(Requete.infoPartieFinie(lj));
             //On écrit éventuellement les meilleurs scores dans le fichier xml correspondant
             ecritScore();
             resetScores();
             Thread.Sleep(7500);
-            //Après avoir attendu 5 secondes, on recommence une partie
+            //Après avoir attendu 7.5 secondes, on recommence une partie
             envoiATous(Requete.nouvellePartie());
             envoiScores();
             runGame();
         }
+
 
         /// <summary>
         /// Regarde parmis la liste des joueurs si il existe un joueur pouvant faire partie des meilleurs scores et l'écrit si oui.

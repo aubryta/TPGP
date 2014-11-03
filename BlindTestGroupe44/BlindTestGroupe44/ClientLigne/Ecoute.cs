@@ -128,6 +128,10 @@ namespace BlindTestGroupe44.ClientLigne
                     }
                     else if(tabMessage[1].Equals("PARTIEFINIE"))
                     {
+                        Application.Current.Dispatcher.BeginInvoke(
+                        DispatcherPriority.Background,
+                        new Action(() => traitement.envoiReponse()));
+                        
                         List<String> scores = new List<String>();
                         for (int i = 2; i < tabMessage.Count(); i++ )
                         {
@@ -179,6 +183,14 @@ namespace BlindTestGroupe44.ClientLigne
                         new Action(() => traitement.infoBestScores(tabMessage)));
 
 
+                }
+                else if (tabMessage[0].Equals("FINDEPARTIE"))
+                {
+                    //Les scores sont en cours de calcul, on affiche le panels et on attend les scores
+                    //On remet le panel pour jouer
+                    Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => traitement.findepartie()));
                 }
                 else
                 {

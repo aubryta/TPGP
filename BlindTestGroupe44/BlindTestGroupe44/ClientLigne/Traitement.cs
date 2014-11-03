@@ -265,16 +265,25 @@ namespace BlindTestGroupe44.ClientLigne
         /// <param name="scores">la liste composé du joueur au rang i et de son score au rang i+1</param>
         public void partieFinie(List<String> scores)
         {
-            wind.afficheScores.Content = "";
-            wind.grid1.Visibility = Visibility.Hidden;
-            wind.grid2.Visibility = Visibility.Hidden;
-            wind.gridAfficheScores.Visibility = Visibility.Visible;
+            
             for (int i = 0; i < scores.Count(); i=i + 2)
             {
                 wind.afficheScores.Content += scores[i] + " : " + scores[i + 1] + "\n";
             }
             wind.chansonPrecedente.Content = "Première chanson";
             debutPartie = true;
+            client.arretMusique();
+        }
+
+        /// <summary>
+        /// La partie est fini, on est dans l'attente des scores, on affiche le panel en attendant
+        /// </summary>
+        public void findepartie()
+        {
+            wind.afficheScores.Content = "";
+            wind.grid1.Visibility = Visibility.Hidden;
+            wind.grid2.Visibility = Visibility.Hidden;
+            wind.gridAfficheScores.Visibility = Visibility.Visible;
             client.arretMusique();
         }
 

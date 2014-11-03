@@ -93,6 +93,13 @@ namespace BlindTestGroupe44.ClientLigne
             }
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+
+        }
+
+
+
 
     }
 }

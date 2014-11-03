@@ -1,13 +1,13 @@
 ﻿<Window x:Class="BlindTestGroupe44.ClientLigne.FenetreNom"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="FenetreNom" Height="300" Width="553">
-    <Grid Background="#FF00A2E8">
-        <Grid HorizontalAlignment="Left" Height="270" VerticalAlignment="Top" Width="545">
-            <Button Name ="valide" Content="Valider" HorizontalAlignment="Left" Margin="207,210,0,0" VerticalAlignment="Top" Width="123" Height="36" FontFamily="Arial" FontSize="16" Click="Button_Click"/>
-            <Image HorizontalAlignment="Left" Height="58" Margin="21,25,0,0" VerticalAlignment="Top" Width="156" Source="/BlindTestGroupe44;component/logo.png"/>
-            <Label Content="Veuillez entrer un pseudo (10 caractères max) :" HorizontalAlignment="Left" Margin="0,97,-10,0" VerticalAlignment="Top" Width="555" HorizontalContentAlignment="Center" FontFamily="Arial" FontSize="16" FontWeight="Bold"/>
-            <TextBox Name="champPseudo" HorizontalAlignment="Left" Height="31" Margin="134,130,0,0" TextWrapping="Wrap" Text="Pseudo ..." VerticalAlignment="Top" Width="293" FontFamily="Arial" FontSize="16" KeyDown="keyEnterDown" GotFocus="champPseudo_GotFocus"/>
+        Title="FenetreNom" Height="214" Width="540" Closed="Window_Closed">
+    <Grid Margin="0,0,0,1">
+        <Image HorizontalAlignment="Left" Height="194" VerticalAlignment="Top" Width="532" Source="/BlindTestGroupe44;component/Main/fond popup.bmp" RenderTransformOrigin="0.521,0.675" Margin="0,0,0,-17"/>
+        <Grid HorizontalAlignment="Left" Height="194" VerticalAlignment="Top" Width="545" RenderTransformOrigin="0.892,0.933" Margin="10,0,-23,-17">
+            <Button Name ="valide" Content="Valider" HorizontalAlignment="Left" Margin="207,133,0,0" VerticalAlignment="Top" Width="123" Height="36" FontFamily="Arial" FontSize="16" Click="Button_Click"/>
+            <Label Content="Veuillez entrer un pseudo (10 caractères max) :" HorizontalAlignment="Left" Margin="0,58,-10,0" VerticalAlignment="Top" Width="555" HorizontalContentAlignment="Center" FontFamily="Arial" FontSize="16" FontWeight="Bold"/>
+            <TextBox Name="champPseudo" HorizontalAlignment="Left" Height="31" Margin="134,91,0,0" TextWrapping="Wrap" Text="Pseudo ..." VerticalAlignment="Top" Width="293" FontFamily="Arial" FontSize="16" KeyDown="keyEnterDown" GotFocus="champPseudo_GotFocus"/>
         </Grid>
 
     </Grid>

@@ -174,5 +174,15 @@ namespace Serveur
             }
             return res; ;
         }
+
+        /// <summary>
+        /// Préviens de la fin de partie, 
+        /// Les scores seront affichés peux de temps après
+        /// </summary>
+        /// <returns>Notification de fin de partie</returns>
+        public static String finDePartie()
+        {
+            return "FINDEPARTIE?";
+        }
     }
 }

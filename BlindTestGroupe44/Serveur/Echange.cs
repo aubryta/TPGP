@@ -37,6 +37,7 @@ namespace Serveur
             this.joueur = j as Joueur;
             this.serv = s;
             */
+            Console.WriteLine("CLIENT CONNECTE");
             TcpClient tcpClient = client;
             joueur = j;
             serv = s;
@@ -112,7 +113,8 @@ namespace Serveur
                 else if( tabMessage[0].Equals("DECONNEXION"))
                 {
                     Console.WriteLine("Le joueur " + joueur.getName() + " est retiré du serveur");
-                    partie.removeJoueur(joueur);
+                    if(partie != null) //Si le joueur n'a pas encore été ajouté à une partie
+                        partie.removeJoueur(joueur);
                 }
                 else if( tabMessage[0].Equals("BESTSCORE"))
                 {
