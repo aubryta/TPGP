@@ -21,7 +21,6 @@ namespace Serveur
 
         private Boolean partieFinie = false;
         private int cptManche = 0;
-
         /// <summary>
         /// Constructeur, initialise la classe Partie
         /// </summary>
@@ -43,7 +42,7 @@ namespace Serveur
             if (lj.Count > 0)
             {
                 //Si la partie est finie
-                if (cptManche >= 2)
+                if (cptManche >= 3)
                 {
                     finDePartie();
                 }
@@ -51,7 +50,7 @@ namespace Serveur
                 {
                     cptManche++;
                     nouvelleManche();
-                    Thread.Sleep(2000);
+                    Thread.Sleep(5000);
                     runGame();
                 }
             }
@@ -109,6 +108,9 @@ namespace Serveur
             //Si le serveur était vide et que un premier utilisateur se connecte
             if (lj.Count == 1)
             {
+                //Si c'est le premier joueur, la manche doit être remise à 0
+                cptManche = 0;
+                partieFinie = false;
                 //on peux lancer la diffusion des chansons
                 Thread th = new Thread(runGame);
                 th.Start();
@@ -250,11 +252,11 @@ namespace Serveur
         /// </summary>
         public void finDePartie()
         {
+            chansonPrecedente = gm.getChanson();
             envoiATous(Requete.finDePartie());
             partieFinie = true;
-            cptManche = 0;
             //On attend de recevoir tous les scores
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             //On envoi le récapitulatif des scores
             envoiATous(Requete.infoPartieFinie(lj));
             //On écrit éventuellement les meilleurs scores dans le fichier xml correspondant
@@ -262,11 +264,12 @@ namespace Serveur
             resetScores();
             Thread.Sleep(7500);
             //Après avoir attendu 7.5 secondes, on recommence une partie
+            cptManche = 0;
+            partieFinie = false;
             envoiATous(Requete.nouvellePartie());
             envoiScores();
             runGame();
         }
-
 
         /// <summary>
         /// Regarde parmis la liste des joueurs si il existe un joueur pouvant faire partie des meilleurs scores et l'écrit si oui.

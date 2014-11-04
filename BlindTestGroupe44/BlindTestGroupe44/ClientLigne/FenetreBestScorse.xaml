@@ -1,9 +1,9 @@
 ﻿<Window x:Class="BlindTestGroupe44.ClientLigne.FenetreBestScores"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="FenetreBestScorse" Height="300" Width="300">
+        Title="FenetreBestScorse" Height="366" Width="300" ResizeMode="NoResize">
     <Grid x:Name="gridScores" Background="#FF00A2E8" Margin="0,0,0,-20">
-        <Label Content="MeilleurScores" HorizontalAlignment="Left" Margin="105,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.553,1.346"/>
+        <Label Content="MeilleurScores" HorizontalAlignment="Left" Margin="100,23,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16" FontWeight="Bold"/>
 
 
     </Grid>

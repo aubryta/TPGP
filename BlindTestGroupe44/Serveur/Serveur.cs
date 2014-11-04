@@ -44,12 +44,6 @@ namespace Serveur
             foreach (String style in styles)
                 listePartie.Add(new Partie(style));
 
-            //Et on lance toutes les parties
-            foreach(Partie p in listePartie)
-            {
-                Thread t = new Thread(p.runGame);
-                t.Start();
-            }
         }
 
         /// <summary>

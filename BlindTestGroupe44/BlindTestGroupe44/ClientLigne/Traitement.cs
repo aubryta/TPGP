@@ -51,7 +51,8 @@ namespace BlindTestGroupe44.ClientLigne
         // et on coupe la musique
         public void chansonPrecedente(String chanson)
         {
-            client.getWind().chansonPrecedente.Content = "Chanson précédente : " + chanson;
+            client.getWind().chansonPrecedente.Content = "Chanson précédente : " 
+                + chanson.Replace('_', ' ').Split('.').ElementAt(0);
         }
 
         //Crée ou edite les radiosbouton existant lors de l'affichage d'une nouvelle playlist
@@ -198,12 +199,13 @@ namespace BlindTestGroupe44.ClientLigne
             thickStyle.Left = 100;
             thickStyle.Top = 50;
             Label nomScore = new Label();
-            Label valeurScore = new Label();          
+            Label valeurScore = new Label(); 
             for (int i = 1; i < tabMessage.Length; i++)
             {
                 string[] tabTemp = tabMessage[i].Split('&');
                 if (tabTemp.Length == 1)
                 {
+                    fenetre.Width += 130;
                     Console.WriteLine("Stylefound");
                     String style = tabTemp[0];
                     Label styleLabel = new Label();
@@ -217,15 +219,14 @@ namespace BlindTestGroupe44.ClientLigne
                     valeurScore.Margin = thickScore;
                     fenetre.gridScores.Children.Add(nomScore);
                     fenetre.gridScores.Children.Add(valeurScore);
-                    thickNom.Left = thickNom.Left + 100;
-                    thickScore.Left = thickScore.Left + 100;
-                    thickStyle.Left = thickStyle.Left + 100;
+                    thickNom.Left = thickNom.Left + 130;
+                    thickScore.Left = thickScore.Left + 130;
+                    thickStyle.Left = thickStyle.Left + 130;
                 }
                 else
                 {                                                     
-                        nomScore.Content += tabTemp[0] + "\n";
-                        valeurScore.Content += tabTemp[1] + "\n";
-
+                    nomScore.Content += tabTemp[0] + "\n";
+                    valeurScore.Content += tabTemp[1] + "\n";
                 }
             }
             fenetre.Visibility=Visibility.Visible;
@@ -265,7 +266,7 @@ namespace BlindTestGroupe44.ClientLigne
         /// <param name="scores">la liste composé du joueur au rang i et de son score au rang i+1</param>
         public void partieFinie(List<String> scores)
         {
-            
+            wind.messageScore.Content = "Scores : ";
             for (int i = 0; i < scores.Count(); i=i + 2)
             {
                 wind.afficheScores.Content += scores[i] + " : " + scores[i + 1] + "\n";
@@ -285,6 +286,8 @@ namespace BlindTestGroupe44.ClientLigne
             wind.grid2.Visibility = Visibility.Hidden;
             wind.gridAfficheScores.Visibility = Visibility.Visible;
             client.arretMusique();
+            wind.messageScore.Content = "Calcul des scores ...";
+            envoiReponse();
         }
 
         /// <summary>

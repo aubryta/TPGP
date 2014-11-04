@@ -183,9 +183,6 @@ namespace Serveur
             }
             else if(tabMessage[1].Equals("NAME"))
             {
-                /*if(!tabMessage[2].Equals("t"))
-                    send("INFO?PSEUDOINCORRECT", cstm);
-                 */
                 if (serv.existePseudo(tabMessage[2]))
                 {
                     send(Requete.infoPseudoIncorrect(), joueur.getStream());

@@ -96,7 +96,6 @@ namespace BlindTestGroupe44.ClientLigne
                 }
                 else if (tabMessage[0].Equals("INFO"))
                 {
-                    //Si la chanson est bonne, on incrémente le score
                     //Et on affiche la chanson précédente dans le label correspondant
                     if (tabMessage[1].Equals("BONNECHANSON"))
                     {
@@ -127,11 +126,7 @@ namespace BlindTestGroupe44.ClientLigne
                         traitement.lireChanson(tabMessage[2]);
                     }
                     else if(tabMessage[1].Equals("PARTIEFINIE"))
-                    {
-                        Application.Current.Dispatcher.BeginInvoke(
-                        DispatcherPriority.Background,
-                        new Action(() => traitement.envoiReponse()));
-                        
+                    {                        
                         List<String> scores = new List<String>();
                         for (int i = 2; i < tabMessage.Count(); i++ )
                         {
