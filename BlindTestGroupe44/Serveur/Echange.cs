@@ -19,7 +19,6 @@ namespace Serveur
         private Joueur joueur = null;
         private Serveur serv = null;
         private Partie partie = null;
-        private GestionMusique gm = null;
 
         /// <summary>
         /// Initialise la classe échange est écoute en boucle sur un client

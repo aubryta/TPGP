@@ -61,7 +61,7 @@ namespace Serveur
             {
                 response = (FtpWebResponse)request.GetResponse();
             }
-            catch (Exception e)
+            catch
             {   //On essaye de se connecter au serveur ftp 3 fois sinon on abandone et quitte l'applic
                 Console.WriteLine("Echec de la connexion !");
                 if (tentativeConnexion < 3)

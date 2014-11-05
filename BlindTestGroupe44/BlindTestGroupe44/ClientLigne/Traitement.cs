@@ -247,7 +247,13 @@ namespace BlindTestGroupe44.ClientLigne
         /// <param name="tabMessage"></param>
         internal void infoBestScores(string[] tabMessage)
         {
-            
+            if(tabMessage[1].Equals("KO"))
+            {
+                PopUp p = new PopUp();
+                p.setMessage("Il n'y a aucun score actuellement");
+                p.Show();
+                return;
+            }
             FenetreBestScores fenetre = new FenetreBestScores();           
             Thickness thickNom = new Thickness();
             thickNom.Left=100;
