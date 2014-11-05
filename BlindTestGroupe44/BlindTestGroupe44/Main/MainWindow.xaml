@@ -11,8 +11,6 @@
             <MenuItem Header="Options" Visibility="Hidden">
                 <MenuItem Header="Nouvelle partie" Click="newGameItem"/>
                 <MenuItem Header="Reset Score" Click="resetScore" />
-                <MenuItem Header="Reglages"/>
-                <MenuItem Header="Aide"/>
             </MenuItem>
         </Menu>
         <Grid x:Name="gridDebut" HorizontalAlignment="Left" Height="638" VerticalAlignment="Top" Width="840" Margin="0,0,0,-5">
@@ -35,7 +33,6 @@
             <Menu x:Name="BarreDeMenu2" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="828" Grid.ColumnSpan="2" Visibility="Visible">
                 <MenuItem Header="Options" Visibility="Visible">
                     <MenuItem Header="Nouvelle partie" Click="newGameItem"/>
-                    <MenuItem Header="Aide"/>
                     <MenuItem Header="Meilleurs Scores" Click="askBestScore" />
                 </MenuItem>
             </Menu>

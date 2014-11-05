@@ -247,6 +247,7 @@ namespace BlindTestGroupe44.ClientLigne
         /// <param name="tabMessage"></param>
         internal void infoBestScores(string[] tabMessage)
         {
+            
             FenetreBestScores fenetre = new FenetreBestScores();           
             Thickness thickNom = new Thickness();
             thickNom.Left=100;
@@ -258,7 +259,7 @@ namespace BlindTestGroupe44.ClientLigne
             thickStyle.Left = 100;
             thickStyle.Top = 50;
             Label nomScore = new Label();
-            Label valeurScore = new Label(); 
+            Label valeurScore = new Label();            
             for (int i = 1; i < tabMessage.Length; i++)
             {
                 string[] tabTemp = tabMessage[i].Split('&');
@@ -286,7 +287,7 @@ namespace BlindTestGroupe44.ClientLigne
                 {                                                     
                     nomScore.Content += tabTemp[0] + "\n";
                     valeurScore.Content += tabTemp[1] + "\n";
-                }
+                }            
             }
             fenetre.Visibility=Visibility.Visible;
         }

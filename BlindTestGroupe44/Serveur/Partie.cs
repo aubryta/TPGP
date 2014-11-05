@@ -47,7 +47,7 @@ namespace Serveur
             if (listJoueurs.Count > 0)
             {
                 //Si la partie est finie
-                if (cptManche >= 3)
+                if (cptManche > 10)
                 {
                     finDePartie();
                 }
@@ -55,7 +55,7 @@ namespace Serveur
                 {
                     cptManche++;
                     nouvelleManche();
-                    Thread.Sleep(5000);
+                    Thread.Sleep(7500);
                     runGame();
                 }
             }
@@ -260,7 +260,7 @@ namespace Serveur
             envoiATous(Requete.finDePartie());
             partieFinie = true;
             //On attend de recevoir tous les scores
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             //On envoi le récapitulatif des scores
             envoiATous(Requete.infoPartieFinie(listJoueurs));
             //On écrit éventuellement les meilleurs scores dans le fichier xml correspondant

@@ -180,8 +180,7 @@ namespace BlindTestGroupe44.ClientLigne
                     Application.Current.Dispatcher.BeginInvoke(
                         DispatcherPriority.Background,
                         new Action(() => traitement.infoBestScores(tabMessage)));
-
-
+                    
                 }
                 else if (tabMessage[0].Equals("FINDEPARTIE"))
                 {
