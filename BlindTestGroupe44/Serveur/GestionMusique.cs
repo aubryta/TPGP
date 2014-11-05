@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -20,6 +21,7 @@ namespace Serveur
 
         private String idUser = "";
         private String mdpUser = "";
+        private int tentativeConnexion = 0;
 
         /// <summary>
         /// On initialise la classe avec l'identifiant et le mot de passe
@@ -47,7 +49,27 @@ namespace Serveur
             // identifiant
             request.Credentials = new NetworkCredential(idUser, mdpUser);
             // recupération de la réponse dans un stream
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+            FtpWebResponse response = null;
+            try
+            {
+                Console.WriteLine("Tentative de connexion au serveur ftp " + repertoire);
+                 response = (FtpWebResponse)request.GetResponse();
+            }
+            catch(Exception e)
+            {   //On essaye de se connecter au serveur ftp 3 fois sinon on abandone et quitte l'applic
+                Console.WriteLine("Echec de la connexion !");
+                if(tentativeConnexion < 3)
+                {
+                    tentativeConnexion++;
+                    Console.WriteLine("Tentative de re-connexion : " + tentativeConnexion + 1);
+                    Thread.Sleep(1000);
+                    listeSousDossier(repertoire);
+                }
+                else
+                {
+                    System.Environment.Exit(1);
+                }
+            }
             Stream responseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(responseStream);
             String liste = reader.ReadToEnd();
