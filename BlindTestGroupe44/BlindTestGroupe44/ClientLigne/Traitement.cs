@@ -9,17 +9,26 @@ using System.Windows.Threading;
 
 namespace BlindTestGroupe44.ClientLigne
 {
+    /// <summary>
+    /// Classe qui sera appelée en fonction
+    /// des requetes reçues par le client
+    /// </summary>
     public class Traitement
     {
         private ASCIIEncoding encodeur = new ASCIIEncoding();
         private ClientServ client = null;
         private int nbRadios = 0;
         private MainWindow wind = null;
-        private Boolean debutPartie = true;        
-
+        private Boolean debutPartie = true;   
         IEnumerable<System.Windows.Controls.RadioButton> listeRadioButtons = null;
 
-        //Initialise les attributs de traiteRequete
+      
+        /// <summary>
+        /// Initialise les attributs
+        /// </summary>
+        /// <param name="cs"></param>
+        /// <param name="wind"></param>
+        /// <param name="listeRadioButtons"></param>
         public void setTraite(ClientServ cs, MainWindow wind, IEnumerable<System.Windows.Controls.RadioButton> listeRadioButtons)
         {
             this.client = cs;
@@ -27,7 +36,13 @@ namespace BlindTestGroupe44.ClientLigne
             this.listeRadioButtons = listeRadioButtons;
         }
 
-        //Crée et initialise une liste de radioBouton
+       
+        /// <summary>
+        /// Crée et initialise une liste de radioBouton
+        /// correspondant aux différentes chansons
+        /// qu'on peut choisir
+        /// </summary>
+        /// <param name="chansons"></param>
         private void creeRadioBouton(List<String> chansons)
         {
             int y = 10;
@@ -46,19 +61,26 @@ namespace BlindTestGroupe44.ClientLigne
             listeRadioButtons = client.getWind().gridButton.Children.OfType<System.Windows.Controls.RadioButton>();
             client.setRadios(listeRadioButtons);
         }
-
-        //On affiche la chanson qui était à trouver le tour d'avant dans le panel correspondant
-        // et on coupe la musique
+               
+        /// <summary>
+        /// On affiche la chanson qui était à trouver 
+        /// le tour d'avant dans le panel correspondant
+        /// et on coupe la musique
+        /// </summary>
+        /// <param name="chanson"></param>
         public void chansonPrecedente(String chanson)
         {
             client.getWind().chansonPrecedente.Content = "Chanson précédente : " 
                 + chanson.Replace('_', ' ').Split('.').ElementAt(0);
         }
-
-        //Crée ou edite les radiosbouton existant lors de l'affichage d'une nouvelle playlist
+             
+        /// <summary>
+        /// Crée ou edite les radiosbouton existant lors de l'affichage d'une nouvelle playlist
+        /// </summary>
+        /// <param name="chansons"></param>
         public void creationRadioButtons(List<String> chansons)
         {
-            if (listeRadioButtons != null) // Si une liste de boutons existe
+            if (listeRadioButtons != null) // Si une liste de boutons existe on l'édite
             {
                 editRadioBoutton(chansons);
             }
@@ -71,8 +93,11 @@ namespace BlindTestGroupe44.ClientLigne
                 creeRadioBouton(chansons);
             }
         }
-
-        //Edite une liste de radioBouton en paramètre
+              
+        /// <summary>
+        /// Edite une liste de radioBouton en paramètre
+        /// </summary>
+        /// <param name="chansons"></param>
         private void editRadioBoutton(List<String> chansons)
         {
             for (int i = 0; i < nbRadios; i++)
@@ -82,24 +107,32 @@ namespace BlindTestGroupe44.ClientLigne
             }
             client.setRadios(listeRadioButtons);
         }
-
-        //Indique au client le nombre de possibilité qu'il aura pour choisir
+        
+        /// <summary>
+        /// correspond aux nombre de possibilités de réponses
+        /// </summary>
+        /// <param name="nbRadios"></param>
         public void initialisationOptions(int nbRadios)
         {
             this.nbRadios = nbRadios;
         }
-
-        //Crée une fenêtre avec la liste des styles disponible
+                
+        /// <summary>
+        /// Crée une fenêtre avec la liste des styles disponibles
+        /// </summary>
+        /// <param name="listeStyle"></param>
         public void fenetreStyle(List<String> listeStyle)
         {
-            FenetreStyle fs = new FenetreStyle(this);
-            fs.setListeStyle(listeStyle);
-            
-            fs.ShowDialog();
-            client.envoi(Requete.infoStyle(fs.getStyle()));
+            FenetreStyle fenetreStyle = new FenetreStyle(this);
+            fenetreStyle.setListeStyle(listeStyle);            
+            fenetreStyle.ShowDialog();
+            client.envoi(Requete.infoStyle(fenetreStyle.getStyle()));
         }
-
-        //Affiche une popup d'erreur avec un message err
+              
+        /// <summary>
+        /// Affiche une popup d'erreur avec un message err
+        /// </summary>
+        /// <param name="err"></param>
         public void erreur(String err)
         {
             Application.Current.Dispatcher.BeginInvoke(
@@ -107,69 +140,90 @@ namespace BlindTestGroupe44.ClientLigne
             new Action(() => lanceFenetre(err, false)));
         }
         
-        //Affiche une popup indicative avec le message mess
+        /// <summary>
+        /// Affiche une popup indicative avec le message mess
+        /// </summary>
+        /// <param name="mess"></param>
         public void message(String mess)
         {
             Application.Current.Dispatcher.BeginInvoke(
             DispatcherPriority.Background,
             new Action(() => lanceFenetre(mess, true)));
         }
-
-        //Lance une fenêtre indicative ou erreur (true ou false) avec un message mess
+       
+        /// <summary>
+        /// Lance une fenêtre indicative ou erreur (true ou false) avec un message mess
+        /// </summary>
+        /// <param name="mess"></param>
+        /// <param name="estMessage"></param>
         private void lanceFenetre(String mess, Boolean estMessage)
         {
-            PopUp pu = new PopUp();
+            PopUp popup = new PopUp();
             if (estMessage)
-                pu.setMessage(mess);
+                popup.setMessage(mess);
             else
-                pu.setErreur(mess);
-            pu.ShowDialog();
+                popup.setErreur(mess);
+            popup.ShowDialog();
         }
-
-        //appel en tache de fond une fonction qui active ou désactive la fenêtre principale
+                
+        /// <summary>
+        /// appel en tache de fond une fonction qui active ou désactive la fenêtre principale
+        /// </summary>
+        /// <param name="active"></param>
         public void activeFenetre(Boolean active)
         {
             Application.Current.Dispatcher.BeginInvoke(
             DispatcherPriority.Background, 
             new Action(() => actFenetreThread(active)));
         }
-
-        //Active ou désactive la fenêtre principale suivant le booléen transmis
+              
+        /// <summary>
+        /// Active ou désactive la fenêtre principale suivant le booléen transmis
+        /// </summary>
+        /// <param name="active"></param>
         private void actFenetreThread(Boolean active)
         {
             wind.mainGrid.IsEnabled = active;
         }
 
-        //Crée une pop pour définir un pseudo
+        /// <summary>
+        /// Crée une fenetre pour définir un pseudo
+        /// </summary>
         public void pseudo()
         {
-            FenetreNom fNom = new FenetreNom();
+            FenetreNom fenetreNom = new FenetreNom();
             //On bloque la fenêtre principale en attendant
             activeFenetre(false);
-            fNom.ShowDialog();
+            fenetreNom.ShowDialog();
             //Et on envoie le nom au serveur lorsque le champ est rempli et validé
-            client.envoi(Requete.infoName(fNom.getName()));
-            client.setName(fNom.getName());
+            client.envoi(Requete.infoName(fenetreNom.getName()));
+            client.setName(fenetreNom.getName());
             //On réactive la fenêtre
             activeFenetre(true);
 
         }
 
-        //Meme fonctionnalité que pseudo() avec en plus une fenêtre qui affiche que le pseudo est utilisé
-        //et donc non disponible
+        /// <summary>
+        /// Meme fonctionnalité que pseudo() avec en plus une fenêtre qui affiche que le pseudo est utilisé
+        ///et donc non disponible
+        /// </summary>
         public void pseudoErreur()
         {
-            FenetreNom fNom = new FenetreNom();
+            FenetreNom fenetreNom = new FenetreNom();
             activeFenetre(false);
-            fNom.pseudoExistant();
-            fNom.ShowDialog();
-            client.envoi(Requete.infoName(fNom.getName()));
-            client.setName(fNom.getName());
+            fenetreNom.pseudoExistant();
+            fenetreNom.ShowDialog();
+            client.envoi(Requete.infoName(fenetreNom.getName()));
+            client.setName(fenetreNom.getName());
             activeFenetre(true);
         }
 
-        //Ecrit dans la grille lié aux scores de tous les joueurs, 
-        //Le score plus la valeur0
+        
+        /// <summary>
+        /// Ecrit dans la grille les scores de tous les joueurs, 
+        ///Le score plus la valeur correspondante
+        /// </summary>
+        /// <param name="tabMessage"></param>
         public void infoScores(String[] tabMessage)
         {
             wind.nomScore.Content = "";
@@ -186,6 +240,11 @@ namespace BlindTestGroupe44.ClientLigne
             }
         }
 
+        /// <summary>
+        /// Cette fonction met a jour la fenetre 
+        /// des meilleurs scores en fonction des styles
+        /// </summary>
+        /// <param name="tabMessage"></param>
         internal void infoBestScores(string[] tabMessage)
         {
             FenetreBestScores fenetre = new FenetreBestScores();           
@@ -232,7 +291,10 @@ namespace BlindTestGroupe44.ClientLigne
             fenetre.Visibility=Visibility.Visible;
         }
 
-        //Envoi la chanson proposer par l'utilisateur
+       
+        /// <summary>
+        /// Envoi la chanson proposée par l'utilisateur
+        /// </summary>
         public void envoiReponse()
         {
             if (!debutPartie)
@@ -248,7 +310,6 @@ namespace BlindTestGroupe44.ClientLigne
                         client.envoi(Requete.proposeChanson(r.Content as String));
                     }
                 }
-
                 //Si aucun bouton n'est coché
                 if (cpt == 0)
                 {
@@ -261,7 +322,7 @@ namespace BlindTestGroupe44.ClientLigne
         }
 
         /// <summary>
-        /// Trie est affiche une liste de score dans une nouvelle grille
+        /// Trie et affiche une liste de score dans une nouvelle grille
         /// </summary>
         /// <param name="scores">la liste composé du joueur au rang i et de son score au rang i+1</param>
         public void partieFinie(List<String> scores)
@@ -277,7 +338,7 @@ namespace BlindTestGroupe44.ClientLigne
         }
 
         /// <summary>
-        /// La partie est fini, on est dans l'attente des scores, on affiche le panel en attendant
+        /// La partie est finie, on est dans l'attente des scores, on affiche le panel en attendant
         /// </summary>
         public void findepartie()
         {

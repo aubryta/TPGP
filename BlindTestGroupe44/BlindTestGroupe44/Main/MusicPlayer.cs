@@ -11,27 +11,32 @@ using WMPLib;
 
 namespace BlindTestGroupe44
 {
+    /// <summary>
+    /// Classe correspondant à la lecture / gestion des fichiers de musique
+    /// </summary>
     class MusicPlayer
     {
-        // importation a faire car c# ne permet pas la lecture de .mp3, en fait on fait appel à l'OS.
+        // importations a faire car c# ne permet pas la lecture de .mp3, en fait on fait appel à l'OS.
         [DllImport("winmm.dll")]
-        private static extern long mciSendString(string lpstrCommand, StringBuilder lpstrReturnString, int uReturnLength, int hwndCallback);
-        // je ne sais pas a quoi servent les deux derniers arguments
-
+        private static extern long mciSendString(string lpstrCommand, StringBuilder lpstrReturnString, int uReturnLength, int hwndCallback);  
         [DllImport("winmm.dll", EntryPoint = "waveOutSetVolume")]
         public static extern int WaveOutSetVolume(IntPtr hwo, uint dwVolume);
         
         private String nomChanson = ""; // Nom de la chanson courante
         WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer(); //lecteur media pour les url
-
-        // recupere la liste des chanson d'un repertoire en parcourant toute son arborescence
+        
+        /// <summary>
+        /// recupere la liste des chanson d'un repertoire en parcourant toute son arborescence
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public IEnumerable<FileInfo> listeChanson (string path)
         {
             try
             {
                 var dir = new DirectoryInfo(path);
-                var extensions = new string[] { ".mp3", ".wma" }; // choix dse extension
-                var mp3Files = dir.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower())); // le *.* permet de dire que tu cherche un fic
+                var extensions = new string[] { ".mp3", ".wma" }; // choix des extensions musiques
+                var mp3Files = dir.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower()));
                 var sousDossier = dir.GetDirectories();
                 foreach (DirectoryInfo path2 in sousDossier)
                 {
@@ -46,7 +51,11 @@ namespace BlindTestGroupe44
             }
         }
 
-        // Cette fonction ouvre une chanson aléatoire a aprtir du chemin d'un repertoire
+       
+        /// <summary>
+        /// Cette fonction ouvre un fichier chanson aléatoire a partir du chemin d'un repertoire
+        /// </summary>
+        /// <param name="path"></param>
         public void open(string path)
         {           
             string file = null;
@@ -59,26 +68,32 @@ namespace BlindTestGroupe44
                     FileInfo chanson;
                     do
                     {
-                        chanson = songsList.ElementAt(R.Next(0, songsList.Count()));
+                       chanson = songsList.ElementAt(R.Next(0, songsList.Count()));
                     } while (nomChanson.Equals(chanson.Name)); //Evite de lancer 2 fois d'affilées la même chanson
                     
                     file = chanson.FullName;
                     nomChanson = chanson.Name.Split('.').ElementAt(0); ;
-
                 }
                 catch { }
             }            
+            // Commande open en local
             string command = "open \"" + file + "\" type MPEGVideo alias MyMp3"; // c'est une commande pour ouvrir le fichier
             mciSendString(command, null, 0, 0);
         }
 
-        // lancer la musique
+        /// <summary>
+        /// Commande de lecture en local
+        /// </summary>
         public void play()
         {
             string command = "play MyMp3";
             mciSendString(command, null, 0, 0);
         }
 
+        /// <summary>
+        /// Lecture d'une chanson via une URL
+        /// </summary>
+        /// <param name="urlChanson"></param>
         public void playFromURL(String urlChanson)
         {    
             wplayer.URL = urlChanson;
@@ -86,15 +101,22 @@ namespace BlindTestGroupe44
             
         }
 
+        /// <summary>
+        /// Arret d'une chanson via une URL
+        /// </summary>
         public void stopFromURL()
         {
             wplayer.controls.pause();
           
         }
 
-        // le paramettre d est une valeur comprise entre 0 et 10 ( ce sont les propriétés d'un slider)
-        // on le multiplie arbitrairement par une valeur pour que le son puisse etre raisonablement fort
-        // on le "converti" en un unsigned integer pour pouvoir faire le changement de volume.
+
+        /// <summary>
+        /// Met a jour le volume en local selon une formule 
+        /// choisie arbitrairement pour avoir des bornes
+        /// de volume correctes
+        /// </summary>
+        /// <param name="d"></param>
         public void volume(double d)
         {
             d = d * 1000;
@@ -102,9 +124,11 @@ namespace BlindTestGroupe44
             uint vAll = v | (v << 16);
             // Set the volume
             int retVal = WaveOutSetVolume(IntPtr.Zero, vAll);
-
         }
-        // arreter la musique
+
+        /// <summary>
+        /// Commande d'arret de la musique en local
+        /// </summary>
         public void stop()
         {
             string command = "stop MyMp3";
@@ -112,17 +136,19 @@ namespace BlindTestGroupe44
             command = "close MyMp3";
             mciSendString(command, null, 0, 0); // fermeture du fichier
         }
+
         public String getChanson()
         {
             return nomChanson;
         }
 
+        /// <summary>
+        /// changement du volume pour un client en ligne
+        /// </summary>
+        /// <param name="d"></param>
         public void volumeFromURL(double d)
-        {
-           
-            // Set the volume
-            wplayer.settings.volume = (int)d;           
-
+        {           
+            wplayer.settings.volume = (int)d;       
         }
     }
    

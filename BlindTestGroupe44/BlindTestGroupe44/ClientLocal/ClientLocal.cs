@@ -11,15 +11,13 @@ using System.Diagnostics;
 using BlindTestGroupe44.Main;
 namespace BlindTestGroupe44
 {
-    /** TODO
-     * 0. COMMENTER
-     * 1. Coder le calcul de l'incrementation de score ( a discuter)
-     *
-     **/
+    /// <summary>
+    /// Cette classe correspond au 
+    /// client local. 
+    /// </summary>
     class ClientLocal : IClient
     {
         private MusicPlayer player = new MusicPlayer();
-
         private String repertoireMusique = ""; // racine de la bibliotheque
         private int nbChoix = 0; // nb de choix de reponse en fonction de la difficulté
         private int incrPoints = 0; // incrementation des points en fonction de la difficulté
@@ -29,21 +27,26 @@ namespace BlindTestGroupe44
         private Stopwatch watch = new Stopwatch();
         private MainWindow wind;
 
-
+        /// <summary>
+        /// Initialisation de l'interface utilisateur
+        /// </summary>
+        /// <param name="mw"></param>
         public ClientLocal(MainWindow mw)
-        {
-            
+        {            
             this.wind = mw;
             wind.BarreDeMenu.IsEnabled=false;
             //Les panels d'affichage de mutlijoueur ne sont pas utilisés :
             wind.gridScores.Visibility = Visibility.Hidden;
-            wind.gridButton.Visibility = Visibility.Hidden;
-            
+            wind.gridButton.Visibility = Visibility.Hidden;            
           
         }
 
-        // Initialise la fenetre du jeu, lancement de la musique, affichage des réponses possibles
-        public void initialiseTest(object sender, System.Windows.RoutedEventArgs e)
+        /// <summary>
+        /// Initialise la fenetre du jeu, lancement de la musique, affichage des réponses possibles
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void initialiseJeu(object sender, System.Windows.RoutedEventArgs e)
         {
             creationRadioButtons(nbChoix);
             listeRadioButtons = wind.grid2.Children.OfType<System.Windows.Controls.RadioButton>();
@@ -52,6 +55,12 @@ namespace BlindTestGroupe44
             runGame();
         }
 
+        /// <summary>
+        /// correspond a une question 
+        /// choix d'une musique aléatoire
+        /// on démarre le chronometre
+        /// et on démarre la musique
+        /// </summary>
         public void runGame()
         {      
             foreach(System.Windows.Controls.RadioButton rb in listeRadioButtons){
@@ -63,8 +72,12 @@ namespace BlindTestGroupe44
             player.play();
         }
 
-        // Creation des n radiobutton représentant les réponses possible
-        // le parametre n correspond au nbchoix ( en fonction de la difficulté)
+        
+        /// <summary>
+        ///Creation des n radiobutton représentant les réponses possible
+        /// le parametre n correspond au nbchoix ( en fonction de la difficulté)
+        /// </summary>
+        /// <param name="n"></param>
         public void creationRadioButtons(int n)
         {
             int y = 256;
@@ -90,16 +103,18 @@ namespace BlindTestGroupe44
         }
 
               
-        // correspond au bouton valider, si on a la bonne reponse, le score augmente
-        // puis on passe a la chanson suivante
+       
+        /// <summary>
+        /// correspond au bouton valider, si on a la bonne reponse, le score augmente
+        /// puis on passe a la chanson suivante
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void validerBoutonClick(object sender, System.Windows.RoutedEventArgs e)
         {
             watch.Stop();
             int x = (int)(watch.ElapsedTicks / 1000000); // on recupere le temps écoulé depuis le debut de la manche.
-            // TODO : le calcul de l'incrementation
-
             player.stop();
-            // Tant qu'on a pas de liste on vérifie R2
             if (listeRadioButtons.ElementAt(choixCorrect - 1).IsChecked == true)
             {
                 scorePoints += (incrPoints / x);
@@ -109,12 +124,16 @@ namespace BlindTestGroupe44
             wind.chansonPrecedente.Content = "Chanson précédente : " + player.getChanson();
             runGame();
         }
-
-
-
-        /// Facile : 3 choix, score incrémenté de 10 points
-        /// Moyen : 4 choix, score incrémenté de 12 points
-        /// Difficile : 6 choix score incrémenté de 15 points
+               
+        /// <summary>
+        /// met a jour le nombre de choix et le coeficient de gain de points
+        /// en fonction de la difficulté
+        ///  Facile : 3 choix, Coefficient 100 
+        /// Moyen : 4 choix, Coefficient 200 
+        /// Difficile : 6 choix Coefficient 350       
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void commencerBoutonClick(object sender, System.Windows.RoutedEventArgs e)
         {
             if (wind.facileButon.IsChecked == true)
@@ -122,7 +141,6 @@ namespace BlindTestGroupe44
                 nbChoix = 3;
                 incrPoints = 100;
             }
-
             if (wind.moyenButon.IsChecked == true)
             {
                 nbChoix = 4;
@@ -133,25 +151,25 @@ namespace BlindTestGroupe44
                 nbChoix = 6;
                 incrPoints = 350;
             }
-
-            /* Si l'un des boutons est coché on peux passer à l'étape supérieur et lancer le test
+            /* Si l'un des boutons est coché on peux passer à l'étape supérieure et lancer le jeu
              */
             if (wind.facileButon.IsChecked == true
                 || wind.moyenButon.IsChecked == true
                 || wind.difficileButon.IsChecked == true)
             {
                 wind.BarreDeMenu.IsEnabled = true;
-                initialiseTest(sender, e);
+                initialiseJeu(sender, e);
             }
-
         }
-
-        //initialise le contenu des radioButtons avec un nom de chanson (aléatoire) de la bibliothèque choisie
-        //1 des radioButtons contiendra la solution a trouver
+     
+        /// <summary>
+        /// initialise le contenu des radioButtons avec un nom de chanson (aléatoire) de la bibliothèque choisie
+        /// Un des radioButtons contiendra la solution a trouver
+        /// </summary>
         private void trouveAleatoire()
         {
             Random rnd = new Random();
-            int place = rnd.Next(1, nbChoix);
+            int place = rnd.Next(1, nbChoix); // place ou sera la chanson réponse parmi les button
             var songsList = player.listeChanson(repertoireMusique);
             List<String>chansonsBouton = new List<String>();
             for (int i = 1; i <= nbChoix; i++)
@@ -177,13 +195,19 @@ namespace BlindTestGroupe44
             }
         }
 
-        public void choisirBibliClick(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Lorsque l'utilisateur clique sur choisir bibliotheque
+        /// une fenetre de dialogue s'ouvre et il choisit la racine de sa
+        /// bibliothèque de musique. Parcours recursif des fichiers pour stocker les chansons
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void choisirDossierMusique(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.ShowDialog();
             repertoireMusique = fbd.SelectedPath;          
             var songsList = player.listeChanson(repertoireMusique);
-
             //Si le dossier est valide
             if (songsList != null)
             {
@@ -202,12 +226,18 @@ namespace BlindTestGroupe44
             }  
         }
 
+        /// <summary>
+        /// Appelle la fonction de changemetn de volume du MusicPLayer
+        /// </summary>
+        /// <param name="d"></param>
         public void changerVolume(double d)
         {
             player.volume(d);
         }
 
-        // remet le score a 0, ne change pas de bibliotheque et lance une nouvelle série.
+        /// <summary>
+        /// remet le score a 0, ne change pas de bibliotheque et lance une nouvelle série.
+        /// </summary>
         public void resetScore()
         {
             scorePoints = 0;
@@ -215,6 +245,10 @@ namespace BlindTestGroupe44
             player.stop();
             runGame();
         }
+
+        /// <summary>
+        /// quitte l'application
+        /// </summary>
         public void quitteAppli()
         {
             System.Environment.Exit(0);

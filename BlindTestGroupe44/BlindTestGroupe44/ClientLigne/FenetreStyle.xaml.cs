@@ -16,7 +16,8 @@ using System.Windows.Threading;
 namespace BlindTestGroupe44.ClientLigne
 {
     /// <summary>
-    /// Logique d'interaction pour FenetreStyle.xaml
+    /// Fenetre qui affichie les différents 
+    /// styles de musique offerts sur le serveur
     /// </summary>
     public partial class FenetreStyle : Window
     {
@@ -28,14 +29,17 @@ namespace BlindTestGroupe44.ClientLigne
         {
             InitializeComponent();
             this.traiteReq = traiteReq;
-
             //On désactive la grille principale pour ne pas pouvoir y faire
             //de modification pendant le choix du style de musique
             traiteReq.activeFenetre(false); 
         }
 
-        //Crée une liste de bouton avec leurs paramètres suivant la liste de String
-        //en arguments
+       
+        /// <summary>
+        ///  Crée une liste de bouton avec leurs paramètres suivant la liste de String
+        /// en arguments
+        /// </summary>
+        /// <param name="listeStyle"></param>
         public void setListeStyle(List<String> listeStyle)
         {
             int y = 15;
@@ -43,44 +47,46 @@ namespace BlindTestGroupe44.ClientLigne
             //On crée un radiobouton par style
             foreach(String nomStyle in listeStyle)
             {
-                System.Windows.Controls.Button b = new System.Windows.Controls.Button();
+                System.Windows.Controls.Button button = new System.Windows.Controls.Button();
                 if (x == 15)
                 {
                     //Si le bouton est le premier de la ligne
-                    b.Margin = new Thickness(x, y, 230, (this.gridButton.Height - y - 35));
+                    button.Margin = new Thickness(x, y, 230, (this.gridButton.Height - y - 35));
                     x = 230;
                 }
                 else
                 {
                     //Si il est le deuxième
-                    b.Margin = new Thickness(x, y, 15, (this.gridButton.Height - y - 35));
+                    button.Margin = new Thickness(x, y, 15, (this.gridButton.Height - y - 35));
                     x = 15;
                     y = y + 50;
                 }
-                b.Content = nomStyle;
-                b.Click += Button_Click;
-                b.FontFamily = new System.Windows.Media.FontFamily("Arial Rounded MT Bold");
-                this.gridButton.Children.Add(b);
+                button.Content = nomStyle;
+                button.Click += Button_Click;
+                button.FontFamily = new System.Windows.Media.FontFamily("Arial Rounded MT Bold");
+                this.gridButton.Children.Add(button);
                 
             }
 
             listeButtons = this.gridButton.Children.OfType<System.Windows.Controls.Button>();
         }
 
-        //Récupère les informations d'un bouton cliqué et ferme la fenêtre
+      
+        /// <summary>
+        /// Récupère les informations d'un bouton checké et ferme la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //Initialise la variable style avec le style du bouton correspondants
             style = ((sender as Button).Content as String);
-
             // Réactive la fenêtre principale
             traiteReq.activeFenetre(true);
-
             //Ferme la fenêtre des style
             this.Close();
         }
-
-        //renvoi le style choisi, null sinon
+       
         public String getStyle()
         {
             return style;

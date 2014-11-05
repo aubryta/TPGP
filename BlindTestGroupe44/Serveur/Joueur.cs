@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace Serveur
 {
+    /// <summary>
+    /// Cette classe sert au niveau du serveur
+    /// pour la représentation d'un joueur
+    /// dans une partie
+    /// </summary>
     class Joueur
     {
         private NetworkStream stm = null;
@@ -29,7 +34,6 @@ namespace Serveur
             io = of.createOptions(difficulte);
             this.nbChoix = io.getNbChoix();
             this.incrPoint = io.getIncr();
-
         }
 
         /// <summary>

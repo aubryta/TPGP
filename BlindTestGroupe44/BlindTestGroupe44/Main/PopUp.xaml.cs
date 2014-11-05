@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace BlindTestGroupe44.Main
 {
     /// <summary>
-    /// Logique d'interaction pour PopUp.xaml
+    /// Fenetre PopUp adaptée a notre besoin
     /// </summary>
     public partial class PopUp : Window
     {

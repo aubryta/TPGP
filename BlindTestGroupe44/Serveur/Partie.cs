@@ -10,11 +10,16 @@ using System.Xml.Serialization;
 
 namespace Serveur
 {
+    /// <summary>
+    /// Sur le serveur, plusieurs partie peuvent etre lancer en meme temps
+    /// une partie par style, elle a une liste de joueur et leur score
+    /// qui jouent en même temps
+    /// </summary>
     class Partie
     {
 
         private ASCIIEncoding encodeur = new ASCIIEncoding();
-        private List<Joueur> lj = new List<Joueur>();
+        private List<Joueur> listJoueurs = new List<Joueur>();
         private String chansonPrecedente = "";
         private String style = "";
         private GestionMusique gm = null;
@@ -39,7 +44,7 @@ namespace Serveur
         /// </summary>
         public void runGame()
         {
-            if (lj.Count > 0)
+            if (listJoueurs.Count > 0)
             {
                 //Si la partie est finie
                 if (cptManche >= 3)
@@ -57,8 +62,8 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Envoi à tous les joueurs, les scores, 
-        /// puis la liste de musique
+        /// Envoie à tous les joueurs, les scores, 
+        /// puis la liste de musiques
         /// </summary>
         public void nouvelleManche()
         {
@@ -66,12 +71,12 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Envoi a tous les joueurs un message
+        /// Envoie a tous les joueurs un message
         /// </summary>
         /// <param name="message">message à envoyer</param>
         public void envoiATous(String message)
         {
-            foreach (Joueur j in lj)
+            foreach (Joueur j in listJoueurs)
             {
                 try
                 {
@@ -80,13 +85,13 @@ namespace Serveur
                 }
                 catch
                 {
-                    lj.Remove(j);
+                    listJoueurs.Remove(j);
                 }
             }
         }
 
         /// <summary>
-        /// Envoi un message au joueur via son stream
+        /// Envoie un message au joueur via son stream
         /// </summary>
         /// <param name="message">message a envoyer</param>
         /// <param name="clientStream">stream sur lequel est connnecté le client</param>
@@ -104,9 +109,9 @@ namespace Serveur
         /// <param name="j">joueur à ajouter</param>
         public void addJoueur(Joueur j)
         {
-            lj.Add(j);
+            listJoueurs.Add(j);
             //Si le serveur était vide et que un premier utilisateur se connecte
-            if (lj.Count == 1)
+            if (listJoueurs.Count == 1)
             {
                 //Si c'est le premier joueur, la manche doit être remise à 0
                 cptManche = 0;
@@ -119,7 +124,7 @@ namespace Serveur
             {
                 if (partieFinie)
                 {
-                    envoiATous(Requete.infoPartieFinie(lj));
+                    envoiATous(Requete.infoPartieFinie(listJoueurs));
                 }
                 else
                 {
@@ -140,7 +145,7 @@ namespace Serveur
         {
             try
             {
-                lj.Remove(j);
+                listJoueurs.Remove(j);
             }
             catch
             {
@@ -162,12 +167,12 @@ namespace Serveur
         /// </summary>
         public void envoiScores()
         {
-            envoiATous(Requete.infoScores(lj));
+            envoiATous(Requete.infoScores(listJoueurs));
         }
 
         /// <summary>
-        /// Melange et envoi un panel de musique à chaque joueur, avec
-        /// plus ou moins de chansons par joueurs.
+        /// Melange et envoie un panel de musique à chaque joueur, avec
+        /// plus ou moins de chansons par joueur.
         /// </summary>
         public void envoiMusique()
         {
@@ -176,10 +181,10 @@ namespace Serveur
 
             //On remélange les chansons
             gm.melange();
-            List<Joueur> ljTmp = new List<Joueur>();
-            foreach (Joueur j in lj)
+            List<Joueur> listJoueursPartis = new List<Joueur>();
+            foreach (Joueur j in listJoueurs)
             {
-                //Et on les envois à tous les joueurs
+                //Et on les envoie à tous les joueurs
                 try
                 {
                     List<String> chansons = gm.listeChansons(j.getNbChoix());
@@ -188,15 +193,14 @@ namespace Serveur
                 }
                 catch
                 {
-                    //Si le joueur n'est plus en lien avec le serveur, on l'enléve de la liste
-                    //joueurASuprr.Add(j.getName());
-                    ljTmp.Add(j);
+                    //Si le joueur n'est plus en lien avec le serveur, on l'enléve de la liste                  
+                    listJoueursPartis.Add(j);
                 }
             }
 
-            foreach (Joueur j in ljTmp)
+            foreach (Joueur j in listJoueursPartis)
             {
-                lj.Remove(j);
+                listJoueurs.Remove(j);
             }
         }
 
@@ -223,20 +227,20 @@ namespace Serveur
         /// </summary>
         private void resetScores()
         {
-            foreach (Joueur j in lj)
+            foreach (Joueur j in listJoueurs)
             {
                 j.setScore(0);
             }
         }
 
         /// <summary>
-        /// Si le pseudo en paramètre existe déjà parmis la liste de joueur, renvoi faux sinon vrai
+        /// Si le pseudo en paramètre existe déjà parmi la liste de joueurs, renvoie faux sinon vrai
         /// </summary>
         /// <param name="pseudo">le pseudo a vérifier</param>
         /// <returns>la validité du pseudo</returns>
         public Boolean existePseudo(String pseudo)
         {
-            foreach (Joueur j in lj)
+            foreach (Joueur j in listJoueurs)
             {
                 if (!j.getName().Equals("")) //En gros son pseudo qui n'est pas encore initialisé
                 {
@@ -258,7 +262,7 @@ namespace Serveur
             //On attend de recevoir tous les scores
             Thread.Sleep(2000);
             //On envoi le récapitulatif des scores
-            envoiATous(Requete.infoPartieFinie(lj));
+            envoiATous(Requete.infoPartieFinie(listJoueurs));
             //On écrit éventuellement les meilleurs scores dans le fichier xml correspondant
             ecritScore();
             resetScores();
@@ -278,17 +282,16 @@ namespace Serveur
         {
             //On ajoute tous les joueurs à une liste
             List<JoueurSerialisable> ljs = new List<JoueurSerialisable>();
-            for (int i = 0; i < lj.Count; i++)
+            for (int i = 0; i < listJoueurs.Count; i++)
             {
                 JoueurSerialisable js = new JoueurSerialisable
                 {
-                    nom = lj[i].getName(),
-                    score = lj[i].getScore()
+                    nom = listJoueurs[i].getName(),
+                    score = listJoueurs[i].getScore()
                 };
                 ljs.Add(js);
             }
-
-            //On récupére les anciens joueurs et on les ajoutent à cette même liste
+            //On récupére les anciens joueurs et on les ajoute à cette même liste
             JoueurSerialisable[] tabjs = readBestScores();
             for (int i = 0; i < tabjs.Length; i++)
             {
@@ -297,7 +300,7 @@ namespace Serveur
 
             ljs = bestJoueur(ljs);
 
-            //Puis on les écrit dans le fichier à la fin
+            //Puis on les écrit dans le fichier correspondant aux meilleurs scores
             XmlSerializer xs = new XmlSerializer(typeof(List<JoueurSerialisable>));
             using (StreamWriter wr = new StreamWriter("bestScore" + style + ".xml"))
             {
