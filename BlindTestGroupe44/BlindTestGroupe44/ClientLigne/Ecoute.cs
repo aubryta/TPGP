@@ -10,6 +10,10 @@ using System.Windows.Threading;
 
 namespace BlindTestGroupe44.ClientLigne
 {
+    /// <summary>
+    /// La classe écoute correspond au thread qui écoute le serveur 
+    /// en permanance et traite les requetes
+    /// </summary>
     class Ecoute
     {
 

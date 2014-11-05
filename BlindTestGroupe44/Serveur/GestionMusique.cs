@@ -4,22 +4,29 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+
 
 
 namespace Serveur
 {
+    /// <summary>
+    /// Cette classe corrseponda la gestion des fichiers
+    /// stockés sur le serveur ftp
+    /// </summary>
     class GestionMusique
     {
 
         private String style = "";
         private String chanson = "";
-        private List<String> chansonsRep = new List<string>();       
+        private List<String> chansonsRep = new List<string>();
         private int nbChoixMax = 0;
-        private String urlBase = "ftp://ftp.magix-online.com";
-
+        private String urlBase = "ftp://ftp.magix-online.com";// url du serveur ftp
+        // identifiants
         private String idUser = "";
         private String mdpUser = "";
+        private int tentativeConnexion = 0;
 
         /// <summary>
         /// On initialise la classe avec l'identifiant et le mot de passe
@@ -34,7 +41,7 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Retourne la liste des fichiers contenu dans le répertoire en paramètre
+        /// Retourne la liste des fichiers contenus dans le répertoire en paramètre
         /// </summary>
         /// <param name="repertoire">Adresse du répertoire</param>
         /// <returns>La liste des fichiers du serveur</returns>
@@ -47,11 +54,32 @@ namespace Serveur
             // identifiant
             request.Credentials = new NetworkCredential(idUser, mdpUser);
             // recupération de la réponse dans un stream
-            FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+            FtpWebResponse response = null;
+            // Il arrive  que la connection ne se fasse pas
+            // nous arretons au bout de 3 essais
+            try
+            {
+                response = (FtpWebResponse)request.GetResponse();
+            }
+            catch (Exception e)
+            {   //On essaye de se connecter au serveur ftp 3 fois sinon on abandone et quitte l'applic
+                Console.WriteLine("Echec de la connexion !");
+                if (tentativeConnexion < 3)
+                {
+                    tentativeConnexion++;
+                    Console.WriteLine("Tentative de re-connexion : " + tentativeConnexion + " " + repertoire);
+                    Thread.Sleep(1000);
+                    listeSousDossier(repertoire);
+                }
+                else
+                {
+                    System.Environment.Exit(1);
+                }
+            }
             Stream responseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(responseStream);
             String liste = reader.ReadToEnd();
-            // on split le resultat et on ajoute les resultats dans la liste
+            // on split le resultat en fonction des caractères spéciaux et on ajoute les resultats dans la liste res
             String[] tabStyle = liste.Split(new Char[] { '\n', '\r', ' ', '\t' });
             for (int i = 0; i < (tabStyle.Length); i++)
             {
@@ -75,8 +103,8 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Mélange la liste de chanson du style de musique concerné, 
-        /// Retire également une chanson tiré aléatoirement qui sera la chanson
+        /// Mélange la liste de chansons du style de musique concerné, 
+        /// Retire également une chanson tirée aléatoirement qui sera la chanson
         /// a trouver.
         /// </summary>
         public void melange()
@@ -131,18 +159,17 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Associe le nombre de chanson qui seront tirés au maximum dans une chanson
+        /// Associe le nombre de chansons qui seront tirées au maximum dans une partie
         /// </summary>
         /// <param name="nbChoix">Le nombre de chanson possible</param>
         public void setNbChoixMax(int nbChoix)
         {
             this.nbChoixMax = nbChoix;
         }
-
-        //
+       
         /// <summary>
-        /// Retourne une liste aléatoire de chanson
-        /// Avec la chanson à trouvé aléatoirement placée dedans
+        /// Retourne une liste aléatoire de chansons
+        /// avec la chanson à trouver aléatoirement placée dedans
         /// </summary>
         /// <param name="nbChansons">Le nombre de chanson de la liste</param>
         /// <returns>La liste de chanson à retournée</returns>
@@ -155,7 +182,7 @@ namespace Serveur
             Random rnd = new Random();
             //on cherche aléatoirement ou cette chanson va aller dans la liste
             int aleaChanson = rnd.Next(0, nbChansons);
-            for (int i = 0; i < nbChansons; i ++ )
+            for (int i = 0; i < nbChansons; i++)
             {
                 if (i == aleaChanson)
                     res.Add(chanson);

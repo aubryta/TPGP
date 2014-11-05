@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Serveur
 {
+    /// <summary>
+    /// Classe correspondant aux commande envoyé au client selon
+    /// la norme choisie
+    /// </summary>
     class Requete
     {
         /// <summary>
@@ -44,7 +48,7 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Envoi le nombre de choix correspondant à la difficulté choisis par le client
+        /// Envoie le nombre de choix correspondant à la difficulté choisis par le client
         /// </summary>
         /// <param name="nbchoix">le nombre de choix</param>
         /// <returns>commande correspondante</returns>
@@ -54,7 +58,7 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Envoi la liste des styles disponible sur le serveur
+        /// Envoie la liste des styles disponible sur le serveur
         /// </summary>
         /// <param name="listeStyle">liste des styles</param>
         /// <returns>commande correspondante</returns>
@@ -87,7 +91,7 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Envoi à tous les joueurs tous les scores
+        /// Envoie à tous les joueurs tous les scores
         /// </summary>
         /// <param name="lj">Liste des joueurs</param>
         /// <returns>commande correspondante</returns>
@@ -102,7 +106,7 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Envoi la chanson à lire dans le player du client
+        /// Envoie la chanson à lire dans le player du client
         /// </summary>
         /// <param name="urlChanson">url de la chanson</param>
         /// <returns>commande correspondante</returns>
@@ -155,7 +159,7 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Envoi tous les meilleurs scores d'une partie
+        /// Envoie tous les meilleurs scores d'une partie
         /// </summary>
         /// <param name="p">la partie</param>
         /// <returns>les meilleurs scores</returns>
@@ -176,7 +180,7 @@ namespace Serveur
         }
 
         /// <summary>
-        /// Préviens de la fin de partie, 
+        /// Prévient de la fin de la partie, 
         /// Les scores seront affichés peux de temps après
         /// </summary>
         /// <returns>Notification de fin de partie</returns>

@@ -8,17 +8,14 @@ using System.Threading.Tasks;
 
 namespace Serveur
 {
-    /*
-     * Cette classe échange avec le client, 
-     * il ecoute traite et envoi des requêtes
-     */
+   
+    /// <summary>
+    /// Cette classe échange avec le client, 
+    /// Le serveur ecoute, traite et envoie des requêtes
+    /// </summary>
     class Echange
     {
-
         private ASCIIEncoding encodeur = new ASCIIEncoding();
-
-
-        //private GestionMusique gestMusique = new GestionMusique();
         private Joueur joueur = null;
         private Serveur serv = null;
         private Partie partie = null;
@@ -31,23 +28,15 @@ namespace Serveur
         /// <param name="j">Un joueur j</param>
         /// <param name="s">Et le serveur pour accéder à la partie</param>
         public void Connexion(TcpClient client, Joueur j, Serveur s)
-        {
-            /*
-            TcpClient tcpClient = (TcpClient)client;
-            this.joueur = j as Joueur;
-            this.serv = s;
-            */
+        {            
             Console.WriteLine("CLIENT CONNECTE");
             TcpClient tcpClient = client;
             joueur = j;
             serv = s;
-            NetworkStream cstm = tcpClient.GetStream();
-            joueur.setStream(cstm);
-
-
+            NetworkStream clientStream = tcpClient.GetStream();
+            joueur.setStream(clientStream);
             byte[] message = new byte[4096];
             int bytesRead;
-
 
             while (true)
             {
@@ -55,7 +44,7 @@ namespace Serveur
                 try
                 {
                     //Attend la reception d'un message
-                    bytesRead = cstm.Read(message, 0, 4096);
+                    bytesRead = clientStream.Read(message, 0, 4096);
                 }
                 catch
                 {
@@ -67,16 +56,15 @@ namespace Serveur
                     Console.WriteLine("CLIENT DECONNECTE");
                     break;
                 }
-
                 //Affiche le message reçu
-                String bufferincmessage = encodeur.GetString(message, 0, bytesRead);
-
+                String bufferincmessage = encodeur.GetString(message, 0, bytesRead);                
                 traite(bufferincmessage);
             }
         }
 
         /// <summary>
-        /// Toutes les requêtes reçu par le serveur sont traités ici
+        /// Toutes les requêtes reçues par le serveur sont traitées ici
+        /// On les parse en fonction de la norme choisie
         /// </summary>
         /// <param name="message">Requête reçu</param>
         private void traite(String message)
@@ -153,12 +141,12 @@ namespace Serveur
             {
                 send(Requete.infoMauvaiseChanson(partie.getChanson()), joueur.getStream());
             }
-            //On envoi les socres à tous le monde dès qu'il y'a potentiellement un changement
+            //On envoie les socres à tout le monde dès qu'il y'a un changement
             partie.envoiScores();
         }
 
         /// <summary>
-        /// Traite les requêtes de type informations
+        /// Traite les requêtes de type information
         /// </summary>
         /// <param name="tabMessage">les éléments de la requête</param>
         private void traiteInfo(String[] tabMessage)
@@ -166,7 +154,7 @@ namespace Serveur
             if (tabMessage[1].Equals("START"))
             {
                 //Le joueur est pret il peut donc jouer
-                //On lui envoi le nombre de réponse à afficher
+                //On lui envoie le nombre de réponse à afficher
                 send(Requete.options(joueur.getNbChoix()), joueur.getStream());
                 //On l'ajoute à la partie
                 serv.getPartie(joueur.getStyle()).addJoueur(joueur);
