@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace BlindTestGroupe44.ClientLigne
 {
-    /// <summary>
-    /// Classe servant a la création de
-    /// Requete a envoyé au serveur selon
-    /// la norme choisie
-    /// </summary>
     class Requete
     {
         public static String infoStyle(String style)

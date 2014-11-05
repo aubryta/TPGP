@@ -10,11 +10,15 @@ using System.Threading.Tasks;
 
 namespace Serveur
 {
-    /// <summary>
-    /// Cette classe correspond au serveur
-    /// il écoute les différents clients
-    /// et gère les différentes parties en cours
-    /// </summary>
+    /*
+     * TODO list
+     * 0 - COMMENTER
+     * 1 - bouton enable sur commencer tant que le choix des styles n'est pas fait
+     * 2 - faire la fenêtre pour les boutons style
+     * 3 - variable de classe nbchanson
+     * 4 - jeufini = false 
+     * 5 - temps d'une manche
+     */ 
     class Serveur
     {
         private TcpListener listen;
@@ -33,6 +37,7 @@ namespace Serveur
             Console.WriteLine("Serveur connecté");
             this.listenThread = new Thread(new ThreadStart(ListenForClients));
             this.listenThread.Start();
+
             //On crée une partie par style de musique
             this.gm = new GestionMusique();
             List<String> styles = gm.choixStyle();
@@ -91,7 +96,7 @@ namespace Serveur
 
         /// <summary>
         /// On retourne une gestion musique "générique" pour permettre à la classe échange
-        /// d'envoyer la liste des styles disponibles
+        /// d'envoyer la liste des styles disponibe
         /// </summary>
         /// <returns>La gestion musique</returns>
         public GestionMusique getGM()

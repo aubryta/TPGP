@@ -15,8 +15,7 @@ using System.Windows.Shapes;
 namespace BlindTestGroupe44.ClientLigne
 {
     /// <summary>
-    /// Fenetre affichant les meilleurs scores
-    /// gardés en mémoire dans le serveur    
+    /// Logique d'interaction pour FenetreBestScores.xaml
     /// </summary>
     public partial class FenetreBestScores : Window
     {

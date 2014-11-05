@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace Serveur
 {
-    /// <summary>
-    /// Sert a la serialisation des joueurs et des scores
-    /// </summary>
     public class JoueurSerialisable
     {
         public String nom { get; set; }

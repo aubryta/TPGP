@@ -33,9 +33,9 @@ namespace BlindTestGroupe44.ClientLigne
         /// </summary>
         public void pseudoExistant()
         {
-            PopUp popup = new PopUp();
-            popup.setErreur("Ce pseudo existe déjà");
-            popup.ShowDialog();
+            PopUp pu = new PopUp();
+            pu.setErreur("Ce pseudo existe déjà");
+            pu.ShowDialog();
 
         }
        
@@ -51,9 +51,9 @@ namespace BlindTestGroupe44.ClientLigne
             name = champPseudo.Text;
             if(name.Length >= 10 || name.Length <=0)
             {
-                PopUp popup = new PopUp();
-                popup.setErreur("Le pseudo ne fait pas la bonne taille");
-                popup.ShowDialog();
+                PopUp pu = new PopUp();
+                pu.setErreur("Le pseudo ne fait pas la bonne taille");
+                pu.ShowDialog();
             }
             else
             {
@@ -74,13 +74,7 @@ namespace BlindTestGroupe44.ClientLigne
         {
             champPseudo.Text = "";
         }
-        /// <summary>
-        /// Cette fonction permet de valider
-        /// le pseudo via la touche entrée plutot
-        /// que de cliquer sur valider
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
         private void keyEnterDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
